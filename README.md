@@ -1,6 +1,7 @@
 # WPPConnect FrontEnd
 ----
 
+<img src="https://img.shields.io/static/v1?label=FrontEnd&message=WPPConnect&color=007AF3&style=for-the-badge&logo=ghost"/>
 
 ## Installation
 
@@ -26,6 +27,17 @@ yarn start
 //or
 npm start
 ```
+
+## Features
+
+- [x] Chat
+- [x] Multisession
+- [x] Receiving messages (real time)
+- [x] Receiving messages (real time)
+- [x] Send messages (real time)
+- [x] Choose session before sending message
+- [ ] Send Images
+- [ ] Receive Images
 
 ## API
 
