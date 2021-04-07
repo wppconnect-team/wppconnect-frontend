@@ -46,7 +46,7 @@ export default createGlobalStyle`
   .saida-bottom-top {
     animation: saida-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
   }
-  
+
   @keyframes saida-bottom {
     0% {
       transform: scaleY(1);
@@ -60,5 +60,13 @@ export default createGlobalStyle`
     }
   }
 
-
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  }
 `

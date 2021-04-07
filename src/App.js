@@ -1,6 +1,5 @@
 import {BrowserRouter} from "react-router-dom";
 import GlobalStyle, {Container, Layout} from "./style/GlobalStyle";
-import Header from "./components/Header";
 import Routes from "./routes";
 
 function App() {
@@ -8,7 +7,6 @@ function App() {
         <BrowserRouter>
             <Layout>
                 <Container>
-                    <Header/>
                     <Routes/>
                 </Container>
 
