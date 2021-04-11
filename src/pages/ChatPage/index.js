@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { ChatContainer, Container, ContentContainer, HeaderContact, Layout, WaitingContainer } from "./style";
-import { Send } from "react-feather";
-import api, { socket } from "../../services/api";
+import React, {useEffect, useRef, useState} from "react";
+import {ChatContainer, Container, ContentContainer, HeaderContact, Layout, WaitingContainer} from "./style";
+import {Send} from "react-feather";
+import api, {socket} from "../../services/api";
 import ImageLoader from "../../assets/hand-smartphone.png";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
 import ContactsComponent from "../../components/ChatPage/ConversasComponent";
-import { getSession, getToken } from "../../services/auth";
+import {defaultKey, getSession, getToken} from "../../services/auth";
 import config from "../../util/sessionHeader";
+import history from "../../history";
 
 const SendMessagePage = () => {
     const [messages, setMessages] = useState([]);
@@ -17,47 +18,62 @@ const SendMessagePage = () => {
     const messagesEnd = useRef(null);
 
     useEffect(() => {
-        getAllChats();
-        settingMessage();
+        if (defaultKey() === null) {
+            history.push("/");
+        } else {
+            getAllChats();
+            settingMessage();
+        }
 
         return () => {
             setChats([]);
             setMessages([]);
         };
     }, [choosedContact]);
-    
+
     async function settingMessage() {
-            socket.off("received-message").on("received-message", async (message) => {
-                if (chatRef.current !== null) {
-                    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        socket.off("received-message").on("received-message", async (message) => {
+            if (chatRef.current !== null) {
+                chatRef.current.scrollTop = chatRef.current.scrollHeight;
+            }
+
+            if (choosedContact.id !== undefined) {
+                if (choosedContact.id._serialized === message.response.chatId || message.response.fromMe && choosedContact.id._serialized === message.response.to) {
+                    setMessages((prevState => {
+                        return [...prevState, message.response];
+                    }));
+
+                    scrollToBottom();
                 }
+            }
 
-                if (choosedContact.id !== undefined) {
-                    if (choosedContact.id._serialized === message.response.chatId || message.response.fromMe && choosedContact.id._serialized === message.response.to) {
-                        setMessages((prevState => {
-                            return [...prevState, message.response];
-                        }));
+        });
+    }
 
-                        scrollToBottom();
-                    }
-                }
-
-            });
-        }
-
-        async function getAllChats() {
+    async function getAllChats() {
+        try {
+            const response = await api.get(`${getSession()}/show-all-chats`, config);
+            setChats(response.data.response);
+        } catch (e) {
             const response = await api.get(`${getSession()}/show-all-chats`, config);
             setChats(response.data.response);
         }
+    }
 
     const scrollToBottom = () => {
-        messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+        messagesEnd.current.scrollIntoView({behavior: "smooth"});
     };
 
     async function onClickContact(contact) {
         setChoosedContact(contact);
-        const response = await api.post(`${getSession()}/get-chat-by-id`, { phone: contact.id._serialized }, config);
-        setMessages(response.data.response);
+
+        try {
+            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id._serialized}, config);
+            setMessages(response.data.response);
+        } catch (e) {
+            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id._serialized}, config);
+            setMessages(response.data.response);
+        }
 
         scrollToBottom();
     }
@@ -81,7 +97,7 @@ const SendMessagePage = () => {
         <Layout>
             <Container>
                 <ContentContainer>
-                    <ContactsComponent contacts={chats} onClickContact={onClickContact} />
+                    <ContactsComponent contacts={chats} onClickContact={onClickContact}/>
 
                     <ChatContainer>
                         {
@@ -109,14 +125,14 @@ const SendMessagePage = () => {
                                 messages.length <= 0 ? (
                                     <WaitingContainer>
                                         <div>
-                                            <img src={ImageLoader} alt={"Smartphone"} />
+                                            <img src={ImageLoader} alt={"Smartphone"}/>
                                             <h2>
                                                 Envie ou receba uma mensagem
                                             </h2>
                                             <p>
                                                 Escolha uma sessao ao lado para <b>procurar um contato</b> ou inicie uma
                                                 conversa com <b>qualquer pessoa</b> clicando <a
-                                                    href={"/contatos"}>aqui</a>
+                                                href={"/contatos"}>aqui</a>
                                             </p>
                                         </div>
                                     </WaitingContainer>
@@ -140,13 +156,18 @@ const SendMessagePage = () => {
                                 )
                             }
 
-                            <div ref={messagesEnd} />
+                            <div ref={messagesEnd}/>
                         </ul>
 
                         <form className={"bottom-container"} onSubmit={(e) => sendMessage(e)}>
-                            <input placeholder={"Digite uma mensagem..."} value={message}
-                                onChange={(e) => setMessage(e.target.value)} />
-                            <Send type={"submit"} />
+                            <input
+                                placeholder={"Digite uma mensagem..."}
+                                value={message}
+                                onChange={(e) => {
+                                    setMessage(e.target.value);
+                                }}
+                            />
+                            <Send type={"submit"}/>
                         </form>
                     </ChatContainer>
                 </ContentContainer>

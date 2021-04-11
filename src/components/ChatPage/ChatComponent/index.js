@@ -1,10 +1,11 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ChatLayout, ImageContainer, MessageContainer, MessageContent, StickerComponent} from "./style";
 import AudioComponent from "../AudioComponent";
 import api from "../../../services/api";
 import ImageModal from "./ImageModal";
 import PropTypes from "prop-types";
 import config from "../../../util/sessionHeader";
+import {formatWppMarkdown} from "../../../util/functions";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
@@ -15,6 +16,11 @@ const ChatComponent = ({message, session, isMe}) => {
     const [display, setDisplay] = useState("block");
     const [openModalImage, setOpenModalImage] = React.useState(false);
     const [clickedUrl, setClickedUrl] = useState("");
+    const textRef = useRef(null);
+
+    useEffect(() => {
+        formatWppMarkdown(textRef);
+    }, [textRef]);
 
     const onClickDownload = async (type) => {
         const response = await api.post(`${session}/download-media`, {message: message}, config);
@@ -105,9 +111,9 @@ const ChatComponent = ({message, session, isMe}) => {
                             />
                             // <StickerComponent src={message.body}/>
                         ) : (
-                            <span>
+                            <p ref={textRef} id={"message-text"}>
                                 {message.body}
-                            </span>
+                            </p>
                         )
                     }
                 </MessageContent>

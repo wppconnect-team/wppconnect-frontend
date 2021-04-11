@@ -7,19 +7,23 @@ export const defaultKey = () => localStorage.getItem(TOKEN_KEY);
 export const login = token => {
     localStorage.setItem(TOKEN_KEY, token);
 };
- 
+
 export const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
 };
 
 export const getSession = () => {
-    const {session} = JSON.parse(defaultKey());
-    return session;
+    if (defaultKey() !== null) {
+        const {session} = JSON.parse(defaultKey());
+        return session;
+    }
 };
 
 export const getToken = () => {
-    const {token} = JSON.parse(defaultKey());
-    return token;
+    if (defaultKey() !== null) {
+        const {token} = JSON.parse(defaultKey());
+        return token;
+    }
 };
 
 export const getDefaultImage = () => {
