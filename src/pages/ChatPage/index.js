@@ -5,7 +5,7 @@ import api, {socket} from "../../services/api";
 import ImageLoader from "../../assets/hand-smartphone.png";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
 import ContactsComponent from "../../components/ChatPage/ConversasComponent";
-import {defaultKey, getSession, getToken} from "../../services/auth";
+import {defaultKey, getSession, getToken, logout} from "../../services/auth";
 import config from "../../util/sessionHeader";
 import history from "../../history";
 
@@ -18,12 +18,22 @@ const SendMessagePage = () => {
     const messagesEnd = useRef(null);
 
     useEffect(() => {
-        if (defaultKey() === null) {
-            history.push("/");
-        } else {
-            getAllChats();
-            settingMessage();
+        async function checkConnection() {
+            try {
+                await api.get(`${getSession()}/check-connection-session`, config);
+                if (defaultKey() === null) {
+                    history.push("/");
+                } else {
+                    getAllChats();
+                    settingMessage();
+                }
+            } catch (e) {
+                logout();
+                history.push("/");
+            }
         }
+
+        checkConnection();
 
         return () => {
             setChats([]);

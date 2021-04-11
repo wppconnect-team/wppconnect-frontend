@@ -11,7 +11,7 @@ import ModalMenu from "../../components/MenuModal";
 import ErrorModal from "../../components/ErrorModal";
 import BackdropComponent from "../../components/BackdropComponent";
 import {useLocation} from "react-router-dom";
-import {login} from "../../services/auth";
+import {defaultKey, login} from "../../services/auth";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewSessionPage() {
     const classes = useStyles();
-    const [open, ] = useState(true);
+    const [open,] = useState(true);
     const [session, setSession] = useState("");
     const [token, setToken] = useState("");
     const [qrCode, setQrCode] = useState("");
@@ -67,7 +67,7 @@ export default function NewSessionPage() {
                 }
 
                 setTimeout(() => {
-                    history.push("chat");
+                    window.location.href = "chat";
                 }, 500);
             } else {
                 alert("Whatsapp fechado com sucesso");
@@ -90,7 +90,6 @@ export default function NewSessionPage() {
 
     async function startSession() {
         try {
-
             const config = {
                 headers: {Authorization: `Bearer ${token}`}
             };
@@ -100,7 +99,11 @@ export default function NewSessionPage() {
                 await signSession();
                 login(JSON.stringify({session: session, token: token}));
             } else {
-                history.push("chat");
+                if (defaultKey() !== null) {
+                    await api.close(`${session}/close-session`);
+                    await signSession();
+                    login(JSON.stringify({session: session, token: token}));
+                }
             }
         } catch (e) {
             setTimeout(function () {
