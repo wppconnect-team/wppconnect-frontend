@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Layout = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ export const Layout = styled.div`
     font-weight: 400;
     margin-top: 1em;
   }
-`
+`;
 
 export const Image = styled.img`
   margin-bottom: 3em;
@@ -44,5 +44,4 @@ export const Image = styled.img`
       animation-timing-function: ease-out;
     }
   }
-
-`
+`;

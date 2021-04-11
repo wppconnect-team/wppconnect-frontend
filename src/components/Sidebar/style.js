@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Layout = styled.div`
   height: 100vh;
   width: 20%;
   border-right: 1px solid rgba(0, 0, 0, .1);
-`
+`;
 
 export const Container = styled.div`
   width: 100%;
@@ -13,12 +13,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 
 export const BottomItems = styled.footer`
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const MenuItems = styled.section`
   display: flex;
@@ -59,7 +59,7 @@ export const MenuItems = styled.section`
       margin-right: .5em;
     }
   }
-`
+`;
 
 export const ChangeSession = styled.div`
   display: flex;
@@ -87,7 +87,7 @@ export const ChangeSession = styled.div`
     color: #47a7f6;
     text-decoration: none;
   }
-`
+`;
 
 export const InfoSession = styled.div`
   display: flex;
@@ -106,4 +106,4 @@ export const InfoSession = styled.div`
     border-radius: 50%;
     margin-right: 10px;
   }
-`
+`;

@@ -1,4 +1,4 @@
-import styled, {createGlobalStyle} from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const Layout = styled.div`
   width: 100%;
@@ -36,6 +36,10 @@ export default createGlobalStyle`
 
   html {
     font-size: 10px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
   body {
