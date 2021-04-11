@@ -1,10 +1,9 @@
-import styled from 'styled-components'
-import ImageBg from '../../assets/bgarticle.svg'
-import ChatBg from '../../assets/bg-chat.png'
+import styled from "styled-components";
+import ImageBg from "../../assets/bgarticle.svg";
 
 export const Layout = styled.div`
   height: 100%;
-  width: 100%;
+  width: 80%;
 
   display: flex;
   overflow: hidden;
@@ -28,7 +27,7 @@ export const Layout = styled.div`
     overflow: hidden;
     width: 100%;
   }
-`
+`;
 
 export const Container = styled.div`
   height: 100%;
@@ -39,7 +38,7 @@ export const Container = styled.div`
 
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const ContentContainer = styled.div`
   width: 100%;
@@ -48,7 +47,7 @@ export const ContentContainer = styled.div`
   overflow: hidden;
   clear: both;
   max-height: 100vh;
-`
+`;
 
 export const TopContainer = styled.div`
   display: flex;
@@ -75,7 +74,7 @@ export const TopContainer = styled.div`
       transform: scale(1.1);
     }
   }
-`
+`;
 
 export const SessionsContainer = styled.form`
   display: flex;
@@ -166,7 +165,7 @@ export const SessionsContainer = styled.form`
     }
 
   }
-`
+`;
 
 export const HeaderContact = styled.header`
   display: flex;
@@ -194,7 +193,7 @@ export const HeaderContact = styled.header`
       font-weight: 400;
     }
   }
-`
+`;
 
 export const ChatContainer = styled.div`
   display: flex;
@@ -204,21 +203,13 @@ export const ChatContainer = styled.div`
   border-radius: 3px;
   border: 1px solid #e9e9e9;
 
-  width: 60%;
+  width: 100%;
   height: 100%;
   position: relative;
   z-index: 1;
-
-  ::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-image: url("${ChatBg}");
-    z-index: -1;
-    opacity: .1;
+  
+  h3 {
+    font-size: 1.5rem;
   }
 
   .bottom-container {
@@ -262,7 +253,7 @@ export const ChatContainer = styled.div`
       margin-bottom: 10px;
     }
   }
-`
+`;
 
 export const WaitingContainer = styled.div`
   display: flex;
@@ -273,26 +264,20 @@ export const WaitingContainer = styled.div`
 
   height: 100%;
 
-  div {
-    background: #fff;
-    border-radius: 50%;
-    width: 70%;
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
   img {
     width: 200px;
     margin-bottom: 2em;
   }
 
+  h2 {
+    font-size: 2rem;
+  }
+
   p {
     margin-top: .5em;
-    color: #9ca3a7;
+    color: #000;
     width: 350px;
+    font-size: 1.5rem;
   }
 
 
@@ -308,4 +293,4 @@ export const WaitingContainer = styled.div`
     }
   }
 
-`
+`;

@@ -1,24 +1,25 @@
-import React from 'react'
-import {makeStyles} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import React from "react";
+import {makeStyles} from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 import {ModalContainer} from "./style";
 import {Link} from "react-feather";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
     paper: {
-        backgroundColor: '#E9E9E9',
+        backgroundColor: "#E9E9E9",
         border: 0,
         outline: 0,
         width: 400,
-        '@media (max-width:768px)': {
-            maxWidth: '90%',
+        "@media (max-width:768px)": {
+            maxWidth: "90%",
         },
         boxShadow: theme.shadows[5],
         padding: 0,
@@ -30,8 +31,8 @@ function ModalMenu({open, handleClose}) {
     const classes = useStyles();
 
     const onClose = () => {
-        handleClose()
-    }
+        handleClose();
+    };
 
     return (
         <div>
@@ -74,7 +75,12 @@ function ModalMenu({open, handleClose}) {
                 </Fade>
             </Modal>
         </div>
-    )
+    );
 }
 
-export default ModalMenu
+ModalMenu.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired
+};
+
+export default ModalMenu;

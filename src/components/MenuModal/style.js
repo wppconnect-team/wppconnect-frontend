@@ -20,13 +20,15 @@ export const ModalContainer = styled.div`
     text-align: center;
 
     h2 {
-      font-weight: 800;
+      font-weight: 600;
       margin-bottom: 10px;
+      font-size: 2rem;
     }
 
     p {
       margin-top: 10px;
       font-weight: 400;
+      font-size: 1.5rem;
     }
 
     a {
@@ -45,7 +47,7 @@ export const ModalContainer = styled.div`
     a {
       width: 50%;
       border: 0;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 20px 0;
       text-decoration: none;
       color: #7482A2;
       font-weight: 500;
@@ -69,11 +71,12 @@ export const ModalContainer = styled.div`
     button {
       width: 50%;
       border: 0;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 0 20px;
       text-decoration: none;
       color: rgba(210, 32, 32);
       font-weight: 500;
       text-transform: uppercase;
+      background: #EFEFEF;
       padding: 1em 0;
       outline: 0;
       cursor: pointer;

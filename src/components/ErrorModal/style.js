@@ -20,13 +20,15 @@ export const ModalContainer = styled.div`
     text-align: center;
 
     h2 {
-      font-weight: 800;
+      font-weight: 600;
       margin-bottom: 10px;
+      font-size: 2rem;
     }
 
     p {
       margin-top: 10px;
       font-weight: 400;
+      font-size: 1.5rem;
     }
 
     a {

@@ -1,4 +1,4 @@
-import styled, {createGlobalStyle} from 'styled-components'
+import styled, {createGlobalStyle} from "styled-components";
 
 export const Layout = styled.div`
   width: 100%;
@@ -6,7 +6,7 @@ export const Layout = styled.div`
 
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const Container = styled.div`
   height: 100%;
@@ -14,7 +14,7 @@ export const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-`
+`;
 
 export default createGlobalStyle`
   :root {
@@ -32,6 +32,10 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: "Inter", sans-serif;
+  }
+
+  html {
+    font-size: 10px;
   }
 
   body {
@@ -69,4 +73,4 @@ export default createGlobalStyle`
     user-select: none;
     /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
   }
-`
+`;

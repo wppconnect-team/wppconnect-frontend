@@ -1,23 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import {Container, Layout, Description, Formulario, ImageCustom, Title} from "./style";
+import React, {useEffect, useRef, useState} from "react";
+import {makeStyles} from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import {Container, Description, Formulario, ImageCustom, Layout, Title} from "./style";
 import {HelpCircle, X} from "react-feather";
 import api, {socket} from "../../services/api";
 import history from "../../history";
-import Image from "../../assets/nesh-placeholder.png";
 import ModalMenu from "../../components/MenuModal";
 import ErrorModal from "../../components/ErrorModal";
 import BackdropComponent from "../../components/BackdropComponent";
-import {useLocation} from 'react-router-dom'
+import {useLocation} from "react-router-dom";
+import {login} from "../../services/auth";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
@@ -25,42 +25,42 @@ const useStyles = makeStyles((theme) => ({
         outline: 0,
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        width: '100%',
-        height: '100%'
+        width: "100%",
+        height: "100%"
     },
 }));
 
 export default function NewSessionPage() {
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
-    const [session, setSession] = useState("")
-    const [token, setToken] = useState("")
-    const [qrCode, setQrCode] = useState(Image)
+    const [open, ] = useState(true);
+    const [session, setSession] = useState("");
+    const [token, setToken] = useState("");
+    const [qrCode, setQrCode] = useState("");
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [openMenuModal, setOpenMenuModal] = useState(false);
     const [openErrorModal, setOpenErrorModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [titleError, setTitleError] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
+    const [titleError, setTitleError] = useState("");
     const animationRef = useRef(null);
     const layoutRef = useRef(null);
 
-    const {pathname} = useLocation();
+    const {state: haveLogin} = useLocation();
 
     useEffect(() => {
-        socket.on('qrCode', (qrCode) => {
+        socket.on("qrCode", (qrCode) => {
             if (session === qrCode.session) {
-                setQrCode(qrCode.data)
+                setQrCode(qrCode.data);
                 handleCloseBackdrop();
                 if (animationRef.current !== null) {
-                    animationRef.current.classList.remove("animation")
+                    animationRef.current.classList.remove("animation");
                 }
 
-                document.querySelector("#title").textContent = "Escaneie o QRCode"
-                document.querySelector("#description").textContent = "Para prosseguir você deve abrir o seu app do Whatsapp escanear o QRCode através da câmera."
+                document.querySelector("#title").textContent = "Escaneie o QRCode";
+                document.querySelector("#description").textContent = "Para prosseguir você deve abrir o seu app do Whatsapp escanear o QRCode através da câmera.";
             }
-        })
+        });
 
-        socket.off('session-logged').on('session-logged', (status) => {
+        socket.off("session-logged").on("session-logged", (status) => {
             if (status) {
                 if (layoutRef.current !== null) {
                     layoutRef.current.classList.add("saida-bottom-top");
@@ -68,94 +68,47 @@ export default function NewSessionPage() {
 
                 setTimeout(() => {
                     history.push("chat");
-                }, 500)
+                }, 500);
             } else {
-                alert('Whatsapp fechado com sucesso');
+                alert("Whatsapp fechado com sucesso");
             }
-        })
-    }, [session])
-
-    async function insertToLocalStorage() {
-        let list = [];
-        let storage = JSON.parse(localStorage.getItem('@WPPConnectToken'));
-
-        let retorno = false;
-
-        if (storage === null) {
-            let newList = {token: token, session: session}
-            list.push(newList);
-            localStorage.setItem('@WPPConnectToken', JSON.stringify(list));
-            return false;
-        } else {
-            await storage.filter(async (client) => {
-                if (client.session !== session) {
-                    let newList = {token: token, session: session}
-                    list.push(...storage, newList)
-                    localStorage.setItem('@WPPConnectToken', JSON.stringify(list));
-                    retorno = false;
-                } else {
-                    retorno = true;
-                }
-            })
-        }
-
-        return retorno;
-    }
-
-    async function removeLocalStorage() {
-        let storage = JSON.parse(localStorage.getItem('@WPPConnectToken'));
-
-        const newArr = await storage.filter(async (client) => {
-            return client.session !== session;
-        })
-
-        localStorage.setItem('@WPPConnectToken', JSON.stringify(newArr));
-    }
+        });
+    }, [session]);
 
     async function submitSession(e) {
-        e.preventDefault()
+        e.preventDefault();
 
         if (session === "") {
-            handleOpenErrorModal()
-            setTitleError('Preencha todos os campos')
-            setErrorMessage('Você precisa preencher todos os campos antes de continuar.')
+            handleOpenErrorModal();
+            setTitleError("Preencha todos os campos");
+            setErrorMessage("Você precisa preencher todos os campos antes de continuar.");
         } else {
             handleToggleBackdrop();
-            await startSession()
+            await startSession();
         }
     }
 
     async function startSession() {
         try {
+
             const config = {
                 headers: {Authorization: `Bearer ${token}`}
             };
 
             const checkConn = await api.get(`${session}/check-connection-session`, config);
-
             if (!checkConn.data.status) {
-                const localSession = await insertToLocalStorage();
-                if (!localSession) {
-                    await signSession();
-                } else {
-                    await removeLocalStorage();
-                    await signSession();
-                }
+                await signSession();
+                login(JSON.stringify({session: session, token: token}));
             } else {
-                const localSession = await insertToLocalStorage();
-                if (!localSession) {
-                    await signSession();
-                } else {
-                    await signSession();
-                }
+                history.push("chat");
             }
         } catch (e) {
             setTimeout(function () {
                 handleCloseBackdrop();
                 handleOpenErrorModal();
-                setTitleError('Oops... Algo deu errado.');
-                setErrorMessage('Verifique se a sessão e o token estão corretos.');
-            }, 2000)
+                setTitleError("Oops... Algo deu errado.");
+                setErrorMessage("Verifique se a sessão e o token estão corretos.");
+            }, 2000);
         }
     }
 
@@ -163,7 +116,6 @@ export default function NewSessionPage() {
         const config = {
             headers: {Authorization: `Bearer ${token}`}
         };
-
         await api.post(`${session}/start-session`, null, config);
     }
 
@@ -176,20 +128,20 @@ export default function NewSessionPage() {
     };
 
     const handleCloseModal = () => {
-        setOpenMenuModal(false)
-    }
+        setOpenMenuModal(false);
+    };
 
     const handleOpenModal = () => {
-        setOpenMenuModal(true)
-    }
+        setOpenMenuModal(true);
+    };
 
     const handleCloseErrorModal = () => {
-        setOpenErrorModal(false)
-    }
+        setOpenErrorModal(false);
+    };
 
     const handleOpenErrorModal = () => {
-        setOpenErrorModal(true)
-    }
+        setOpenErrorModal(true);
+    };
 
     return (
         <div>
@@ -213,7 +165,7 @@ export default function NewSessionPage() {
                         <BackdropComponent open={openBackdrop}/>
 
                         {
-                            pathname === '/nova-sessao' ?
+                            haveLogin !== undefined ?
                                 <div className={"close-item"} onClick={() => history.goBack()}>
                                     <X/>
                                 </div>
@@ -221,35 +173,51 @@ export default function NewSessionPage() {
                         }
 
                         <Container>
-                            <ImageCustom
-                                ref={animationRef}
-                                className={"animation noselect"}
-                                autoplay
-                                src={qrCode}
-                                alt={"Smartphone"}
-                                draggable={"false"}
-                            />
-
                             <div className={"container-session"}>
                                 <Title id={"title"}>
-                                    Para começar é simples
+                                    Entre com sua sessão
                                 </Title>
 
                                 <Description id={"description"}>
-                                    Digite o nome da sessão no campo abaixo, clique em <b>enviar</b> e aguarde alguns
-                                    segundos até o
-                                    QRCode aparecer na tela 😊
+                                    <p>
+                                        Digite o nome da sessão no campo abaixo, clique em <b>enviar</b> e
+                                        aguarde alguns
+                                        segundos até o
+                                        QRCode aparecer na tela 😊
+                                    </p>
                                 </Description>
 
+                                {
+                                    qrCode === "" ? null : (
+                                        <ImageCustom
+                                            ref={animationRef}
+                                            className={"animation noselect"}
+                                            autoplay
+                                            src={qrCode}
+                                            alt={"Smartphone"}
+                                            draggable={"false"}
+                                        />
+                                    )
+                                }
+
                                 <Formulario onSubmit={(e) => submitSession(e)}>
-                                    <div className={"two-columns"}>
-                                        <input autoComplete="off" placeholder="Nome da sessão" value={session}
-                                               onChange={(e) => setSession(e.target.value)}/>
+                                    <p>
+                                        Sessão
+                                    </p>
+                                    <input autoComplete="off" placeholder="Nome da sessão" value={session}
+                                           onChange={(e) => setSession(e.target.value)}/>
 
-                                        <input autoComplete="off" placeholder="Token" value={token}
-                                               onChange={(e) => setToken(e.target.value)}/>
+                                    <div className={"inline"}>
+                                        <p>
+                                            Token
+                                        </p>
 
-                                        <HelpCircle onClick={() => handleOpenModal()}/>
+                                        <div>
+                                            <input autoComplete="off" placeholder="Token" value={token}
+                                                   onChange={(e) => setToken(e.target.value)}/>
+
+                                            <HelpCircle onClick={() => handleOpenModal()}/>
+                                        </div>
                                     </div>
 
                                     <button type="submit" id="send-btn">

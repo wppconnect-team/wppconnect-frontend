@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Layout = styled.div`
   width: 100%;
@@ -23,19 +23,19 @@ export const Layout = styled.div`
 
   .audio-player .player .btn-play span:not(.icon-play),
   .audio-player.playing .player .btn-play span:not(.icon-pause),
-  .audio-player.loading .player .btn-play span:not(.icon-loop){
+  .audio-player.loading .player .btn-play span:not(.icon-loop) {
     display: none;
   }
 
   .audio-player.playing .player .btn-play .icon-pause {
     display: inline-block;
   }
-`
+`;
 
 export const AudioPlayer = styled.div`
   background: var(--player-color-background);
   display: inline-flex;
-  flex-direction: ${({isMe}) => isMe ? 'row' : 'row-reverse'};
+  flex-direction: ${({isMe}) => isMe ? "row" : "row-reverse"};
   min-width: 240px;
   width: 336px;
   max-width: 100%;
@@ -91,12 +91,12 @@ export const AudioPlayer = styled.div`
       margin-top: 1rem;
     }
   }
-`
+`;
 
 export const Player = styled.div`
   flex: 1;
   display: flex;
-`
+`;
 
 export const PlayButton = styled.button`
   outline: none;
@@ -119,7 +119,7 @@ export const PlayButton = styled.button`
       display: none;
     }
   }
-`
+`;
 
 export const Timeline = styled.div`
   flex: 1;
@@ -148,7 +148,7 @@ export const Timeline = styled.div`
       flex: 1;
       all: unset;
       appearance: none;
-      background-color: initial !important;
+      background-color: #999;
       border: none;
       outline: none;
       width: 100%;
@@ -156,7 +156,7 @@ export const Timeline = styled.div`
 
       &::-webkit-slider-thumb {
         appearance: none;
-        background: var(--player-color-featured);
+        background: #999;
         width: 0.9rem;
         height: 0.9rem;
         border-radius: 50%;
@@ -214,6 +214,8 @@ export const Timeline = styled.div`
     bottom: 0;
 
     .current-time {
+      font-size: 1rem;
+
       &::before {
         content: var(--player-current-time);
       }
@@ -234,13 +236,13 @@ export const Timeline = styled.div`
       }
     }
   }
-`
+`;
 
 export const User = styled.div`
   position: relative;
   width: 55px;
   height: 55px;
-  margin-left: ${({isMe}) => isMe ? '1.4rem;' : '10px'};
+  margin-left: ${({isMe}) => isMe ? "1.4rem;" : "10px"};
 
   img {
     width: 55px;
@@ -259,4 +261,4 @@ export const User = styled.div`
     font-size: 1.6rem;
     text-shadow: -1px -1px 0 var(--player-color-background), 1px -1px 0 var(--player-color-background), -1px 1px 0 var(--player-color-background), 1px 1px 0 var(--player-color-background);
   }
-`
+`;

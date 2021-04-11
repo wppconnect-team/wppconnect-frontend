@@ -1,51 +1,67 @@
-import React, {useRef, useState} from 'react';
-import {
-    ChatLayout,
-    ImageContainer,
-    MessageContainer,
-    MessageContent,
-    StickerComponent,
-    VideoContainer
-} from "./style";
+import React, {useRef, useState} from "react";
+import {ChatLayout, ImageContainer, MessageContainer, MessageContent, StickerComponent} from "./style";
 import AudioComponent from "../AudioComponent";
 import api from "../../../services/api";
+import ImageModal from "./ImageModal";
+import PropTypes from "prop-types";
+import config from "../../../util/sessionHeader";
 
-const defaultImage = 'https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png'
+const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
-const ChatComponent = ({message, session, token, isMe}) => {
+const ChatComponent = ({message, session, isMe}) => {
     const imageRef = useRef(null);
     const audioRef = useRef(null);
     const [audioUrl, setAudioUrl] = useState(undefined);
-    const [display, setDisplay] = useState('block');
+    const [display, setDisplay] = useState("block");
+    const [openModalImage, setOpenModalImage] = React.useState(false);
+    const [clickedUrl, setClickedUrl] = useState("");
 
     const onClickDownload = async (type) => {
-        const config = {
-            headers: {Authorization: `Bearer ${token}`}
-        };
+        const response = await api.post(`${session}/download-media`, {message: message}, config);
 
-        const response = await api.post(`${session}/download-media`, {
-                message: message
-            }, config
-        );
-
-        if (type === 'image') {
+        if (type === "image") {
             imageRef.current.src = response.data;
-            setDisplay('none');
-        } else if (type === 'video') {
+            setDisplay("none");
+        } else if (type === "video") {
             imageRef.current.src = response.data;
-            setDisplay('none');
-        } else if (type === 'audio') {
+            setDisplay("none");
+        } else if (type === "audio") {
             setAudioUrl(response.data);
         }
-    }
+    };
+
+    const handleOpenModalImage = () => {
+        setClickedUrl(imageRef.current.src);
+        setOpenModalImage(true);
+    };
+
+    const handleCloseModalImage = () => {
+        setOpenModalImage(false);
+    };
 
     return (
         <ChatLayout>
+            <ImageModal
+                open={openModalImage}
+                handleClose={handleCloseModalImage}
+                message={message}
+                image={clickedUrl}
+            />
+
             <MessageContainer side={isMe}>
+
+                {
+                    message.isGroupMsg ? (
+                        <p className={"contact-phone"}>
+                            {message.from}
+                        </p>
+                    ) : null
+                }
+
                 <MessageContent side={isMe}>
                     {
                         message.isMedia ? (
-                            message.mimetype === 'video/mp4' ? (
+                            message.type === "video" ? (
                                 <ImageContainer>
                                     <video
                                         ref={imageRef}
@@ -54,25 +70,26 @@ const ChatComponent = ({message, session, token, isMe}) => {
                                     />
 
                                     <div className={"download"} style={{display: display}}
-                                         onClick={() => onClickDownload('video')}
+                                         onClick={() => onClickDownload("video")}
                                     />
                                 </ImageContainer>
-                            ) : message.mimetype === 'image/jpeg' ? (
+                            ) : message.mimetype === "image/jpeg" ? (
                                 <ImageContainer>
                                     <img
                                         ref={imageRef}
                                         src={`data:image/png;base64, ${message.body}`}
                                         loading={"lazy"}
-                                        alt={""}
+                                        alt={message.caption}
+                                        onClick={handleOpenModalImage}
                                     />
 
                                     <div className={"download"} style={{display: display}}
-                                         onClick={() => onClickDownload('image')}
+                                         onClick={() => onClickDownload("image")}
                                     />
 
                                 </ImageContainer>
                             ) : null
-                        ) : message.type === 'ptt' ? (
+                        ) : message.type === "ptt" ? (
                             <AudioComponent
                                 url={audioUrl}
                                 isMe={message.fromMe}
@@ -80,19 +97,29 @@ const ChatComponent = ({message, session, token, isMe}) => {
                                 audioRef={audioRef}
                                 downloadAudio={onClickDownload}
                             />
-                        ) : message.type === 'sticker' ? (
+                        ) : message.type === "sticker" ? (
                             <StickerComponent
                                 src={message.body}
                                 ref={imageRef}
-                                onError={() => onClickDownload('image')}
+                                onError={() => onClickDownload("image")}
                             />
                             // <StickerComponent src={message.body}/>
-                        ) : message.body
+                        ) : (
+                            <span>
+                                {message.body}
+                            </span>
+                        )
                     }
                 </MessageContent>
             </MessageContainer>
         </ChatLayout>
     );
+};
+
+ChatComponent.propTypes = {
+    message: PropTypes.any.isRequired,
+    session: PropTypes.string.isRequired,
+    isMe: PropTypes.string.isRequired,
 };
 
 export default ChatComponent;

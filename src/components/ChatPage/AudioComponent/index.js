@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Mic, Pause, Play, StopCircle} from "react-feather";
+import React, {useEffect, useRef, useState} from "react";
 import {AudioPlayer, Layout, PlayButton, Player, Timeline, User} from "./style";
+import PropTypes from "prop-types";
 
 const AudioComponent = ({url, isMe, profileImage, downloadAudio}) => {
     const audioPlayer = useRef(null);
@@ -9,20 +9,20 @@ const AudioComponent = ({url, isMe, profileImage, downloadAudio}) => {
 
     useEffect(() => {
         setAudio(new Audio(audioPlayer.current.dataset.url));
-    }, [url])
+    }, [url]);
 
     const onClickPlay = () => {
         audio.paused ? audio.play() : audio.pause();
-    }
+    };
 
     async function checkIsDownloaded() {
         if (audioPlayer.current.dataset.url === undefined) {
-            await downloadAudio('audio');
+            await downloadAudio("audio");
             setTimeout(() => {
                 start();
-            }, 500)
+            }, 500);
         } else {
-            await start()
+            await start();
         }
     }
 
@@ -121,3 +121,10 @@ const AudioComponent = ({url, isMe, profileImage, downloadAudio}) => {
 };
 
 export default AudioComponent;
+
+AudioComponent.propTypes = {
+    url: PropTypes.string,
+    isMe: PropTypes.bool.isRequired,
+    profileImage: PropTypes.string.isRequired,
+    downloadAudio: PropTypes.func.isRequired,
+};

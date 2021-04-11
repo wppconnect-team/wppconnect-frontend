@@ -1,34 +1,34 @@
-import styled from 'styled-components'
-import DownloadImage from '../../../assets/download-icon.png'
+import styled from "styled-components";
+import DownloadImage from "../../../assets/icons8-down-arrow-96.png";
 
 export const ChatLayout = styled.div`
   width: 100%;
-`
-
-export const SessionInfo = styled.div`
-
-`
+`;
 
 export const MessageContainer = styled.div`
   font-size: 14px;
   height: auto;
-  //display: block;
   position: relative;
   display: flex;
+  flex-direction: column;
 
-  margin: ${({side}) => side === 'left' ? '0 20px 0 0' : '0 0 0 auto'};
-    //width: ${({side}) => side === 'left' ? 'auto' : 'auto'};
-
-`
+  margin: ${({side}) => side === "left" ? "0 20px 0 0" : "0 0 0 auto"};
+`;
 
 export const MessageContent = styled.span`
-  background: ${({side}) => side === 'left' ? '#fff' : '#DCF8C6'};
+  background: ${({side}) => side === "left" ? "#fff" : "#DCF8C6"};
   display: flex;
   padding: 5px 10px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  margin: ${({side}) => side === 'left' ? '0 20px 0 0' : '0 0 0 auto'};
-  max-width: ${({side}) => side === 'left' ? '300px' : '300px'};
+  margin: ${({side}) => side === "left" ? "0 20px 0 0" : "0 0 0 auto"};
+  max-width: ${({side}) => side === "left" ? "300px" : "300px"};
+  position: relative;
+
+  span {
+    display: block;
+    width: 100%;
+  }
 
   .download {
     position: absolute;
@@ -36,19 +36,17 @@ export const MessageContent = styled.span`
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    
+    padding: 2em;
     margin: auto;
-
-
     z-index: 1;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
   }
-`
+`;
 
 export const ImageContainer = styled.div`
   width: 500px;
@@ -70,10 +68,10 @@ export const ImageContainer = styled.div`
     object-fit: cover;
     cursor: pointer;
   }
-`
+`;
 
 export const StickerComponent = styled.img`
   width: 125px;
   height: 125px;
   object-fit: contain;
-`
+`;
