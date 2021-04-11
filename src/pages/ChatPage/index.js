@@ -20,10 +20,14 @@ const SendMessagePage = () => {
         getAllChats();
         settingMessage();
 
-        async function settingMessage() {
+        return () => {
+            setChats([]);
+            setMessages([]);
+        };
+    }, []);
+    
+    async function settingMessage() {
             socket.off("received-message").on("received-message", async (message) => {
-                console.log(choosedContact);
-
                 if (chatRef.current !== null) {
                     chatRef.current.scrollTop = chatRef.current.scrollHeight;
                 }
@@ -45,12 +49,6 @@ const SendMessagePage = () => {
             const response = await api.get(`${getSession()}/show-all-chats`, config);
             setChats(response.data.response);
         }
-
-        return () => {
-            setChats([]);
-            setMessages([]);
-        };
-    }, []);
 
     const scrollToBottom = () => {
         messagesEnd.current.scrollIntoView({ behavior: "smooth" });
