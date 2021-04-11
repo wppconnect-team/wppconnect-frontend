@@ -24,7 +24,7 @@ const SendMessagePage = () => {
             setChats([]);
             setMessages([]);
         };
-    }, []);
+    }, [choosedContact]);
     
     async function settingMessage() {
             socket.off("received-message").on("received-message", async (message) => {
