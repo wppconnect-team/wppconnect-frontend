@@ -33,11 +33,12 @@ npm start
 - [x] Chat
 - [x] Multisession
 - [x] Receiving messages (real time)
-- [x] Receiving messages (real time)
 - [x] Send messages (real time)
 - [x] Choose session before sending message
+- [x] Receive Images
+- [x] Receive Audio
+- [x] Receive Sticker
 - [ ] Send Images
-- [ ] Receive Images
 
 ## API
 
