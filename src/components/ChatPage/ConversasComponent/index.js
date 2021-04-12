@@ -1,16 +1,44 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ContactInfo, Layout, SearchComponent, UserData} from "./style";
 import {Search} from "react-feather";
 import PropTypes from "prop-types";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
-const ContactsComponent = ({contacts, onClickContact}) => {
+const ConversasComponent = ({contacts, onClickContact}) => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        setData(contacts);
+
+        return () => {
+            setData([]);
+        };
+    }, [contacts]);
+
+    function searchChat(e) {
+        let query = e.target.value;
+
+        let users = contacts.filter((filtro) => {
+                if (filtro.name !== undefined && filtro.id._serialized !== undefined) {
+                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(query.toLowerCase()) > -1 || filtro.id._serialized.indexOf(query) > -1;
+                } else {
+                    return [];
+                }
+            }
+        );
+
+        setData(users);
+
+        if (query === "") {
+            setData(contacts);
+        }
+    }
 
     return (
         <Layout>
             <SearchComponent>
-                <Search/> <input placeholder={"Procure um contato"}/>
+                <Search/> <input placeholder={"Procure um contato"} onChange={(e) => searchChat(e)}/>
             </SearchComponent>
 
             <h2>
@@ -19,8 +47,8 @@ const ContactsComponent = ({contacts, onClickContact}) => {
 
             <ul>
                 {
-                    contacts.length > 0 ? (
-                        contacts.map((contact, index) => {
+                    data.length > 0 ? (
+                        data.map((contact, index) => {
                             return (
                                 <li key={index} onClick={() => onClickContact(contact)}>
                                     <ContactInfo>
@@ -58,9 +86,9 @@ const ContactsComponent = ({contacts, onClickContact}) => {
     );
 };
 
-ContactsComponent.propTypes = {
+ConversasComponent.propTypes = {
     contacts: PropTypes.any.isRequired,
     onClickContact: PropTypes.func.isRequired,
 };
 
-export default ContactsComponent;
+export default ConversasComponent;

@@ -11596,11 +11596,6 @@ websocket-extensions@>=0.1.1:
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
   integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
 
-whatsapp-markdown@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/whatsapp-markdown/-/whatsapp-markdown-1.1.0.tgz#72769008acdd6dd43f50f0ac8d18bd530bcaf7f0"
-  integrity sha512-Tr+oU8sCgHlXYfHZVdW/iUxhplYvPCcK0aF+09ZyocHDAW36d+mvpc/ZH9D2mJc7jhSA+7BDD3SP5srUWhQbOA==
-
 whatwg-encoding@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/whatwg-encoding/-/whatwg-encoding-1.0.5.tgz#5abacf777c32166a51d085d6b4f3e7d27113ddb0"

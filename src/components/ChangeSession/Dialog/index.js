@@ -46,6 +46,7 @@ function AllSessionsDialog({onClose, selectedValue, open, sessions}) {
                                     <User/>
                                 </Avatar>
                             </ListItemAvatar>
+
                             <ListItemText primary={sessao.session}/>
                         </ListItem>
                     ))}

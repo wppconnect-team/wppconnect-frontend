@@ -24,24 +24,35 @@ const ContactsPage = () => {
     }
 
     const rows = contacts.map((contato, index) => {
-        return {id: index, name: contato.name, phone: contato.id._serialized};
+        return {
+            id: index,
+            profileImage: contato.name,
+            name: contato.name,
+            phone: contato.id._serialized
+        };
     });
 
     const columns = [
         {
-            field: "id",
-            headerName: "Id",
-            width: "33%"
+            field: "profileImage",
+            // eslint-disable-next-line react/display-name
+            renderCell: (params) => (
+                <img
+                    src={`https://ui-avatars.com/api/?name=${params.value === undefined ? "ND" : params.value}?background=random`}
+                    style={{width: 30, height: 30, borderRadius: "50%"}} alt={params.value}/>
+            ),
+            headerName: " ",
+            width: "5%"
         },
         {
             field: "name",
             headerName: "Nome",
-            width: "33%"
+            width: "47.50%"
         },
         {
             field: "phone",
             headerName: "Telefone",
-            width: "33%"
+            width: "47.50%"
         },
     ];
 

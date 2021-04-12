@@ -5,7 +5,7 @@ import api from "../../../services/api";
 import ImageModal from "./ImageModal";
 import PropTypes from "prop-types";
 import config from "../../../util/sessionHeader";
-import {formatWppMarkdown} from "whatsapp-markdown";
+import formatWppMarkdown from "../../../util/functionsMarkdown";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
@@ -111,7 +111,7 @@ const ChatComponent = ({message, session, isMe}) => {
                             />
                             // <StickerComponent src={message.body}/>
                         ) : (
-                            <p ref={textRef} id={"message-text"}>
+                            <p ref={textRef}>
                                 {message.body}
                             </p>
                         )

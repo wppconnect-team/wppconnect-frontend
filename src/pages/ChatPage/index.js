@@ -4,7 +4,7 @@ import {Send} from "react-feather";
 import api, {socket} from "../../services/api";
 import ImageLoader from "../../assets/hand-smartphone.png";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
-import ContactsComponent from "../../components/ChatPage/ConversasComponent";
+import ConversasComponent from "../../components/ChatPage/ConversasComponent";
 import {defaultKey, getSession, getToken, logout} from "../../services/auth";
 import config from "../../util/sessionHeader";
 import history from "../../history";
@@ -107,7 +107,7 @@ const SendMessagePage = () => {
         <Layout>
             <Container>
                 <ContentContainer>
-                    <ContactsComponent contacts={chats} onClickContact={onClickContact}/>
+                    <ConversasComponent contacts={chats} onClickContact={onClickContact}/>
 
                     <ChatContainer>
                         {

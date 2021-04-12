@@ -148,7 +148,7 @@ export const Timeline = styled.div`
       flex: 1;
       all: unset;
       appearance: none;
-      background-color: #999;
+      background: transparent;
       border: none;
       outline: none;
       width: 100%;
@@ -254,11 +254,11 @@ export const User = styled.div`
 
   span {
     position: absolute;
-    left: 0;
+    left: 10px;
     bottom: 0;
     color: var(--player-color-featured);
     transform: translateX(-50%);
-    font-size: 1.6rem;
+    font-size: 2.5rem;
     text-shadow: -1px -1px 0 var(--player-color-background), 1px -1px 0 var(--player-color-background), -1px 1px 0 var(--player-color-background), 1px 1px 0 var(--player-color-background);
   }
 `;

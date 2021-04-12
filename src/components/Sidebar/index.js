@@ -55,7 +55,7 @@ const Sidebar = () => {
                             <BarChart/> Relatórios
                         </NavLink>
                     </li>
- 
+
                     <li>
                         <NavLink
                             to={"configuracoes"}
@@ -87,7 +87,8 @@ const Sidebar = () => {
                     </ChangeSession>
 
                     <InfoSession>
-                        <img src={`https://ui-avatars.com/api/?name=${getSession()}?background=random`} alt={"ProfileUser"}/>
+                        <img src={`https://ui-avatars.com/api/?name=${getSession()}?background=random`}
+                             alt={selectedValue}/>
                         <div>
                             <p>
                                 {selectedValue}

@@ -94,6 +94,7 @@ export const InfoSession = styled.div`
   align-items: center;
   padding: 1em 10px;
   font-size: 1.6rem;
+  cursor: default;
 
   div {
     display: flex;
@@ -105,5 +106,11 @@ export const InfoSession = styled.div`
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+  }
+
+  a {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: #f64747;
   }
 `;

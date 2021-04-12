@@ -14,8 +14,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "socket.io-client": "^4.0.0",
-    "styled-components": "^5.2.1",
-    "whatsapp-markdown": "^1.1.5"
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
