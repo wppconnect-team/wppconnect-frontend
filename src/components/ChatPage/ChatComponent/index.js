@@ -5,7 +5,7 @@ import api from "../../../services/api";
 import ImageModal from "./ImageModal";
 import PropTypes from "prop-types";
 import config from "../../../util/sessionHeader";
-import {formatWppMarkdown} from "../../../util/functions";
+import {formatWppMarkdown} from "whatsapp-markdown";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 

@@ -24,8 +24,8 @@ const SendMessagePage = () => {
                 if (defaultKey() === null) {
                     history.push("/");
                 } else {
-                    getAllChats();
-                    settingMessage();
+                    await getAllChats();
+                    await settingMessage();
                 }
             } catch (e) {
                 logout();
