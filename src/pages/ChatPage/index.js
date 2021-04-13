@@ -71,7 +71,9 @@ const SendMessagePage = () => {
     }
 
     const scrollToBottom = () => {
-        messagesEnd.current.scrollIntoView({behavior: "smooth"});
+        if (messagesEnd.current !== null) {
+            messagesEnd.current.scrollIntoView({behavior: "smooth"});
+        }
     };
 
     async function onClickContact(contact) {
@@ -117,7 +119,7 @@ const SendMessagePage = () => {
                                     <HeaderContact>
                                         <div className={"container-info-ctt"}>
                                             <img
-                                                src={choosedContact.contact.profilePicThumbObj === undefined ? "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png" : choosedContact.contact.profilePicThumbObj.eurl}
+                                                src={choosedContact.contact.profilePicThumbObj === undefined ? "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png" : choosedContact.contact.profilePicThumbObj.eurl === null ? `https://ui-avatars.com/api/?name=${choosedContact.name}?background=random` : choosedContact.contact.profilePicThumbObj.eurl}
                                                 alt={`${choosedContact.name}`}
                                                 loading={"lazy"}
                                                 onError={(e) => e.target.src = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png"}

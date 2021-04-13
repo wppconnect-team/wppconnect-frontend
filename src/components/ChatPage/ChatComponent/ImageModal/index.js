@@ -34,7 +34,7 @@ export default function ImageModal({open, handleClose, message, image}) {
                 setName(message.sender.pushname);
             }
         }
-    }, [open, message.sender.formattedName, message.fromMe, message.sender.profilePicThumbObj.eurl, message.sender.pushname]);
+    }, [open]);
 
     return (
         <div>

@@ -14,7 +14,7 @@ const ConversasComponent = ({contacts, onClickContact}) => {
         return () => {
             setData([]);
         };
-    }, [contacts]);
+    }, []);
 
     function searchChat(e) {
         let query = e.target.value;
@@ -59,10 +59,10 @@ const ConversasComponent = ({contacts, onClickContact}) => {
 
                                         <UserData>
                                             <img
-                                                src={contact.contact.profilePicThumbObj === undefined ? defaultImage : contact.contact.profilePicThumbObj.eurl}
+                                                src={contact.contact.profilePicThumbObj === undefined ? defaultImage : contact.contact.profilePicThumbObj.eurl === null ? `https://ui-avatars.com/api/?name=${contact.name}?background=random` : contact.contact.profilePicThumbObj.eurl}
                                                 alt={`${contact.name}`}
                                                 loading={"lazy"}
-                                                onError={(e) => e.target.src = defaultImage}
+                                                onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${contact.name}?background=random`}
                                             />
                                             <div className={"principal-info"}>
                                                 <small className={"contact-phone"}>

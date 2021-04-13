@@ -19,9 +19,9 @@ export const MessageContent = styled.span`
   background: ${({side}) => side === "left" ? "#fff" : "#DCF8C6"};
   display: flex;
   padding: 5px 10px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  margin: ${({side}) => side === "left" ? "0 20px 0 0" : "0 0 0 auto"};
+  margin: ${({side}) => side === "left" ? "0 auto 0 0" : "0 0 0 auto"};
   max-width: ${({side}) => side === "left" ? "300px" : "300px"};
   position: relative;
 

@@ -55,15 +55,6 @@ const ChatComponent = ({message, session, isMe}) => {
             />
 
             <MessageContainer side={isMe}>
-
-                {
-                    message.isGroupMsg ? (
-                        <p className={"contact-phone"}>
-                            {message.from}
-                        </p>
-                    ) : null
-                }
-
                 <MessageContent side={isMe}>
                     {
                         message.isMedia ? (
