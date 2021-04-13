@@ -96,10 +96,18 @@ const SendMessagePage = () => {
             setMessage("");
             scrollToBottom();
 
-            await api.post(`${getSession()}/send-message`, {
-                phone: choosedContact.id.user,
-                message: message
-            }, config);
+            if (!choosedContact.isGroup) {
+                await api.post(`${getSession()}/send-message`, {
+                    phone: choosedContact.id.user,
+                    message: message
+                }, config);
+            } else {
+                await api.post(`${getSession()}/send-message`, {
+                    phone: choosedContact.id.user,
+                    message: message,
+                    isGroup: true
+                }, config);
+            }
         } else {
             alert("Preencha todos os dados antes de enviar");
         }
