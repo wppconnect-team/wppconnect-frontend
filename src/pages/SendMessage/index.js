@@ -5,7 +5,7 @@ import api, {socket} from "../../services/api";
 import history from "../../history";
 import HandWatch from '../../assets/hand-watch.png'
 
-const SendMessagePage = (props) => {
+const SendMessagePage = () => {
     const [sessions, setSessions] = useState([])
     const [messages, setMessages] = useState([])
     const [choosedSession, setChoosedSession] = useState("")

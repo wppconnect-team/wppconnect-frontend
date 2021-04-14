@@ -14,11 +14,16 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "plugins": [
         "react"
     ],
     "rules": {
-        "semi": ["error", "always"],
-        "quotes": ["error", "double"]
+        // "semi": ["error", "always"],
+        // "quotes": ["error", "double"]
     }
 }
