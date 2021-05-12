@@ -164,8 +164,13 @@ const SendMessagePage = () => {
             let reader = new FileReader();
 
             reader.onload = async function (e) {
+                const base64 = e.target.result;
+                // if(base64.includes("video")){
+                //
+                // }
+
                 await api.post(`${getSession()}/send-file-base64`, {
-                    base64: e.target.result,
+                    base64: base64,
                     phone: choosedContact.id.user
                 }, config);
             };

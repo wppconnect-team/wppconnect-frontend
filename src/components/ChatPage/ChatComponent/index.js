@@ -30,13 +30,13 @@ const ChatComponent = ({message, session, isMe}) => {
     }, [textRef]);
 
     const onClickDownload = async (type) => {
-        const response = await api.post(`${session}/download-media`, {message: message}, config);
+        const response = await api.get(`${session}/get-media-by-message/${message.id}`,  config);
 
         if (type === "image") {
-            imageRef.current.src = response.data;
+            imageRef.current.src = `data:image/png;base64, ${response.data}`;
             setDisplay("none");
         } else if (type === "video") {
-            imageRef.current.src = response.data;
+            imageRef.current.src = `data:video/webm;base64, ${response.data}`;
             setDisplay("none");
         } else if (type === "audio") {
             setAudioUrl(response.data);
