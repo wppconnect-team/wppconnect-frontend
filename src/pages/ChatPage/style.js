@@ -241,6 +241,32 @@ export const ChatContainer = styled.div`
     padding: 2em;
     list-style-type: none;
 
+    :hover {
+      ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #929090;
+      transition-duration: 200ms;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a5a5a5;
+    }
+
     li {
       display: flex;
       margin-bottom: 10px;
@@ -283,6 +309,40 @@ export const WaitingContainer = styled.div`
     }
     100% {
       transform: scale(1);
+    }
+  }
+
+`;
+
+export const Contador = styled.div`
+  display: block;
+  width: 160px;
+  min-width: 160px;
+
+  .main-cont {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    svg {
+      cursor: pointer;
+      width: 26px;
+      height: 26px;
+
+      :nth-child(1) {
+        color: #c25252;
+      }
+
+      :nth-child(3) {
+        color: #569241;
+      }
+    }
+
+    .counter {
+      p {
+        font-size: 16px;
+        text-align: center;
+      }
     }
   }
 

@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
-import {ChatContainer, Container, ContentContainer, HeaderContact, Layout, WaitingContainer} from "./style";
-import {Paperclip, Send} from "react-feather";
+import React, {useEffect, useMemo, useRef, useState} from "react";
+import {ChatContainer, Contador, Container, ContentContainer, HeaderContact, Layout, WaitingContainer} from "./style";
+import {CheckCircle, Mic, Paperclip, Send, XCircle} from "react-feather";
 import api, {listenerMessages} from "../../services/api";
 import ImageLoader from "../../assets/hand-smartphone.png";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
@@ -8,17 +8,22 @@ import ConversasComponent from "../../components/ChatPage/ConversasComponent";
 import {defaultKey, getSession, getToken, logout} from "../../services/auth";
 import config from "../../util/sessionHeader";
 import history from "../../history";
-import ModalAudioRecord from "./ModalRecordAudio";
+import MicRecorder from "mic-recorder-to-mp3";
 
 const SendMessagePage = () => {
+    const dropRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [chats, setChats] = useState([]);
     const [choosedContact, setChoosedContact] = useState([]);
     const [message, setMessage] = useState("");
     const chatRef = useRef(null);
     const messagesEnd = useRef(null);
-    const [openAudioModal, setOpenAudioModal] = useState(false);
-    const dropRef = useRef(null);
+    const [recordState, setRecordState] = useState(null);
+    const [segundos, setSegundos] = useState(0);
+    const [minutos, setMinutos] = useState(0);
+    const [stop, setStop] = useState(true);
+    const [isBlocked, setIsBlocked] = useState(false);
+    const recorder = useMemo(() => new MicRecorder({bitRate: 128}), []);
 
     useEffect(() => {
         async function checkConnection() {
@@ -43,41 +48,112 @@ const SendMessagePage = () => {
     }, []);
 
     useEffect(() => {
-        dropRef.current.addEventListener("dragenter", dragenter, false);
-        dropRef.current.addEventListener("dragleave", dragleave, false);
-        dropRef.current.addEventListener("dragover", dragover, false);
-        dropRef.current.addEventListener("drop", drop, false);
-    }, []);
+        if (stop === false) {
+            const intervalId = setInterval(() => {
+                setSegundos(seconds => {
+                    if (seconds >= 59) {
+                        zerar();
+                        incrementarMinuto();
+                    }
 
-    function dragenter(e) {
-        e.stopPropagation();
-        e.preventDefault();
+                    return seconds + 1;
+                });
+            }, 1000);
+
+            return () => {
+                clearInterval(intervalId);
+            };
+        }
+    }, [segundos, stop]);
+
+    listenerMessages((err, data) => {
+        if (err) return;
+
+        if (chatRef.current !== null) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+
+        if (choosedContact.id !== undefined) {
+            if (choosedContact.id._serialized === data.response.chatId || data.response.fromMe && choosedContact.id._serialized === data.response.to) {
+                setMessages((prevState) => {
+                    return [...prevState, data.response];
+                });
+                scrollToBottom();
+            }
+        }
+    });
+
+    function zerarCronometro() {
+        setSegundos(0);
+        setMinutos(0);
     }
 
-    function dragleave(e) {
-        e.stopPropagation();
-        e.preventDefault();
+    const startRecording = () => {
+        navigator.getUserMedia({audio: true},
+            () => {
+                // alert("Permission Granted");
+                setIsBlocked(false);
+            },
+            () => {
+                alert("Permission Denied");
+                setIsBlocked(true);
+            },
+        );
+
+        if (isBlocked) {
+            alert("Permission Denied");
+        } else {
+            recorder.start().then(() => {
+                setRecordState(true);
+                setStop(false);
+            }).catch((e) => {
+                console.error(e);
+            });
+        }
+    };
+
+    function cancelRecording() {
+        // mediaRecorder.stop();
+
+        setRecordState(null);
+        setStop(true);
+        zerarCronometro();
     }
 
-    function dragover(e) {
-        e.stopPropagation();
-        e.preventDefault();
+    const finishRecording = () => {
+        setRecordState(null);
+        setStop(true);
+        zerarCronometro();
 
-        console.log("teste");
+        recorder.stop().getMp3().then(([buffer, blob]) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = async function () {
+                const base64data = reader.result;
+                await api.post(`${getSession()}/send-voice`, {
+                    url: base64data,
+                    phone: choosedContact.id.user,
+                }, config);
+            };
+
+            const file = new File(buffer, "audio.mp3", {
+                type: blob.type,
+                lastModified: Date.now()
+            });
+            new Audio(URL.createObjectURL(file));
+
+        }).catch((e) => {
+            alert("We could not retrieve your message");
+            console.log(e);
+        });
+    };
+
+    function incrementarMinuto() {
+        setMinutos((prevState) => prevState + 1);
     }
 
-    function drop(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        let dt = e.dataTransfer;
-        let files = dt.files;
-
-        handleFiles(files);
-    }
-
-    function handleFiles(e) {
-        console.log(e);
+    function zerar() {
+        setSegundos(0);
     }
 
     async function getAllChats() {
@@ -100,33 +176,15 @@ const SendMessagePage = () => {
         setChoosedContact(contact);
 
         try {
-            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id._serialized}, config);
+            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id.user}, config);
             setMessages(response.data.response);
         } catch (e) {
-            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id._serialized}, config);
+            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id.user}, config);
             setMessages(response.data.response);
         }
 
         scrollToBottom();
     }
-
-    listenerMessages((err, data) => {
-        if (err) return;
-
-        if (chatRef.current !== null) {
-            chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        }
-
-        if (choosedContact.id !== undefined) {
-            console.log("");
-            if (choosedContact.id._serialized === data.response.chatId || data.response.fromMe && choosedContact.id._serialized === data.response.to) {
-                setMessages((prevState) => {
-                    return [...prevState, data.response];
-                });
-                scrollToBottom();
-            }
-        }
-    });
 
     async function sendMessage(e) {
         e.preventDefault();
@@ -151,31 +209,23 @@ const SendMessagePage = () => {
         }
     }
 
-    // const handleOpenAudioModal = () => {
-    //     setOpenAudioModal(true);
-    // };
-
-    const handleCloseAudioModal = () => {
-        setOpenAudioModal(false);
-    };
-
     function onChangeAnexo(e) {
         if (e.target.files && e.target.files[0]) {
             let reader = new FileReader();
+            let filename = "";
 
             reader.onload = async function (e) {
                 const base64 = e.target.result;
-                // if(base64.includes("video")){
-                //
-                // }
-
                 await api.post(`${getSession()}/send-file-base64`, {
                     base64: base64,
-                    phone: choosedContact.id.user
+                    phone: choosedContact.id.user,
+                    message: "",
+                    filename: filename
                 }, config);
             };
 
             reader.readAsDataURL(e.target.files[0]);
+            filename = e.target.files[0].name;
         }
     }
 
@@ -200,8 +250,6 @@ const SendMessagePage = () => {
 
     return (
         <Layout>
-            <ModalAudioRecord handleClose={handleCloseAudioModal} open={openAudioModal} contact={choosedContact}/>
-
             <Container ref={dropRef}>
                 <ContentContainer>
                     <ConversasComponent chats={chats} setChats={setChats} onClickContact={onClickContact}
@@ -238,7 +286,8 @@ const SendMessagePage = () => {
                                                 Envie ou receba uma mensagem
                                             </h2>
                                             <p>
-                                                Escolha uma sessao ao lado para <b>procurar um contato</b> ou inicie uma
+                                                Escolha uma sessao ao lado para <b>procurar um contato</b> ou inicie
+                                                uma
                                                 conversa com <b>qualquer pessoa</b> clicando <a
                                                 href={"/contatos"}>aqui</a>
                                             </p>
@@ -281,9 +330,37 @@ const SendMessagePage = () => {
                                     setMessage(e.target.value);
                                 }}
                             />
-                            {/*<Mic onClick={() => handleOpenAudioModal()}/>*/}
-                            <Send type={"submit"} onClick={(e) => sendMessage(e)}/>
+
+                            {
+                                message === "" ? (
+                                    recordState === null ? (
+                                        <Mic onClick={startRecording}/>
+                                    ) : (
+                                        <Contador>
+                                            <div className={"main-cont"}>
+                                                <XCircle onClick={cancelRecording}/>
+                                                <div className={"counter"}>
+                                                    <p>
+                                                        {
+                                                            minutos === 0 ? (
+                                                                `${segundos}s`
+                                                            ) : (
+                                                                `${minutos}m ${segundos}s`
+                                                            )
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <CheckCircle onClick={() => finishRecording()}/>
+                                            </div>
+                                        </Contador>
+                                    )
+                                ) : (
+                                    <Send type={"submit"} onClick={(e) => sendMessage(e)}/>
+                                )
+                            }
                         </form>
+
+
                     </ChatContainer>
                 </ContentContainer>
             </Container>

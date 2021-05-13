@@ -70,6 +70,28 @@ export const ImageContainer = styled.div`
   }
 `;
 
+export const DocumentComponent = styled.div`
+  width: 100%;
+  background: ${({side}) => side === "left" ? "#f0f0f0" : "#cfe9ba"};
+  padding: 1em 10px;
+  min-width: 250px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  svg {
+    color: #909090;
+    border-radius: 50%;
+    border: 1px solid rgba(144, 144, 144, .5);
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export const StickerComponent = styled.img`
   width: 125px;
   height: 125px;
@@ -78,7 +100,7 @@ export const StickerComponent = styled.img`
 
 export const MessageContentText = styled.div`
   width: 100%;
-  
+
   position: relative;
   overflow-wrap: break-word;
   white-space: pre-wrap;

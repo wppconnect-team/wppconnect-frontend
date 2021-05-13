@@ -45,7 +45,7 @@ const ContactsPage = () => {
                     style={{width: 30, height: 30, borderRadius: "50%"}} alt={params.value}/>
             ),
             headerName: " ",
-            width: "5%"
+            width: "10%"
         },
         {
             field: "name",

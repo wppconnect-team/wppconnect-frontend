@@ -148,7 +148,7 @@ export const Timeline = styled.div`
       flex: 1;
       all: unset;
       appearance: none;
-      background: transparent;
+      background: rgba(0, 0, 0, .3);
       border: none;
       outline: none;
       width: 100%;

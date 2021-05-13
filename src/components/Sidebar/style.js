@@ -4,6 +4,7 @@ export const Layout = styled.div`
   height: 100vh;
   width: 20%;
   border-right: 1px solid rgba(0, 0, 0, .1);
+  min-width: 250px;
 `;
 
 export const Container = styled.div`
