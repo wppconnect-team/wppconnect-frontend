@@ -158,10 +158,10 @@ const SendMessagePage = () => {
 
     async function getAllChats() {
         try {
-            const response = await api.get(`${getSession()}/show-all-chats`, config);
+            const response = await api.get(`${getSession()}/all-chats`, config);
             setChats(response.data.response);
         } catch (e) {
-            const response = await api.get(`${getSession()}/show-all-chats`, config);
+            const response = await api.get(`${getSession()}/all-chats`, config);
             setChats(response.data.response);
         }
     }
@@ -176,10 +176,10 @@ const SendMessagePage = () => {
         setChoosedContact(contact);
 
         try {
-            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id.user}, config);
+            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`,config);
             setMessages(response.data.response);
         } catch (e) {
-            const response = await api.post(`${getSession()}/get-chat-by-id`, {phone: contact.id.user}, config);
+            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
             setMessages(response.data.response);
         }
 
