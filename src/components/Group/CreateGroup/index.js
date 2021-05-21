@@ -1,13 +1,18 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import {CircularProgress} from "@material-ui/core";
+import {CircularProgress, TextField} from "@material-ui/core";
 import {FilePlus, X} from "lucide-react";
-import {CancelButton, Footer, Header, InputCustom, ListMenu, SendButton} from "./style";
+import {CancelButton, Container, Footer, Header, InputCustom, ListMenu, SendButton} from "./style";
 import PropTypes from "prop-types";
+import {getSession} from "../../../services/auth";
+import api from "../../../services/api";
+import config from "../../../util/sessionHeader";
+import {Autocomplete} from "@material-ui/lab";
+import {Edit} from "react-feather";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -22,8 +27,11 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         backgroundColor: "#fff",
         boxShadow: theme.shadows[5],
-        borderRadius: 30,
         width: 500,
+        outline: 0,
+        border: 0,
+        maxHeight: "90%",
+        padding: "1em 0",
         "@media (max-width:768px)": {
             margin: "0 10px"
         },
@@ -38,11 +46,34 @@ const useStylesBackdrop = makeStyles((theme) => ({
 }));
 
 function ModalCreateGroup({open, handleClose}) {
-    const [sessionName, setSessionName] = useState("");
+    const [groupName, setGroupName] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
     const [openBackdrop, setOpenBackdrop] = useState(false);
+    const [contacts, setContacts] = useState([]);
+    const [tagsChoosed, setTagsChoosed] = useState("");
     const classesBackdrop = useStylesBackdrop();
     const classes = useStyles();
+
+    useEffect(() => {
+        if (open) {
+            getContacts();
+        }
+
+        return () => {
+            setContacts([]);
+        };
+    }, [open]);
+
+    async function getContacts() {
+        const {data} = await api.get(`${getSession()}/all-contacts`, config);
+        const arr = [];
+        for (const contact of data.response) {
+            if (contact.isMyContact && contact.id.user !== undefined)
+                arr.push(contact.id.user);
+        }
+
+        setContacts(arr);
+    }
 
     const handleCloseBackdrop = () => {
         setOpenBackdrop(false);
@@ -65,10 +96,16 @@ function ModalCreateGroup({open, handleClose}) {
     };
 
     async function onSubmitForm() {
-        if (sessionName !== "") {
+        if (groupName !== "") {
             try {
                 handleToggleBackdrop();
-                // await api.post("api/session/create-session", {id_user: getIdUser(), session_name: sessionName});
+
+                const data = {
+                    participants: tagsChoosed,
+                    name: groupName
+                };
+                await api.post(`${getSession()}/create-group`, data, config);
+
                 setTimeout(() => {
                     handleCloseBackdrop();
                     onClose();
@@ -82,8 +119,12 @@ function ModalCreateGroup({open, handleClose}) {
 
     function onClose() {
         handleClose();
-        setSessionName("");
+        setGroupName("");
     }
+
+    const onTagsChange = (event, values) => {
+        setTagsChoosed(values);
+    };
 
     return (
         <div>
@@ -94,7 +135,7 @@ function ModalCreateGroup({open, handleClose}) {
                 open={open}
                 onClose={onClose}
             >
-                <div className={classes.paper}>
+                <Container className={classes.paper}>
                     <Snackbar open={openAlert} autoHideDuration={3000} onClose={handleCloseAlert}>
                         <Alert onClose={handleCloseAlert} severity="error">
                             O nome da sessão já existe, escolha outro.
@@ -115,35 +156,74 @@ function ModalCreateGroup({open, handleClose}) {
                         </div>
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <p className={"description"}>
-                                Digite o nome da sessão que você deseja criar.
+                                Crie um grupo diretamente por aqui
                             </p>
                         </div>
                     </Header>
 
                     <ListMenu>
                         <div className={"container"}>
+                            <div id={"profile-image"}>
+                                <img
+                                    src={"https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"}
+                                    alt={groupName}
+                                    draggable={false}
+                                />
+
+                                <label>
+                                    <input
+                                        type={"file"}
+                                        accept={"image/*"}
+                                    />
+
+                                    <div className={"edit-icon"}>
+                                        <Edit/>
+                                    </div>
+                                </label>
+                            </div>
+
                             <InputCustom>
                                 <input
-                                    value={sessionName}
-                                    onChange={(e) => setSessionName(e.target.value)}
+                                    value={groupName}
+                                    onChange={(e) => setGroupName(e.target.value)}
                                 />
 
                                 <span>
-                                      <FilePlus/> Nome da Sessão
+                                      <FilePlus/> Nome do Grupo
                                    </span>
                             </InputCustom>
+
+                            <Autocomplete
+                                freeSolo
+                                multiple
+                                id="size-small-outlined-multi"
+                                size="small"
+                                options={contacts}
+                                getOptionLabel={(option) => option}
+                                onChange={onTagsChange}
+                                style={{marginBottom: "1em"}}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        variant="outlined"
+                                        placeholder="Adicione um contato"
+                                    />
+                                )}
+                            />
                         </div>
+
+
                     </ListMenu>
 
                     <Footer>
                         <CancelButton onClick={onClose}>
-                            Descartar
+                            Em breve
                         </CancelButton>
-                        <SendButton onClick={onSubmitForm}>
-                            Criar
-                        </SendButton>
+                        {/*<SendButton onClick={onSubmitForm}>*/}
+                        {/*    Criar*/}
+                        {/*</SendButton>*/}
                     </Footer>
-                </div>
+                </Container>
             </Modal>
         </div>
     );

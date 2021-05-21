@@ -12,8 +12,9 @@ import MicRecorder from "mic-recorder-to-mp3";
 
 const SendMessagePage = () => {
     const dropRef = useRef(null);
-    const [messages, setMessages] = useState([]);
+    const [allMessages, setAllMessages] = useState([]);
     const [chats, setChats] = useState([]);
+    const [dados, setDados] = useState([]);
     const [choosedContact, setChoosedContact] = useState([]);
     const [message, setMessage] = useState("");
     const chatRef = useRef(null);
@@ -75,7 +76,7 @@ const SendMessagePage = () => {
 
         if (choosedContact.id !== undefined) {
             if (choosedContact.id._serialized === data.response.chatId || data.response.fromMe && choosedContact.id._serialized === data.response.to) {
-                setMessages((prevState) => {
+                setAllMessages((prevState) => {
                     return [...prevState, data.response];
                 });
                 scrollToBottom();
@@ -158,11 +159,13 @@ const SendMessagePage = () => {
 
     async function getAllChats() {
         try {
-            const response = await api.get(`${getSession()}/all-chats`, config);
-            setChats(response.data.response);
+            const {data} = await api.get(`${getSession()}/all-chats`, config);
+            setChats(data.response);
+            setDados(data.response);
         } catch (e) {
-            const response = await api.get(`${getSession()}/all-chats`, config);
-            setChats(response.data.response);
+            const {data} = await api.get(`${getSession()}/all-chats`, config);
+            setChats(data.response);
+            setDados(data.response);
         }
     }
 
@@ -176,11 +179,11 @@ const SendMessagePage = () => {
         setChoosedContact(contact);
 
         try {
-            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`,config);
-            setMessages(response.data.response);
+            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
+            setAllMessages(response.data.response);
         } catch (e) {
             const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
-            setMessages(response.data.response);
+            setAllMessages(response.data.response);
         }
 
         scrollToBottom();
@@ -230,11 +233,11 @@ const SendMessagePage = () => {
     }
 
     function searchChat(e) {
-        let query = e.target.value;
+        const {value} = e.target;
 
-        let users = chats.filter((filtro) => {
+        const users = chats.filter((filtro) => {
                 if (filtro.name !== undefined && filtro.id._serialized !== undefined) {
-                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(query.toLowerCase()) > -1 || filtro.id._serialized.indexOf(query) > -1;
+                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(value.toLowerCase()) > -1 || filtro.id._serialized.indexOf(value) > -1;
                 } else {
                     return [];
                 }
@@ -243,8 +246,8 @@ const SendMessagePage = () => {
 
         setChats(users);
 
-        if (query === "") {
-            // setChats(data);
+        if (value === "") {
+            setChats(dados);
         }
     }
 
@@ -278,7 +281,7 @@ const SendMessagePage = () => {
 
                         <ul ref={chatRef}>
                             {
-                                messages.length <= 0 ? (
+                                allMessages.length <= 0 ? (
                                     <WaitingContainer>
                                         <div>
                                             <img src={ImageLoader} alt={"Smartphone"}/>
@@ -296,7 +299,7 @@ const SendMessagePage = () => {
                                 ) : (
                                     <div>
                                         {
-                                            messages.map((message, index) => {
+                                            allMessages.map((message, index) => {
                                                 return (
                                                     <li key={index}>
                                                         <ChatComponent

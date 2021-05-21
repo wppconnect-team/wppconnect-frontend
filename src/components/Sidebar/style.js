@@ -51,7 +51,7 @@ export const MenuItems = styled.section`
     align-items: center;
     border-radius: .4rem;
     color: #6e6f73;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 500;
     text-decoration: none;
     width: 100%;
@@ -69,7 +69,7 @@ export const ChangeSession = styled.div`
   padding: 10px 1em;
   border-top: 1px solid rgba(0, 0, 0, .1);
   border-bottom: 1px solid rgba(0, 0, 0, .1);
-  font-size: 1.6rem;
+  font-size: 1rem;
 
   .online-circle {
     width: 7px;
@@ -94,7 +94,7 @@ export const InfoSession = styled.div`
   display: flex;
   align-items: center;
   padding: 1em 10px;
-  font-size: 1.6rem;
+  font-size: 1rem;
   cursor: default;
 
   div {
@@ -110,7 +110,7 @@ export const InfoSession = styled.div`
   }
 
   a {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-top: 10px;
     color: #f64747;
   }

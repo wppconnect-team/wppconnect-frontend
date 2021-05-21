@@ -101,10 +101,12 @@ export default function NewSessionPage() {
                 login(JSON.stringify({session: session, token: token}));
             } else {
                 if (defaultKey() !== null) {
-                    await api.close(`${session}/close-session`);
+                    console.log("1 aqui");
+                    await api.post(`${session}/close-session`, null, config);
                     await signSession();
                     login(JSON.stringify({session: session, token: token}));
                 } else {
+                    console.log("2 aqui");
                     window.location.href = "chat";
                     login(JSON.stringify({session: session, token: token}));
                 }

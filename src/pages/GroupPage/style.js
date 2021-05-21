@@ -74,7 +74,7 @@ export const LeftContainer = styled.div`
 
           p {
             color: #808292;
-            font-size: 14px;
+            font-size: 1rem;
             line-height: 21px;
           }
         }

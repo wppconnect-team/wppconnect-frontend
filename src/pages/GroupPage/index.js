@@ -5,11 +5,21 @@ import api from "../../services/api";
 import {getSession} from "../../services/auth";
 import config from "../../util/sessionHeader";
 import {DataGrid} from "@material-ui/data-grid";
-import {UserPlus, FilePlus, ListOrdered, Bot} from "lucide-react";
+import {FilePlus, ListOrdered, UserPlus} from "lucide-react";
+import ModalCreateGroup from "../../components/Group/CreateGroup";
 
 const GroupPage = () => {
     const [groups, setGroups] = useState([]);
     const [, setSelected] = useState(1);
+    const [openModalCreate, setOpenModalCreate] = useState(false);
+
+    const handleOpenCreate = () => {
+        setOpenModalCreate(true);
+    };
+
+    const handleCloseCreate = () => {
+        setOpenModalCreate(false);
+    };
 
     const columns = [
         {
@@ -24,10 +34,18 @@ const GroupPage = () => {
         },
     ];
 
+    const rows = groups.map((grupo, index) => {
+        return {
+            key: index,
+            id: grupo.id._serialized,
+            name: grupo.name,
+        };
+    });
+
     useEffect(() => {
         async function getAllGroups() {
-            const {data: allGroups} = await api.post(`${getSession()}/show-all-groups`, null, config);
-            setGroups(allGroups.groups);
+            const {data: allGroups} = await api.get(`${getSession()}/all-groups`, config);
+            setGroups(allGroups.response);
         }
 
         getAllGroups();
@@ -36,6 +54,7 @@ const GroupPage = () => {
 
     return (
         <Layout>
+            <ModalCreateGroup handleClose={handleCloseCreate} open={openModalCreate}/>
             <Container>
                 <LeftContainer>
                     <ul>
@@ -55,7 +74,10 @@ const GroupPage = () => {
                             </div>
                         </li>
 
-                        <li onClick={() => setSelected(1)}>
+                        <li onClick={() => {
+                            setSelected(1);
+                            handleOpenCreate();
+                        }}>
                             <div className={"wrapper-li"}>
                                 <div className={"wrapper-ic"}>
                                     <FilePlus/>
@@ -86,22 +108,6 @@ const GroupPage = () => {
                                 </div>
                             </div>
                         </li>
-
-                        <li onClick={() => setSelected(3)}>
-                            <div className={"wrapper-li"}>
-                                <div className={"wrapper-ic"}>
-                                    <Bot/>
-                                </div>
-                                <div className={"wrapper-text"}>
-                                    <h2>
-                                        Boas Vindas
-                                    </h2>
-                                    <p>
-                                        Configure uma mensagem de boas vindas quando um usuário entrar em seu grupo.
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                 </LeftContainer>
 
@@ -123,7 +129,7 @@ const GroupPage = () => {
                             shape="rounded"
                             pageSize={15}
                             columns={columns}
-                            rows={groups}
+                            rows={rows}
                         />
                     </TableContainer>
                 </RightContainer>

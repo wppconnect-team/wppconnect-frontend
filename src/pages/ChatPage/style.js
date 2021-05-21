@@ -191,7 +191,7 @@ export const ChatContainer = styled.div`
   z-index: 1;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .bottom-container {
@@ -296,7 +296,7 @@ export const WaitingContainer = styled.div`
     margin-top: .5em;
     color: #000;
     width: 350px;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
 

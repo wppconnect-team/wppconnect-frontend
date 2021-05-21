@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.24",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
     "emoji-regex": "^9.2.2",
     "eslint-plugin-react": "^7.23.2",

@@ -35,7 +35,7 @@ export default createGlobalStyle`
   }
 
   html {
-    font-size: 10px;
+    font-size: 14px;
 
     -webkit-appearance: none;
     -moz-appearance: none;

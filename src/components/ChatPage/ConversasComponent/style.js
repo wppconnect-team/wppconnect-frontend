@@ -41,7 +41,7 @@ export const Layout = styled.aside`
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 400;
     margin-left: 1em;
     //margin-bottom: .5em;
@@ -88,7 +88,7 @@ export const SearchComponent = styled.div`
 
   :hover {
     input {
-      cursor: pointer;
+      //cursor: pointer;
     }
 
     svg {
@@ -141,7 +141,7 @@ export const UserData = styled.div`
   }
 
   .contact-name {
-    font-weight: 600;
-    font-size: 1.5rem;
+    font-weight: 500;
+    font-size: 1.3rem;
   }
 `;

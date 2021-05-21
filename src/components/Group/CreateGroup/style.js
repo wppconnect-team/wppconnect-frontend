@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+`;
+
 export const Header = styled.header`
   padding: 1.5em 2em;
   display: flex;
@@ -34,6 +40,41 @@ export const ListMenu = styled.div`
   list-style-type: none;
   padding: 0 2em;
 
+  #profile-image {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    margin-bottom: 2em;
+    position: relative;
+
+    input {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .edit-icon {
+      background: #fff;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, .5);
+      padding: 10px;
+      cursor: pointer;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+      }
+    }
+  }
+
   .container {
     display: flex;
     flex-direction: column;
@@ -57,7 +98,7 @@ export const ListMenu = styled.div`
     font-weight: 600;
     margin-bottom: 10px;
   }
-`
+`;
 
 export const InputCustom = styled.div`
   display: flex;
@@ -131,6 +172,7 @@ export const CancelButton = styled.button`
   border-radius: 15px;
   cursor: pointer;
   transition-duration: 200ms;
+  border: 0;
 
   :hover {
     background: #b8b8b8;
@@ -146,6 +188,7 @@ export const SendButton = styled.button`
   transition-duration: 200ms;
   margin-left: 1em;
   font-weight: 600;
+  border: 0;
 
   :hover {
     background: #4237af;

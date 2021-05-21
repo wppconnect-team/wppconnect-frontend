@@ -21,9 +21,16 @@ const ContactsPage = () => {
     }, []);
 
     async function getAllContacts() {
-        const response = await api.get(`${getSession()}/show-all-contacts`, config);
-        setContacts(response.data.response);
-        setData(response.data.response);
+        const {data} = await api.get(`${getSession()}/all-contacts`, config);
+        const arr = [];
+
+        for (const contact of data.response) {
+            if (contact.isMyContact && contact.id.user !== undefined)
+                arr.push(contact);
+        }
+
+        setContacts(arr);
+        setData(arr);
     }
 
     const rows = contacts.map((contato, index) => {
@@ -77,6 +84,7 @@ const ContactsPage = () => {
             setContacts(data);
         }
     }
+
 
     return (
         <Layout>
