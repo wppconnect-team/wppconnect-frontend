@@ -6,7 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import {CircularProgress, TextField} from "@material-ui/core";
 import {FilePlus, X} from "lucide-react";
-import {CancelButton, Container, Footer, Header, InputCustom, ListMenu, SendButton} from "./style";
+import {CancelButton, Container, Footer, Header, InputCustom, ListMen} from "./style";
 import PropTypes from "prop-types";
 import {getSession} from "../../../services/auth";
 import api from "../../../services/api";
@@ -95,7 +95,7 @@ function ModalCreateGroup({open, handleClose}) {
         setOpenAlert(false);
     };
 
-    async function onSubmitForm() {
+    /*async function onSubmitForm() {
         if (groupName !== "") {
             try {
                 handleToggleBackdrop();
@@ -115,7 +115,7 @@ function ModalCreateGroup({open, handleClose}) {
                 handleCloseBackdrop();
             }
         }
-    }
+    }*/
 
     function onClose() {
         handleClose();
