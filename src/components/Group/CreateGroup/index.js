@@ -6,7 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import {CircularProgress, TextField} from "@material-ui/core";
 import {FilePlus, X} from "lucide-react";
-import {CancelButton, Container, Footer, Header, InputCustom, ListMenu} from "./style";
+import {CancelButton, Container, Footer, Header, InputCustom, ListMenu, SendButton} from "./style";
 import PropTypes from "prop-types";
 import {getSession} from "../../../services/auth";
 import api from "../../../services/api";
@@ -95,16 +95,18 @@ function ModalCreateGroup({open, handleClose}) {
         setOpenAlert(false);
     };
 
-    /*async function onSubmitForm() {
+    async function onSubmitForm() {
         if (groupName !== "") {
             try {
                 handleToggleBackdrop();
 
-                const data = {
-                    participants: tagsChoosed,
-                    name: groupName
-                };
-                await api.post(`${getSession()}/create-group`, data, config);
+                console.log(tagsChoosed);
+
+                // const data = {
+                //     participants: tagsChoosed,
+                //     name: groupName
+                // };
+                // await api.post(`${getSession()}/create-group`, data, config);
 
                 setTimeout(() => {
                     handleCloseBackdrop();
@@ -115,7 +117,7 @@ function ModalCreateGroup({open, handleClose}) {
                 handleCloseBackdrop();
             }
         }
-    }*/
+    }
 
     function onClose() {
         handleClose();
@@ -219,9 +221,9 @@ function ModalCreateGroup({open, handleClose}) {
                         <CancelButton onClick={onClose}>
                             Em breve
                         </CancelButton>
-                        {/*<SendButton onClick={onSubmitForm}>*/}
-                        {/*    Criar*/}
-                        {/*</SendButton>*/}
+                        <SendButton onClick={onSubmitForm}>
+                            Criar
+                        </SendButton>
                     </Footer>
                 </Container>
             </Modal>
