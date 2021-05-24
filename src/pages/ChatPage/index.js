@@ -179,7 +179,8 @@ const SendMessagePage = () => {
         setChoosedContact(contact);
 
         try {
-            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
+            const endpoint = contact.isGroup ? "chat-group-by-id" : "chat-by-id";
+            const response = await api.get(`${getSession()}/${endpoint}/${contact.id.user}`, config);
             setAllMessages(response.data.response);
         } catch (e) {
             const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
