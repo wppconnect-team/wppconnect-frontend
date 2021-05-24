@@ -105,3 +105,15 @@ export const MessageContentText = styled.div`
   overflow-wrap: break-word;
   white-space: pre-wrap;
 `;
+
+export const MessageHeaderText = styled.div`
+  display: flex;
+  padding: 5px 0px;
+  border-radius: 5px;
+  margin: ${({side}) => side === "left" ? "0 auto 0 0" : "0 0 0 auto"};
+  position: relative;
+  font-size: 1rem;
+  color: #999;
+  font-family: "Inter",sans-serif;
+  
+`;

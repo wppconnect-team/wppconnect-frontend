@@ -5,6 +5,7 @@ import {
     MessageContainer,
     MessageContent,
     MessageContentText,
+    MessageHeaderText,
     StickerComponent
 } from "./style";
 import AudioComponent from "../AudioComponent";
@@ -17,7 +18,7 @@ import {Download} from "react-feather";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
-const ChatComponent = ({message, session, isMe}) => {
+const ChatComponent = ({message, session, isMe,sendHeader}) => {
     const imageRef = useRef(null);
     const audioRef = useRef(null);
     const [audioUrl, setAudioUrl] = useState(undefined);
@@ -25,10 +26,22 @@ const ChatComponent = ({message, session, isMe}) => {
     const [openModalImage, setOpenModalImage] = React.useState(false);
     const [clickedUrl, setClickedUrl] = useState("");
     const textRef = useRef(null);
+    const messageHeader = getMessageHeader();
 
     useEffect(() => {
         formatWppMarkdown(textRef);
     }, [textRef]);
+
+    function getMessageHeader() {
+        let msg = "";
+        if(message.isGroupMsg && message.sender  && message.sender.name){
+            msg += `${message.sender.name} - `;
+        }
+
+        let dt = new Date(message.timestamp * 1000);
+        msg += `${dt.getHours()}:${dt.getMinutes()} - ${dt.getDate()}/${dt.getMonth()} `;
+        return msg;
+    }
 
     const onClickDownload = async (type, option) => {
         const response = await api.get(`${session}/get-media-by-message/${message.id}`, config);
@@ -68,6 +81,15 @@ const ChatComponent = ({message, session, isMe}) => {
             />
 
             <MessageContainer side={isMe}>
+                {
+                    sendHeader ? (
+                        <MessageHeaderText side={isMe}>
+                            <span>{messageHeader}</span>
+                        </MessageHeaderText>
+                    ) : (
+                        ""
+                    )
+                }
                 <MessageContent side={isMe}>
                     {
                         message.isMedia ? (
@@ -144,6 +166,7 @@ ChatComponent.propTypes = {
     message: PropTypes.any.isRequired,
     session: PropTypes.string.isRequired,
     isMe: PropTypes.string.isRequired,
+    sendHeader: PropTypes.string.isRequired,
 };
 
 export default ChatComponent;

@@ -25,6 +25,7 @@ const SendMessagePage = () => {
     const [stop, setStop] = useState(true);
     const [isBlocked, setIsBlocked] = useState(false);
     const recorder = useMemo(() => new MicRecorder({bitRate: 128}), []);
+    let messagesMinutes = [];
 
     useEffect(() => {
         async function checkConnection() {
@@ -183,7 +184,8 @@ const SendMessagePage = () => {
             const response = await api.get(`${getSession()}/${endpoint}/${contact.id.user}`, config);
             setAllMessages(response.data.response);
         } catch (e) {
-            const response = await api.get(`${getSession()}/chat-by-id/${contact.id.user}`, config);
+            const endpoint = contact.isGroup ? "chat-group-by-id" : "chat-by-id";
+            const response = await api.get(`${getSession()}/${endpoint}/${contact.id.user}`, config);
             setAllMessages(response.data.response);
         }
 
@@ -213,6 +215,18 @@ const SendMessagePage = () => {
         }
     }
 
+    function checkIfSendHeader(message){
+        let dt = new Date(message.timestamp * 1000);
+        let minute = ("0" + dt.getMinutes()).substr(-2);
+        if(!messagesMinutes[message.from]){
+            messagesMinutes[message.from] = [];
+        }
+        if(!messagesMinutes[message.from][minute]){
+            messagesMinutes[message.from][minute] = true;
+            return true;
+        }
+        return false;
+    }
     function onChangeAnexo(e) {
         if (e.target.files && e.target.files[0]) {
             let reader = new FileReader();
@@ -301,6 +315,10 @@ const SendMessagePage = () => {
                                     <div>
                                         {
                                             allMessages.map((message, index) => {
+                                                if(!(message.body || ["document", "ptt"].includes(message.type))){
+                                                    return;
+                                                }
+                                                let sendHeader = checkIfSendHeader(message);
                                                 return (
                                                     <li key={index}>
                                                         <ChatComponent
@@ -308,6 +326,7 @@ const SendMessagePage = () => {
                                                             session={getSession()}
                                                             token={getToken()}
                                                             message={message}
+                                                            sendHeader={sendHeader}
                                                         />
                                                     </li>
                                                 );
