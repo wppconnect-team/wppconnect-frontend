@@ -69,6 +69,11 @@ const SendMessagePage = () => {
     listenerMessages((err, data) => {
         if (err) return;
 
+        if (!data.response.fromMe) {
+            const audio = new Audio(NotificationSound);
+            audio.play();
+        }
+
         (async function () {
             const {data: {response}} = await api.get(`${getSession()}/all-chats-with-messages`, config());
 
@@ -81,9 +86,6 @@ const SendMessagePage = () => {
 
             setChats(arr);
             setDados(arr);
-
-            const audio = new Audio(NotificationSound);
-            await audio.play();
         })()
 
         if (chatRef.current !== null) {
