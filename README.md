@@ -5,12 +5,19 @@
 
 ## Installation
 
-WPPConnect FrontEnd has been designed to demonstrate how multi-session works dynamically. **The project was developed in ReactJS**:
+WPPConnect FrontEnd has been designed to demonstrate how multi-session works dynamically. **The project was developed in ReactJS**
+
+## Change port backend
+
+To change host and port, just access [config.js](/public/config.js).
+
+And change the value of **window.IP_SERVER** & **window.IP_SOCKET_IO**
 
 ## Get Started
 To run the project is very simple, just follow the steps below.
 
 Clone the repository and open the unzipped project and run the following command in the terminal:
+
 
 **Installing**
 
