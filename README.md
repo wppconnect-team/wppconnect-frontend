@@ -38,7 +38,7 @@ npm start
 - [x] Receive Images
 - [x] Receive Audio
 - [x] Receive Sticker
-- [ ] Send Images
+- [x] Send Images
 
 ## API
 
