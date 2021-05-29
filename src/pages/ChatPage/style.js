@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ImageBg from "../../assets/bgarticle.svg";
 
 export const Layout = styled.div`
   height: 100%;
@@ -10,23 +9,6 @@ export const Layout = styled.div`
 
   justify-content: center;
   align-items: center;
-
-  ::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: url("${ImageBg}");
-    background-size: cover;
-    background-position: top center;
-    filter: blur(10px);
-    opacity: .3;
-    overflow: hidden;
-    width: 100%;
-  }
 `;
 
 export const Container = styled.div`
@@ -198,7 +180,7 @@ export const HeaderContact = styled.header`
 export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: #e5ddd5;
+  background: #F9FAFC;
 
   border-radius: 3px;
   border: 1px solid #e9e9e9;
@@ -207,9 +189,9 @@ export const ChatContainer = styled.div`
   height: 100%;
   position: relative;
   z-index: 1;
-  
+
   h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .bottom-container {
@@ -220,6 +202,12 @@ export const ChatContainer = styled.div`
     padding: 15px;
     border-top: 1px solid rgba(0, 0, 0, .1);
     background: #f0f0f0;
+
+    label {
+      input[type=file] {
+        display: none;
+      }
+    }
 
     input {
       width: 100%;
@@ -235,6 +223,11 @@ export const ChatContainer = styled.div`
       color: #666;
       transition-duration: 200ms;
 
+      :nth-child(1) {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
       :hover {
         color: #000;
       }
@@ -247,6 +240,25 @@ export const ChatContainer = styled.div`
     overflow: auto;
     padding: 2em;
     list-style-type: none;
+
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #9a9a9a;
+      transition-duration: 200ms;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a5a5a5;
+    }
 
     li {
       display: flex;
@@ -265,19 +277,20 @@ export const WaitingContainer = styled.div`
   height: 100%;
 
   img {
-    width: 200px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 2em;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.3rem;
   }
 
   p {
     margin-top: .5em;
     color: #000;
     width: 350px;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
 
@@ -290,6 +303,40 @@ export const WaitingContainer = styled.div`
     }
     100% {
       transform: scale(1);
+    }
+  }
+
+`;
+
+export const Contador = styled.div`
+  display: block;
+  width: 160px;
+  min-width: 160px;
+
+  .main-cont {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    svg {
+      cursor: pointer;
+      width: 26px;
+      height: 26px;
+
+      :nth-child(1) {
+        color: #c25252;
+      }
+
+      :nth-child(3) {
+        color: #569241;
+      }
+    }
+
+    .counter {
+      p {
+        font-size: 16px;
+        text-align: center;
+      }
     }
   }
 

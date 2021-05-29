@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import {BottomItems, ChangeSession, Container, InfoSession, Layout, MenuItems} from "./style";
+import {BottomItems, ChangeSession, Container, InfoSession, Layout, LogoutButton, MenuItems} from "./style";
 import {NavLink} from "react-router-dom";
-import {BarChart, MessageCircle, Settings, User} from "react-feather";
+import {BarChart, LogOut, MessageCircle, Settings, User, Users} from "react-feather";
 import ChangeSessionDialog from "../ChangeSession";
-import {getSession} from "../../services/auth";
+import {getSession, getToken} from "../../services/auth";
+import api from "../../services/api";
 
 const Sidebar = () => {
     const [openDialog, setOpenDialog] = useState(false);
@@ -22,6 +23,27 @@ const Sidebar = () => {
         e.preventDefault();
     };
 
+    async function logoutSession(e) {
+        e.preventDefault();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        }
+        await api.post(`${getSession()}/logout-session`, null, config);
+        window.location.href = "/";
+    }
+
+    async function closeSession() {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        }
+        await api.post(`${getSession()}/close-session`, null, config);
+        window.location.href = "/nova-sessao";
+    }
 
     return (
         <Layout>
@@ -35,13 +57,19 @@ const Sidebar = () => {
                 <MenuItems>
                     <li>
                         <NavLink to={"chat"} activeClassName={"selected"}>
-                            <MessageCircle/> Conversas
+                            <MessageCircle/> Chat
                         </NavLink>
                     </li>
 
                     <li>
                         <NavLink to={"contatos"} activeClassName={"selected"}>
-                            <User/> Contatos
+                            <User/> Contacts
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to={"grupo"} activeClassName={"selected"}>
+                            <Users/> Groups
                         </NavLink>
                     </li>
 
@@ -52,7 +80,7 @@ const Sidebar = () => {
                             onClick={(e) => handleClickDisabled(e)}
                             className={"disabled"}
                         >
-                            <BarChart/> Relatórios
+                            <BarChart/> Reports
                         </NavLink>
                     </li>
 
@@ -62,7 +90,17 @@ const Sidebar = () => {
                             activeClassName={"selected"}
                             onClick={(e) => handleClickDisabled(e)}
                             className={"disabled"}>
-                            <Settings/> Configurações
+                            <Settings/> Settings
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink
+                            to={"sair"}
+                            activeClassName={"selected"}
+                            onClick={(e) => logoutSession(e)}
+                        >
+                            <LogOut/> Disconnect device
                         </NavLink>
                     </li>
                 </MenuItems>
@@ -81,7 +119,7 @@ const Sidebar = () => {
                                 e.preventDefault();
                                 handleClickOpen();
                             }}>
-                                Alterar
+                                Change
                             </a>
                         </div>
                     </ChangeSession>
@@ -94,10 +132,14 @@ const Sidebar = () => {
                                 {selectedValue}
                             </p>
                             <small>
-                                Sessão ativa
+                                Active Session
                             </small>
                         </div>
                     </InfoSession>
+
+                    <LogoutButton onClick={() => closeSession()}>
+                        Logout
+                    </LogoutButton>
                 </BottomItems>
             </Container>
         </Layout>

@@ -7,7 +7,9 @@ export const Layout = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  height: 93%;
+  height: 100%;
+
+  display: flex;
 `;
 
 export const HeaderComponent = styled.header`
@@ -20,7 +22,7 @@ export const HeaderComponent = styled.header`
   border-bottom: 1px solid rgba(0, 0, 0, .1);
 
   h2 {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 500;
   }
 
@@ -54,13 +56,13 @@ export const TableContainer = styled.section`
     border: 0;
 
     .MuiDataGrid-colCellWrapper {
-      font-size: 1.4rem;
+      font-size: 1rem;
       background-color: #fafafa;
       text-transform: uppercase;
     }
 
     .MuiDataGrid-cell {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 

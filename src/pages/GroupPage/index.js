@@ -1,105 +1,63 @@
 import React, {useEffect, useState} from "react";
-import {Container, HeaderComponent, Layout, TableContainer} from "./style";
-import {DataGrid} from "@material-ui/data-grid";
+import {Container, Layout, LeftContainer, RightContainer} from "./style";
+import {HeaderComponent, TableContainer} from "../Contacts/style";
 import api from "../../services/api";
 import {getSession} from "../../services/auth";
 import config from "../../util/sessionHeader";
-import {LeftContainer, RightContainer} from "../GroupPage/style";
-import {ListOrdered, Sheet, UserPlus} from "lucide-react";
-import {
-    JsonToCsv,
-    useJsonToCsv
-} from 'react-json-csv';
+import {DataGrid} from "@material-ui/data-grid";
+import {FilePlus, ListOrdered, Sheet, UserPlus} from "lucide-react";
+import ModalCreateGroup from "../../components/Group/CreateGroup";
+import {useJsonToCsv} from 'react-json-csv';
 
 const {saveAsCsv} = useJsonToCsv();
 
-const ContactsPage = () => {
-    const [data, setData] = useState([]);
-    const [contacts, setContacts] = useState([]);
-    const [, setSelected] = useState([]);
+const GroupPage = () => {
+    const [groups, setGroups] = useState([]);
+    const [, setSelected] = useState(1);
+    const [openModalCreate, setOpenModalCreate] = useState(false);
 
-    useEffect(() => {
-        getAllContacts();
+    const handleOpenCreate = () => {
+        setOpenModalCreate(true);
+    };
 
-        return () => {
-            setContacts([]);
-        };
-    }, []);
-
-    async function getAllContacts() {
-        const {data} = await api.get(`${getSession()}/all-contacts`, config());
-        const arr = [];
-
-        for (const contact of data.response) {
-            if (contact.isMyContact && contact.id.user !== undefined)
-                arr.push(contact);
-        }
-
-        setContacts(arr);
-        setData(arr);
-    }
-
-    const rows = contacts.map((contato, index) => {
-        return {
-            id: index,
-            profileImage: contato.name,
-            name: contato.name,
-            phone: contato.id._serialized
-        };
-    });
+    const handleCloseCreate = () => {
+        setOpenModalCreate(false);
+    };
 
     const columns = [
         {
-            field: "profileImage",
-            // eslint-disable-next-line react/display-name
-            renderCell: (params) => (
-                <img
-                    src={`https://ui-avatars.com/api/?name=${params.value === undefined ? "ND" : params.value}?background=random`}
-                    style={{width: 30, height: 30, borderRadius: "50%"}} alt={params.value}/>
-            ),
-            headerName: " ",
-            width: "10%"
-        },
-        {
-            field: "name",
-            headerName: "Nome",
+            field: "id",
+            headerName: "ID",
             width: "47.50%"
         },
         {
-            field: "phone",
-            headerName: "Telefone",
+            field: "name",
+            headerName: "Name",
             width: "47.50%"
         },
     ];
 
-    function searchContact(e) {
-        let query = e.target.value;
+    const rows = groups.map((grupo, index) => {
+        return {
+            key: index,
+            id: grupo.id._serialized,
+            name: grupo.name,
+        };
+    });
 
-        let users = data.filter((filtro) => {
-                if (filtro.name !== undefined && filtro.id._serialized !== undefined) {
-                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(query.toLowerCase()) > -1 || filtro.id._serialized.indexOf(query) > -1;
-                } else {
-                    return [];
-                }
-            }
-        );
-
-        setContacts(users);
-
-        if (query === "") {
-            setContacts(data);
+    useEffect(() => {
+        async function getAllGroups() {
+            const {data: allGroups} = await api.get(`${getSession()}/all-groups`, config());
+            setGroups(allGroups.response);
         }
-    }
 
-    const columnsExcel = () => {
-        return ({
-            "name": "Name",
-            "phone": "Phone"
-        })
-    }
+        getAllGroups();
+
+    }, []);
 
     return (
         <Layout>
+            <ModalCreateGroup handleClose={handleCloseCreate} open={openModalCreate}/>
             <Container>
                 <LeftContainer>
                     <ul>
@@ -110,10 +68,29 @@ const ContactsPage = () => {
                                 </div>
                                 <div className={"wrapper-text"}>
                                     <h2>
-                                        All Contacts
+                                        All Groups
                                     </h2>
                                     <p>
                                         Manage all your groups.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li onClick={() => {
+                            setSelected(1);
+                            handleOpenCreate();
+                        }}>
+                            <div className={"wrapper-li"}>
+                                <div className={"wrapper-ic"}>
+                                    <FilePlus/>
+                                </div>
+                                <div className={"wrapper-text"}>
+                                    <h2>
+                                        Create Group
+                                    </h2>
+                                    <p>
+                                        Create a WhatsApp group in an automated way.
                                     </p>
                                 </div>
                             </div>
@@ -126,10 +103,10 @@ const ContactsPage = () => {
                                 </div>
                                 <div className={"wrapper-text"}>
                                     <h2>
-                                        Add Contacts (Soon)
+                                        Invite Participants
                                     </h2>
                                     <p>
-                                        Add contacts remotely.
+                                        Invite participants to your groups quickly.
                                     </p>
                                 </div>
                             </div>
@@ -138,8 +115,8 @@ const ContactsPage = () => {
                         <li onClick={() => {
                             saveAsCsv({
                                 data: rows,
-                                fields: {"name": "Name", "phone": "Phone"},
-                                filename: `contacts-${getSession()}`
+                                fields: {"id": "ID", "name": "Name"},
+                                filename: `group-${getSession()}`
                             });
                             setSelected(3);
                         }}>
@@ -149,10 +126,10 @@ const ContactsPage = () => {
                                 </div>
                                 <div className={"wrapper-text"}>
                                     <h2>
-                                        Export Contact List
+                                        Export Group List
                                     </h2>
                                     <p>
-                                        Export your contact list to excel.
+                                        Export your group list to excel.
                                     </p>
                                 </div>
                             </div>
@@ -163,11 +140,11 @@ const ContactsPage = () => {
                 <RightContainer>
                     <HeaderComponent>
                         <h2>
-                            Contacts
+                            Groups
                         </h2>
 
                         <div>
-                            <input placeholder={"Procurar contato..."} onChange={(e) => searchContact(e)}/>
+                            <input placeholder={"Procurar grupo..."}/>
                         </div>
                     </HeaderComponent>
 
@@ -187,4 +164,4 @@ const ContactsPage = () => {
     );
 };
 
-export default ContactsPage;
+export default GroupPage;

@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-import ImageBg from '../../assets/bgarticle.svg'
+import styled from "styled-components";
 
 export const Layout = styled.div`
   height: 100%;
@@ -9,24 +8,7 @@ export const Layout = styled.div`
 
   justify-content: center;
   align-items: center;
-
-  ::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: url("${ImageBg}");
-    background-size: cover;
-    background-position: top center;
-    filter: blur(10px);
-    opacity: .3;
-    overflow: hidden;
-    width: 100%;
-  }
-`
+`;
 
 export const Container = styled.div`
   height: 100%;
@@ -38,7 +20,7 @@ export const Container = styled.div`
 
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const TopContainer = styled.div`
   display: flex;
@@ -65,7 +47,7 @@ export const TopContainer = styled.div`
       transform: scale(1.1);
     }
   }
-`
+`;
 
 
 export const ChatContainer = styled.div`
@@ -133,7 +115,7 @@ export const ChatContainer = styled.div`
 
     }
   }
-`
+`;
 
 export const Formulario = styled.form`
   margin-top: 1em;
@@ -185,7 +167,7 @@ export const Formulario = styled.form`
       cursor: pointer;
     }
   }
-`
+`;
 
 export const WaitingContainer = styled.div`
   display: flex;
@@ -218,4 +200,4 @@ export const WaitingContainer = styled.div`
     }
   }
 
-`
+`;

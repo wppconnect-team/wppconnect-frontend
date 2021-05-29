@@ -17,12 +17,11 @@ const AudioComponent = ({url, isMe, profileImage, downloadAudio}) => {
 
     async function checkIsDownloaded() {
         if (audioPlayer.current.dataset.url === undefined) {
-            await downloadAudio("audio");
-            setTimeout(() => {
+            downloadAudio("audio").then(() => {
                 start();
-            }, 500);
+            });
         } else {
-            await start();
+            start();
         }
     }
 

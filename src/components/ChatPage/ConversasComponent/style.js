@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Layout = styled.label`
+export const Layout = styled.aside`
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -12,12 +12,31 @@ export const Layout = styled.label`
   overflow: hidden auto;
 
   position: relative;
+  transition-duration: 200ms;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #929090;
+    transition-duration: 200ms;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a5a5a5;
+  }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 400;
     margin-left: 1em;
-    //margin-bottom: .5em;
   }
 
   ul {
@@ -28,7 +47,13 @@ export const Layout = styled.label`
     //padding: 1em;
 
     li {
-      margin-top: 1em;
+      //margin-top: 1em;
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .active {
+      background: #F4F6FB;
+      border-left: 2px solid #4886FF;
     }
   }
 `;
@@ -42,7 +67,7 @@ export const SearchComponent = styled.div`
   transition-duration: 200ms;
   position: sticky;
   top: 0;
-  padding: 2em;
+  padding: 1em 2em;
   background: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   z-index: 1;
@@ -61,7 +86,7 @@ export const SearchComponent = styled.div`
 
   :hover {
     input {
-      cursor: pointer;
+      //cursor: pointer;
     }
 
     svg {
@@ -91,7 +116,7 @@ export const UserData = styled.div`
   transition-duration: 200ms;
 
   :hover {
-    transform: scale(1.03);
+    //transform: scale(1.03);
     background: aliceblue;
   }
 
@@ -106,15 +131,51 @@ export const UserData = styled.div`
   .principal-info {
     display: flex;
     flex-direction: column;
-  }
-
-  .contact-phone {
-    color: #999;
-    font-size: 1rem;
+    width: 100%;
   }
 
   .contact-name {
-    font-weight: 600;
-    font-size: 1.5rem;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+
+  .contact-message {
+    display: flex;
+    position: relative;
+    width: 100%;
+
+    .left {
+      color: #666;
+      font-size: 1rem;
+      font-weight: 400;
+      position: relative;
+      flex-grow: 1;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+
+    .unread-message {
+      position: absolute;
+      right: 0;
+      margin-left: 10px;
+
+      width: 15px;
+      height: 15px;
+      background: #6163FF;
+      box-shadow: 0 0 10px 1px rgb(115 103 240 / 70%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      //padding: 10px 10px;
+
+      p {
+        font-weight: 600;
+      }
+    }
   }
 `;

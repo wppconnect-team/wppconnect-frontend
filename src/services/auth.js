@@ -1,7 +1,5 @@
 export const TOKEN_KEY = "@WPPConnect-Token";
 
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
-
 export const defaultKey = () => localStorage.getItem(TOKEN_KEY);
 
 export const login = token => {

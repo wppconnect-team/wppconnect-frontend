@@ -6,7 +6,7 @@ export const Layout = styled.div`
   :root {
     --bg-color: #1b1b22;
     --green: #00e5c0;
-    --body-font-family: "Inter", sans-serif;
+    --body-font-family: "Jost", sans-serif;
     --player-color-featured: #00e5c0;
     --player-color-background: #262d31;
     --player-color-text: #c5c6c8;
@@ -148,7 +148,7 @@ export const Timeline = styled.div`
       flex: 1;
       all: unset;
       appearance: none;
-      background: transparent;
+      background: rgba(0, 0, 0, .3);
       border: none;
       outline: none;
       width: 100%;

@@ -31,11 +31,11 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+    font-family: "Jost", sans-serif;
   }
 
   html {
-    font-size: 10px;
+    font-size: 14px;
 
     -webkit-appearance: none;
     -moz-appearance: none;

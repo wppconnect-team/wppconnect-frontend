@@ -2,9 +2,10 @@ import React from "react";
 import {Route, Router, Switch} from "react-router-dom";
 import history from "../history";
 import SendMessagePage from "../pages/ChatPage";
-import ScanNewSession from "../pages/NewSessionPage";
+import ScanNewSession from "../pages/LoginPage";
 import ContactsPage from "../pages/Contacts";
 import Sidebar from "../components/Sidebar";
+import GroupPage from "../pages/GroupPage";
 
 const Routes = () => {
     return (
@@ -17,6 +18,7 @@ const Routes = () => {
                     <Sidebar/>
                     <Route path="/chat" component={SendMessagePage}/>
                     <Route path="/contatos" component={ContactsPage}/>
+                    <Route path="/grupo" component={GroupPage}/>
                 </div>
             </Switch>
         </Router>

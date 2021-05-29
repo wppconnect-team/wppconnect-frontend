@@ -5,29 +5,27 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.24",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
     "emoji-regex": "^9.2.2",
-    "eslint-plugin-react": "^7.23.2",
+    "lucide-react": "^0.15.11",
+    "mic-recorder-to-mp3": "^2.2.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.9",
+    "react-json-csv": "^2.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "serialize-javascript": "^5.0.1",
     "socket.io-client": "^4.0.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "sweetalert2": "^11.0.12"
   },
   "scripts": {
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "lint": "npx eslint -c .eslintrc.json --ext .js src",
     "start": "react-scripts start",
-    "test": "react-scripts test"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
@@ -42,7 +40,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
     "prop-types": "^15.7.2"
   }
 }

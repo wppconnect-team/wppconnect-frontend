@@ -1,6 +1,5 @@
 import React from 'react';
 import {ContactInfo, Layout, UserData} from "./style";
-import PropTypes from "prop-types";
 
 const defaultImage = 'https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png'
 
@@ -48,11 +47,6 @@ const ContactsComponent = ({contacts, onClickContact}) => {
             </ul>
         </Layout>
     );
-};
-
-ContactsComponent.propTypes = {
-    contacts: PropTypes.any.isRequired,
-    onClickContact: PropTypes.func.isRequired,
 };
 
 export default ContactsComponent;

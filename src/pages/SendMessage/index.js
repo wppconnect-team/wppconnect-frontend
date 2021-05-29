@@ -1,35 +1,34 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from "react";
 import {ChatContainer, Container, Formulario, Layout, TopContainer, WaitingContainer} from "./style";
 import {PlusCircle, Send} from "react-feather";
 import api, {socket} from "../../services/api";
 import history from "../../history";
-import HandWatch from '../../assets/hand-watch.png'
+import HandWatch from "../../assets/hand-watch.png";
 
 const SendMessagePage = () => {
-    const [sessions, setSessions] = useState([])
-    const [messages, setMessages] = useState([])
-    const [choosedSession, setChoosedSession] = useState("")
-    const [phone, setPhone] = useState("")
-    const [message, setMessage] = useState("")
-    const chatRef = useRef(null)
+    const [sessions, setSessions] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [choosedSession, setChoosedSession] = useState("");
+    const [phone, setPhone] = useState("");
+    const [message, setMessage] = useState("");
+    const chatRef = useRef(null);
 
     useEffect(() => {
         async function getSessions() {
-            const response = await api.get('mostrar-sessoes')
-            setSessions(response.data)
+            const response = await api.get("mostrar-sessoes");
+            setSessions(response.data);
         }
 
-        settingMessage()
-        getSessions()
-    }, [])
+        settingMessage();
+        getSessions();
+    }, []);
 
     async function settingMessage() {
-        socket.off('mensagem-recebida').on('mensagem-recebida', async (message) => {
+        socket.off("mensagem-recebida").on("mensagem-recebida", async (message) => {
             if (chatRef.current !== null) {
                 chatRef.current.scrollTop = chatRef.current.scrollHeight;
             }
 
-            console.log(message)
             let estruturaMessage = {
                 body: message.message.body,
                 username: message.message.chat.name,
@@ -37,26 +36,26 @@ const SendMessagePage = () => {
                 session: message.message.session,
                 fromMe: message.message.fromMe,
                 myPhone: message.message.from
-            }
+            };
 
             setMessages((prevState => {
-                return [...prevState, estruturaMessage]
-            }))
-        })
+                return [...prevState, estruturaMessage];
+            }));
+        });
     }
 
     async function sendMessage(e) {
-        e.preventDefault()
+        e.preventDefault();
         if (phone !== "" || message !== "" || choosedSession !== "") {
-            const params = new FormData()
-            params.append("phone", phone)
-            params.append("msg", message)
-            params.append("session", choosedSession)
-            await api.post('enviar-mensagem', params)
+            const params = new FormData();
+            params.append("phone", phone);
+            params.append("msg", message);
+            params.append("session", choosedSession);
+            await api.post("enviar-mensagem", params);
 
-            setMessage("")
+            setMessage("");
         } else {
-            alert("Preencha todos os dados antes de enviar")
+            alert("Preencha todos os dados antes de enviar");
         }
     }
 
@@ -119,7 +118,7 @@ const SendMessagePage = () => {
                                                 </div>
                                             </li>
                                         )
-                                    )
+                                    );
                                 })
                             )
                         }
@@ -138,7 +137,7 @@ const SendMessagePage = () => {
                                         <option key={index} value={session}>
                                             {session}
                                         </option>
-                                    )
+                                    );
                                 })
                             }
                         </select>

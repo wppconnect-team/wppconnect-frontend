@@ -1,11 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
-import {ChatLayout, ImageContainer, MessageContainer, MessageContent, StickerComponent} from "./style";
+import {
+    ChatLayout, DocumentComponent,
+    ImageContainer,
+    MessageContainer,
+    MessageContent,
+    MessageContentText,
+    StickerComponent
+} from "./style";
 import AudioComponent from "../AudioComponent";
 import api from "../../../services/api";
 import ImageModal from "./ImageModal";
 import PropTypes from "prop-types";
 import config from "../../../util/sessionHeader";
 import formatWppMarkdown from "../../../util/functionsMarkdown";
+import {Download} from "react-feather";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
@@ -14,7 +22,7 @@ const ChatComponent = ({message, session, isMe}) => {
     const audioRef = useRef(null);
     const [audioUrl, setAudioUrl] = useState(undefined);
     const [display, setDisplay] = useState("block");
-    const [openModalImage, setOpenModalImage] = React.useState(false);
+    const [openModalImage, setOpenModalImage] = useState(false);
     const [clickedUrl, setClickedUrl] = useState("");
     const textRef = useRef(null);
 
@@ -22,17 +30,22 @@ const ChatComponent = ({message, session, isMe}) => {
         formatWppMarkdown(textRef);
     }, [textRef]);
 
-    const onClickDownload = async (type) => {
-        const response = await api.post(`${session}/download-media`, {message: message}, config);
+    const onClickDownload = async (type, option) => {
+        const response = await api.get(`${session}/get-media-by-message/${message.id}`, config());
 
         if (type === "image") {
-            imageRef.current.src = response.data;
+            imageRef.current.src = `data:image/png;base64, ${response.data}`;
             setDisplay("none");
         } else if (type === "video") {
-            imageRef.current.src = response.data;
+            imageRef.current.src = `data:video/webm;base64, ${response.data}`;
             setDisplay("none");
         } else if (type === "audio") {
-            setAudioUrl(response.data);
+            setAudioUrl(`data:audio/ogg;base64, ${response.data}`);
+        } else if (type === "document") {
+            const a = document.createElement("a");
+            a.href = `data:${option.mimetype};base64, ${response.data}`;
+            a.download = `${option.filename}`;
+            a.click();
         }
     };
 
@@ -86,6 +99,18 @@ const ChatComponent = ({message, session, isMe}) => {
 
                                 </ImageContainer>
                             ) : null
+                        ) : message.type === "document" ? (
+                            <DocumentComponent
+                                side={isMe}
+                                onClick={() => onClickDownload("document", {
+                                    mimetype: message.mimetype,
+                                    filename: message.filename,
+                                    mediadata: message.mediadata
+                                })}>
+                                <p>{message.filename}</p>
+
+                                <Download/>
+                            </DocumentComponent>
                         ) : message.type === "ptt" ? (
                             <AudioComponent
                                 url={audioUrl}
@@ -102,9 +127,11 @@ const ChatComponent = ({message, session, isMe}) => {
                             />
                             // <StickerComponent src={message.body}/>
                         ) : (
-                            <p ref={textRef}>
-                                {message.body}
-                            </p>
+                            <MessageContentText>
+                                <span style={{width: "100%"}} ref={textRef}>
+                                    {message.body}
+                                </span>
+                            </MessageContentText>
                         )
                     }
                 </MessageContent>

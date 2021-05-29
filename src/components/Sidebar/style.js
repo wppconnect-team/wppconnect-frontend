@@ -4,6 +4,7 @@ export const Layout = styled.div`
   height: 100vh;
   width: 20%;
   border-right: 1px solid rgba(0, 0, 0, .1);
+  min-width: 250px;
 `;
 
 export const Container = styled.div`
@@ -25,7 +26,7 @@ export const MenuItems = styled.section`
   flex-direction: column;
   padding: 1em;
   list-style-type: none;
-  
+
   .selected {
     background: #f4f6fb;
     color: #47a7f6;
@@ -35,12 +36,31 @@ export const MenuItems = styled.section`
   li {
     display: flex;
     align-items: center;
-    padding: 10px;
-    //margin-bottom: 1em;
+    //padding: 10px;
+    margin-bottom: 1em;
     width: 100%;
-    
+    transition-duration: 200ms;
+    border-radius: .4rem;
+
+    :hover {
+      background: #f4f6fb;
+
+      * {
+        color: #47a7f6
+      }
+    }
+
     .disabled {
       cursor: not-allowed;
+      color: #999;
+
+      :hover {
+        background: #fff;
+
+        * {
+          color: #999;
+        }
+      }
     }
   }
 
@@ -50,7 +70,7 @@ export const MenuItems = styled.section`
     align-items: center;
     border-radius: .4rem;
     color: #6e6f73;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 500;
     text-decoration: none;
     width: 100%;
@@ -68,7 +88,7 @@ export const ChangeSession = styled.div`
   padding: 10px 1em;
   border-top: 1px solid rgba(0, 0, 0, .1);
   border-bottom: 1px solid rgba(0, 0, 0, .1);
-  font-size: 1.6rem;
+  font-size: 1rem;
 
   .online-circle {
     width: 7px;
@@ -93,7 +113,7 @@ export const InfoSession = styled.div`
   display: flex;
   align-items: center;
   padding: 1em 10px;
-  font-size: 1.6rem;
+  font-size: 1rem;
   cursor: default;
 
   div {
@@ -109,8 +129,22 @@ export const InfoSession = styled.div`
   }
 
   a {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-top: 10px;
     color: #f64747;
+  }
+`;
+
+export const LogoutButton = styled.p`
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  background: #f64747;
+  text-align: center;
+  padding: 10px;
+  transition-duration: 200ms;
+
+  :hover {
+    background: red;
   }
 `;

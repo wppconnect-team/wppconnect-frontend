@@ -1,11 +1,8 @@
 import axios from "axios";
 import {io} from "socket.io-client";
 
-const ip = "http://localhost:21465/api/";
-export const socket = io("http://localhost:21465/");
+const ip = window.IP_SERVER;
 
-export const api = axios.create({
-    baseURL: ip
-});
-
+export const socket = io(window.IP_SOCKET_IO);
+export const api = axios.create({baseURL: ip});
 export default api;
