@@ -43,3 +43,6 @@ npm start
 ## API
 
 This site uses [this project](https://github.com/wppconnect-team/wppconnect-server/) to populate the data. Then you will need something similar to run the project successfully.
+
+## Demo
+![Peek 2021-05-29 00-05](https://user-images.githubusercontent.com/40338524/120056309-aa5b0180-c011-11eb-848b-94569c32a8c6.gif)
