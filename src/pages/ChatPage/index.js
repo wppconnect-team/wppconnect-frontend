@@ -11,7 +11,6 @@ import MicRecorder from "mic-recorder-to-mp3";
 import BackdropComponent from "../../components/BackdropComponent";
 import NotificationSound from "../../assets/notification.mp3";
 import {listenerMessages} from "../../services/socket-listener";
-import history from "../../history";
 
 const SendMessagePage = () => {
     const dropRef = useRef(null);
@@ -29,12 +28,14 @@ const SendMessagePage = () => {
     const [isBlocked, setIsBlocked] = useState(false);
     const recorder = useMemo(() => new MicRecorder({bitRate: 128}), []);
     const [openLoading, setOpenLoading] = useState(false);
+    const [contacts, setContacts] = useState([]);
 
     useEffect(() => {
         async function checkConnection() {
             try {
                 await api.get(`${getSession()}/check-connection-session`, config());
                 await getAllChats();
+                await getAllContacts();
             } catch (e) {
                 // history.push("/");
             }
@@ -44,6 +45,7 @@ const SendMessagePage = () => {
 
         return () => {
             setChats([]);
+
         };
     }, []);
 
@@ -101,6 +103,18 @@ const SendMessagePage = () => {
             }
         }
     });
+
+    async function getAllContacts() {
+        const {data} = await api.get(`${getSession()}/all-contacts`, config());
+        const arr = [];
+
+        for (const contact of data.response) {
+            if (contact.isMyContact && contact.id.user !== undefined)
+                arr.push(contact);
+        }
+
+        setContacts(arr);
+    }
 
     function zerarCronometro() {
         setSegundos(0);
@@ -214,7 +228,6 @@ const SendMessagePage = () => {
         setOpenLoading(true);
 
         try {
-
             if (contact.id.includes("@g.us")) {
                 const {data} = await api.get(`${getSession()}/chat-by-id/${contact.id.replace("@g.us", "").replace("@g.us", "")}?isGroup=true`, config());
                 await api.post(`${getSession()}/send-seen`, {phone: contact.id.replace("@g.us", "")}, config());
@@ -224,7 +237,6 @@ const SendMessagePage = () => {
                 await api.post(`${getSession()}/send-seen`, {phone: contact.id.replace("@c.us", "")}, config());
                 setAllMessages(data.response);
             }
-
         } catch (e) {
             console.log(e);
         }
@@ -280,7 +292,16 @@ const SendMessagePage = () => {
     function searchChat(e) {
         const {value} = e.target;
 
-        const users = chats.filter((filtro) => {
+        const filterContact = contacts.filter((filtro) => {
+                if (filtro.name && filtro.id._serialized) {
+                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(value.toLowerCase()) > -1 || filtro.id._serialized.indexOf(value) > -1;
+                } else {
+                    return [];
+                }
+            }
+        );
+
+        const filterChat = chats.filter((filtro) => {
                 if (filtro.name && filtro.id) {
                     return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(value.toLowerCase()) > -1 || filtro.id.indexOf(value) > -1;
                 } else {
@@ -289,11 +310,38 @@ const SendMessagePage = () => {
             }
         );
 
-        setChats(users);
+        const searchArr = [];
+
+        for (const chat of filterChat) {
+            searchArr.push({
+                name: chat.name,
+                id: chat.id,
+                unreadCount: 0,
+            })
+        }
+
+        for (const contact of filterContact) {
+            searchArr.push({
+                name: contact.name,
+                id: contact.id._serialized,
+                unreadCount: 0,
+                msgs: null
+            })
+        }
+
+        const filterArr = removeDuplicates(searchArr);
+        setChats(filterArr);
 
         if (value === "") {
             setChats(dados);
         }
+    }
+
+    const removeDuplicates = (arr) => {
+        return arr.filter((item, index, self) => {
+            if (item.name)
+                return index === self.findIndex((t) => t.id === item.id && t.name && item.name)
+        })
     }
 
     return (

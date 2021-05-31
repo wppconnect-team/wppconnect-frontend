@@ -65,12 +65,10 @@ const ConversasComponent = ({chats, setChats, onSearch, onClickContact}) => {
                                             <div className={"principal-info"}>
                                                 <small className={"contact-name"}>
                                                     {contact.name === undefined ? contact.id.replace("@c.us", "").replace("@g.us", "") : contact.name}
-                                                    {/*{contact.id.user}*/}
                                                 </small>
                                                 <div className={"contact-message"}>
-                                                    {/*{contact.msgs}*/}
                                                     <p className={"left"}>
-                                                        {contact.msgs[contact.msgs.length - 1] === undefined ? "Não foi possível carregar as mensagens anteriores..." : contact.msgs[contact.msgs.length - 1].body}
+                                                        {!contact.msgs ? "Não foi possível carregar as mensagens anteriores..." : contact.msgs[contact.msgs.length - 1].body}
                                                     </p>
 
                                                     {contact.unreadCount !== 0 && <div className={"unread-message"}/>}

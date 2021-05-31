@@ -60,13 +60,12 @@ export default function NewSessionPage() {
 
         socket.off("session-logged").on("session-logged", (status) => {
             if (status.session === session) {
-                if (layoutRef.current !== null) {
-                    layoutRef.current.classList.add("saida-bottom-top");
-                }
-
-                if(status.token) {
+                if (token) {
                     insertLocalStorage();
-                    history.push("/chat");
+
+                    setTimeout(() => {
+                        history.push("/chat");
+                    }, 500)
                 }
             }
         });
@@ -87,10 +86,7 @@ export default function NewSessionPage() {
     }
 
     function insertLocalStorage() {
-        const tokenId = document.querySelector("#token").getAttribute("value");
-        const sessionId = document.querySelector("#session").getAttribute("value");
-
-        login(JSON.stringify({session: sessionId, token: tokenId}));
+        login(JSON.stringify({session: session, token: token}));
     }
 
     async function startSession() {
