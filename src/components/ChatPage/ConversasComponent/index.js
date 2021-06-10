@@ -67,9 +67,31 @@ const ConversasComponent = ({chats, setChats, onSearch, onClickContact}) => {
                                                     {contact.name === undefined ? contact.id.replace("@c.us", "").replace("@g.us", "") : contact.name}
                                                 </small>
                                                 <div className={"contact-message"}>
-                                                    <p className={"left"}>
-                                                        {!contact.msgs ? "Não foi possível carregar as mensagens anteriores..." : contact.msgs[contact.msgs.length - 1].body}
-                                                    </p>
+                                                    {
+                                                        !contact.msgs ? (
+                                                            "Não foi possível carregar as mensagens anteriores..."
+                                                        ) : (
+                                                            contact.msgs.length > 0 ? (
+                                                                contact.msgs[contact.msgs.length - 1].type === "image" ||
+                                                                contact.msgs[contact.msgs.length - 1].type === "video" ||
+                                                                contact.msgs[contact.msgs.length - 1].type === "file" ||
+                                                                contact.msgs[contact.msgs.length - 1].type === "ptt" ||
+                                                                contact.msgs[contact.msgs.length - 1].type === "sticker" ? (
+                                                                    "Mensagem de mídia"
+                                                                ) : contact.msgs[contact.msgs.length - 1].type === "revoked" ? (
+                                                                    "Mensagem Excluída"
+                                                                ) : contact.msgs[contact.msgs.length - 1].type === "gp2" ? (
+                                                                    "Não há mensagens"
+                                                                ) : contact.msgs[contact.msgs.length - 1].type === "notification_template" ? (
+                                                                    "Não há mensagens"
+                                                                ) : (
+                                                                    contact.msgs[contact.msgs.length - 1].body
+                                                                )
+                                                            ) : (
+                                                                "Não foi possível carregar as mensagens anteriores..."
+                                                            )
+                                                        )
+                                                    }
 
                                                     {contact.unreadCount !== 0 && <div className={"unread-message"}/>}
                                                 </div>

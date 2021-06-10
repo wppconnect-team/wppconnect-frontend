@@ -144,6 +144,11 @@ export const UserData = styled.div`
     position: relative;
     width: 100%;
 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+
     .left {
       color: #666;
       font-size: 1rem;
