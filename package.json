@@ -1,7 +1,10 @@
 {
-  "name": "multiclient",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@wppconnect/frontend",
+  "version": "1.0.0",
+  "description": "Projeto feito para autenticar a automomacao do WhatsappWeb com multi-clientes de forma dinamica. Backend feito em Nodejs(express, socketio), FrontEnd (ReactJS)",
+  "main": "index.js",
+  "author": "kingaspx",
+  "license": "Apache-2.0",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.24",
