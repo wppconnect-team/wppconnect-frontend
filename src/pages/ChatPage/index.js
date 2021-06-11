@@ -158,6 +158,8 @@ const SendMessagePage = () => {
         setStop(true);
         zerarCronometro();
 
+        console.log(choosedContact);
+
         recorder.stop().getMp3().then(([buffer, blob]) => {
             const reader = new FileReader();
             reader.readAsDataURL(blob);
@@ -165,7 +167,7 @@ const SendMessagePage = () => {
                 const base64data = reader.result;
                 await api.post(`${getSession()}/send-voice`, {
                     url: base64data,
-                    phone: choosedContact.id.user,
+                    phone: choosedContact.id,
                 }, config());
             };
 
