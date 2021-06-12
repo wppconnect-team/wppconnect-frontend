@@ -6,7 +6,7 @@
   "author": "kingaspx",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "react-scripts build",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "changelog:last": "conventional-changelog -p angular -r 2",
     "changelog:preview": "conventional-changelog -p angular -u",
     "changelog:update": "conventional-changelog -p angular -i CHANGELOG.md -s",
@@ -60,6 +60,7 @@
     "@commitlint/config-angular": "^12.1.4",
     "commitizen": "^4.2.4",
     "conventional-changelog-cli": "^2.1.1",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^6.0.0",
     "license-check-and-add": "^4.0.2",
