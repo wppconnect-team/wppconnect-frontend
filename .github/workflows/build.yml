@@ -36,5 +36,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Lint source
+      - name: Build source
         run: yarn build
