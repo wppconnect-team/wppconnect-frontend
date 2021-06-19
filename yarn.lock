@@ -1645,11 +1645,12 @@
     react-transition-group "^4.4.0"
 
 "@material-ui/data-grid@^4.0.0-alpha.24":
-  version "4.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.24.tgz#a6449181d343d4f61ec977f68cf8d850a380140d"
-  integrity sha512-XlFpBHwfWxvGYaAOpkWSTbbEAgwdMJap3vu7TMSjtEwm6VOXquY9zUbckQelTt5tuHZdnx2vkhPXeCp/9Z1jRw==
+  version "4.0.0-alpha.32"
+  resolved "https://registry.yarnpkg.com/@material-ui/data-grid/-/data-grid-4.0.0-alpha.32.tgz#72952d1dea9a9440a02827dd66996a8e94d3f28f"
+  integrity sha512-yEmQ8OGGHCB9fUx6f6/ncIxAQpH/U/295EqqocCsbIjLJA1rUYF5eseo2/jnW1Wd69o3aTsXozdlKV8tQNit2Q==
   dependencies:
     "@material-ui/utils" "^5.0.0-alpha.14"
+    clsx "^1.0.4"
     prop-types "^15.7.2"
     reselect "^4.0.0"
 
