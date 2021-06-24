@@ -253,6 +253,7 @@ export default function NewSessionPage() {
                                                 </div>
 
                                                 <input
+                                                    type="password"
                                                     id={"token"}
                                                     autoComplete="off"
                                                     placeholder="Token"
