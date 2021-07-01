@@ -135,7 +135,7 @@ const ChatComponent = ({message, session, isMe}) => {
                             <AudioComponent
                                 url={audioUrl}
                                 isMe={message.fromMe}
-                                profileImage={message.sender.profilePicThumbObj.eurl === undefined ? defaultImage : message.sender.profilePicThumbObj.eurl}
+                                profileImage={!message.sender.profilePicThumbObj ? defaultImage : message.sender.profilePicThumbObj.eurl}
                                 audioRef={audioRef}
                                 downloadAudio={onClickDownload}
                             />
