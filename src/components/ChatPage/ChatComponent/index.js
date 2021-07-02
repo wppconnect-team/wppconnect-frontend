@@ -29,6 +29,7 @@ import PropTypes from "prop-types";
 import config from "../../../util/sessionHeader";
 import formatWppMarkdown from "../../../util/functionsMarkdown";
 import {Download} from "react-feather";
+import {Link} from "react-router-dom";
 
 const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
@@ -126,11 +127,15 @@ const ChatComponent = ({message, session, isMe}) => {
 
                                 <Download/>
                             </DocumentComponent>
-                        ) : message.type === "ptt" ? (
+                        ) : message.type === "location" ? (
+                            <Link to={`https://www.google.com/maps/search/?api=1&query=${message.lat},${message.lng}`} target="_blank" rel="noreferrer">
+                                Ver localização
+                            </Link>
+                        ) :  message.type === "ptt" ? (
                             <AudioComponent
                                 url={audioUrl}
                                 isMe={message.fromMe}
-                                profileImage={message.sender.profilePicThumbObj.eurl === undefined ? defaultImage : message.sender.profilePicThumbObj.eurl}
+                                profileImage={!message.sender.profilePicThumbObj ? defaultImage : message.sender.profilePicThumbObj.eurl}
                                 audioRef={audioRef}
                                 downloadAudio={onClickDownload}
                             />

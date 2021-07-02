@@ -8752,9 +8752,9 @@ lru-cache@^6.0.0:
     yallist "^4.0.0"
 
 lucide-react@^0.15.11:
-  version "0.15.22"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.15.22.tgz#353d51ff66a1067c4ccb6d6e840a3b3f5171c9aa"
-  integrity sha512-d3YC5cNBj0GCWB9VMgQYpC2MLyW6NmdC2ntRIAF6wPuNO2wI5Nx2aGCWtRwPdlTErriegdzXlrUekek7ppiyxw==
+  version "0.15.23"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.15.23.tgz#f60ea2a3be936e1f58ab78702426406cd0654e35"
+  integrity sha512-91QOaSRaZwAoRihAEHeiNvp82QJ1a8q7X5rBo8+6h+QyZZQImQRPfKDGkpizLQj5ZRaa4RW2yGWy6att0RS58A==
 
 macos-release@^2.2.0:
   version "2.5.0"
@@ -12788,9 +12788,9 @@ svgo@^1.0.0, svgo@^1.2.2:
     util.promisify "~1.0.0"
 
 sweetalert2@^11.0.12:
-  version "11.0.12"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.0.12.tgz#7b500fad352def30412798883433b37e48cb14dc"
-  integrity sha512-iAn9nB1qu+8z4xjuxeJp+BfBcgReh+NDZ7P/I1r8oDMcukLtYYJxcpEbiaIpBYU4+k698WHe90oCm+UgCCVnqA==
+  version "11.0.18"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.0.18.tgz#9547859cc1a79815d5d02a6e0d1a3d44da3f8dc1"
+  integrity sha512-sF6huRQqqRGz7p9F8XFKSICl5hOiXjjpmnwAO8vlyJKAyMNZb2fvdok11JIGQjqcqVMIag/VLNWF4eEsIKQKGw==
 
 symbol-observable@1.2.0:
   version "1.2.0"
