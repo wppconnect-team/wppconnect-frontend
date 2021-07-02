@@ -117,7 +117,7 @@ const ChatComponent = ({message, session, isMe}) => {
                         ) : message.type === "document" ? (
                             <DocumentComponent
                                 side={isMe}
-                                onClick={() => onClickDownload("document", {
+                                onClick={() => onClickDownload("document"), {
                                     mimetype: message.mimetype,
                                     filename: message.filename,
                                     mediadata: message.mediadata
