@@ -44,6 +44,7 @@ const SendMessagePage = () => {
     const recorder = useMemo(() => new MicRecorder({bitRate: 128}), []);
     const [openLoading, setOpenLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
+    let messagesMinutes = [];
 
     useEffect(() => {
         async function checkConnection() {
@@ -286,6 +287,18 @@ const SendMessagePage = () => {
         }
     }
 
+    function checkIfSendHeader(message){
+        let dt = new Date(message.timestamp * 1000);
+        let minute = ("0" + dt.getMinutes()).substr(-2);
+        if(!messagesMinutes[message.from]){
+            messagesMinutes[message.from] = [];
+        }
+        if(!messagesMinutes[message.from][minute]){
+            messagesMinutes[message.from][minute] = true;
+            return true;
+        }
+        return false;
+    }
     function onChangeAnexo(e) {
         if (e.target.files && e.target.files[0]) {
             let reader = new FileReader();
@@ -417,6 +430,7 @@ const SendMessagePage = () => {
                                                             session={getSession()}
                                                             token={getToken()}
                                                             message={message}
+                                                            sendHeader={checkIfSendHeader(message)}
                                                         />
                                                     </li>
                                                 );
