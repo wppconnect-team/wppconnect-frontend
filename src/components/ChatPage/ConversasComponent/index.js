@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 import React, {useEffect} from "react";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 import {ContactInfo, Layout, SearchComponent, UserData} from "./style";
 import {Search} from "react-feather";
 import PropTypes from "prop-types";
 import {listenerMessages} from "../../../services/socket-listener";
+import {useDrawer} from "components/Drawer";
 
-const defaultImage = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
+const defaultImage =
+    "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png";
 
 const ConversasComponent = ({chats, setChats, onSearch, onClickContact}) => {
+
+    const drawerCtx = useDrawer();
     useEffect(() => {
         listenerMessages((err, data) => {
             if (err) return;
 
             const newList = [];
-            const filteredList = chats.filter((filtro) => filtro.id !== data.response.chatId);
+            const filteredList = chats.filter(
+                (filtro) => filtro.id !== data.response.chatId
+            );
 
             newList.unshift([...filteredList, data.response]);
             setChats(newList);
@@ -47,77 +55,96 @@ const ConversasComponent = ({chats, setChats, onSearch, onClickContact}) => {
                 }
 
                 this.classList.add("active");
-            })
+            });
         }
-    }
-
+    };
 
     return (
         <Layout>
             <SearchComponent style={{marginBottom: 0}}>
-                <Search/> <input placeholder={"Search for a contact"} onChange={(e) => onSearch(e)}/>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={() => {
+                        drawerCtx.open()
+                    }}
+                    edge="start"
+                    // className={clsx(classes.menuButton, open && classes.hide)}
+                >
+                    <MenuIcon/>
+                </IconButton>
+                <input placeholder={"Pesquisar"} onChange={(e) => onSearch(e)}/>{" "}
+                <Search/>
             </SearchComponent>
 
             <ul id={"all-contacts"} onClick={() => onChangeContact()}>
-                {
-                    chats.length > 0 ? (
-                        chats.map((contact, index) => {
-                            return (
-                                <li className={"contact-li"} key={index} onClick={() => onClickContact(contact)}>
-                                    <ContactInfo>
-                                        <input
-                                            type={"radio"}
-                                            name={"contact"}
+                {chats.length > 0
+                    ? chats.map((contact, index) => {
+                        return (
+                            <li
+                                className={"contact-li"}
+                                key={index}
+                                onClick={() => onClickContact(contact)}
+                            >
+                                <ContactInfo>
+                                    <input type={"radio"} name={"contact"}/>
+
+                                    <UserData>
+                                        <img
+                                            src={`https://ui-avatars.com/api/?name=${contact.name}?background=random`}
+                                            alt={`${contact.name}`}
+                                            loading={"lazy"}
+                                            onError={(e) =>
+                                                (e.target.src =
+                                                    "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png")
+                                            }
                                         />
+                                        <div className={"principal-info"}>
+                                            <p className={"contact-name"}>
+                                                {contact.name === undefined
+                                                    ? contact?.id
+                                                        ?.replace("@c.us", "")
+                                                        .replace("@g.us", "")
+                                                    : contact.name}
+                                            </p>
+                                            <div className={"contact-message"}>
+                                                {!contact.msgs
+                                                    ? "Não foi possível carregar as mensagens anteriores..."
+                                                    : contact.msgs.length > 0
+                                                        ? contact.msgs[contact.msgs.length - 1].type ===
+                                                        "image" ||
+                                                        contact.msgs[contact.msgs.length - 1].type ===
+                                                        "video" ||
+                                                        contact.msgs[contact.msgs.length - 1].type ===
+                                                        "file" ||
+                                                        contact.msgs[contact.msgs.length - 1].type ===
+                                                        "ptt" ||
+                                                        contact.msgs[contact.msgs.length - 1].type ===
+                                                        "sticker"
+                                                            ? "Mensagem de mídia"
+                                                            : contact.msgs[contact.msgs.length - 1].type ===
+                                                            "revoked"
+                                                                ? "Mensagem Excluída"
+                                                                : contact.msgs[contact.msgs.length - 1].type ===
+                                                                "gp2"
+                                                                    ? "Não há mensagens"
+                                                                    : contact.msgs[contact.msgs.length - 1].type ===
+                                                                    "notification_template"
+                                                                        ? "Não há mensagens"
+                                                                        : contact.msgs[contact.msgs.length - 1].body
+                                                        : "Não foi possível carregar as mensagens anteriores..."}
 
-                                        <UserData>
-                                            <img
-                                                src={`https://ui-avatars.com/api/?name=${contact.name}?background=random`}
-                                                alt={`${contact.name}`}
-                                                loading={"lazy"}
-                                                onError={(e) => e.target.src = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png"}
-                                            />
-                                            <div className={"principal-info"}>
-                                                <small className={"contact-name"}>
-                                                    {contact.name === undefined ? contact.id.replace("@c.us", "").replace("@g.us", "") : contact.name}
-                                                </small>
-                                                <div className={"contact-message"}>
-                                                    {
-                                                        !contact.msgs ? (
-                                                            "Não foi possível carregar as mensagens anteriores..."
-                                                        ) : (
-                                                            contact.msgs.length > 0 ? (
-                                                                contact.msgs[contact.msgs.length - 1].type === "image" ||
-                                                                contact.msgs[contact.msgs.length - 1].type === "video" ||
-                                                                contact.msgs[contact.msgs.length - 1].type === "file" ||
-                                                                contact.msgs[contact.msgs.length - 1].type === "ptt" ||
-                                                                contact.msgs[contact.msgs.length - 1].type === "sticker" ? (
-                                                                    "Mensagem de mídia"
-                                                                ) : contact.msgs[contact.msgs.length - 1].type === "revoked" ? (
-                                                                    "Mensagem Excluída"
-                                                                ) : contact.msgs[contact.msgs.length - 1].type === "gp2" ? (
-                                                                    "Não há mensagens"
-                                                                ) : contact.msgs[contact.msgs.length - 1].type === "notification_template" ? (
-                                                                    "Não há mensagens"
-                                                                ) : (
-                                                                    contact.msgs[contact.msgs.length - 1].body
-                                                                )
-                                                            ) : (
-                                                                "Não foi possível carregar as mensagens anteriores..."
-                                                            )
-                                                        )
-                                                    }
-
-                                                    {contact.unreadCount !== 0 && <div className={"unread-message"}/>}
-                                                </div>
+                                                {contact.unreadCount !== 0 && (
+                                                    <div className={"unread-message"}/>
+                                                )}
                                             </div>
-                                        </UserData>
-                                    </ContactInfo>
-                                </li>
-                            );
-                        })
-                    ) : null
-                }
+                                        </div>
+                                    </UserData>
+                                </ContactInfo>
+                            </li>
+                        );
+                    })
+                    : null}
             </ul>
         </Layout>
     );
