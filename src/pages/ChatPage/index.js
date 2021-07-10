@@ -13,9 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {ChatContainer, Contador, Container, ContentContainer, HeaderContact, Layout, WaitingContainer} from "./style";
-import {CheckCircle, Mic, Paperclip, Send, XCircle} from "react-feather";
+import {useEffect, useMemo, useRef, useState, useCallback} from "react";
+import { toast } from "react-toastify";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { Picker } from "emoji-mart";
+import CancelIcon from "@material-ui/icons/Cancel";
+import {
+  ChatContainer,
+  Contador,
+  Container,
+  ContentContainer,
+  HeaderContact,
+  Layout,
+  WaitingContainer,
+  ReplyContainer,
+  LoadMoreComponent
+} from "./style";
+import {
+  CheckCircle,
+  Mic,
+  Paperclip,
+  Send,
+  Smile,
+  XCircle,
+  X,
+} from "react-feather";
 import api from "../../services/api";
 import ImageLoader from "../../assets/ic_loader_chat.svg";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
@@ -26,6 +48,8 @@ import MicRecorder from "mic-recorder-to-mp3";
 import BackdropComponent from "../../components/BackdropComponent";
 import NotificationSound from "../../assets/notification.mp3";
 import {listenerMessages} from "../../services/socket-listener";
+import {MyTooltip} from "../../components/MyTooltip";
+import "emoji-mart/css/emoji-mart.css";
 
 const SendMessagePage = () => {
     const dropRef = useRef(null);
@@ -33,6 +57,7 @@ const SendMessagePage = () => {
     const [chats, setChats] = useState([]);
     const [dados, setDados] = useState([]);
     const [choosedContact, setChoosedContact] = useState([]);
+    const [imgContact, setImgContact] = useState("");
     const [message, setMessage] = useState("");
     const chatRef = useRef(null);
     const messagesEnd = useRef(null);
@@ -44,6 +69,15 @@ const SendMessagePage = () => {
     const recorder = useMemo(() => new MicRecorder({bitRate: 128}), []);
     const [openLoading, setOpenLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
+    const [emoji, setEmoji] = useState(false);
+    const [hasMessages, setHasMessages] = useState(false);
+    const [selectedMessage, setSelectedMessage] = useState(null);
+
+    useEffect(() => {
+        if (allMessages.length > 0 && !hasMessages) {
+        setHasMessages(true);
+        }
+    }, [allMessages]);
 
     useEffect(() => {
         async function checkConnection() {
@@ -238,19 +272,22 @@ const SendMessagePage = () => {
         }
     };
 
-    async function onClickContact(contact) {
+    const onClickContact = useCallback(async (contact) => {
+        setImgContact("");
         setChoosedContact(contact);
         setOpenLoading(true);
+        setAllMessages([]);
+        setHasNoMore(false);
 
         try {
             if (contact.id.includes("@g.us")) {
-                const {data} = await api.get(`${getSession()}/chat-by-id/${contact.id.replace("@g.us", "").replace("@g.us", "")}?isGroup=true`, config());
-                await api.post(`${getSession()}/send-seen`, {phone: contact.id.replace("@g.us", "")}, config());
-                setAllMessages(data.response);
+                const {data} = await api.get(`${getSession()}/chat-by-id/${contact.id.replace(/[@g.us,@g.us]/g, "")}?isGroup=true`, config());
+                await api.post(`${getSession()}/send-seen`,{phone: contact.id.replace("@g.us", "")}, config());
+                setAllMessages(data?.response || []);
             } else {
-                const {data} = await api.get(`${getSession()}/chat-by-id/${contact.id.replace("@c.us", "").replace("@c.us", "")}?isGroup=false`, config());
-                await api.post(`${getSession()}/send-seen`, {phone: contact.id.replace("@c.us", "")}, config());
-                setAllMessages(data.response);
+                const {data} = await api.get(`${getSession()}/chat-by-id/${contact.id.replace(/[@c.us,@c.us]/g, "")}?isGroup=false`, config());
+                await api.post(`${getSession()}/send-seen`,{phone: contact.id.replace("@c.us", "")}, config());
+                setAllMessages(data?.response || []);
             }
         } catch (e) {
             console.log(e);
@@ -259,71 +296,112 @@ const SendMessagePage = () => {
         scrollToBottom();
         contact.unreadCount = 0;
         setOpenLoading(false);
+    }, []);
+
+    function clearAndScrollToBottom() {
+        setMessage("");
+        setEmoji(false);
+        scrollToBottom();
     }
 
-    async function sendMessage(e) {
-        e.preventDefault();
-        if (message !== "" || getSession() !== "") {
-            setMessage("");
-            scrollToBottom();
+    function addEmoji(e) {
+        let emoji = e.native;
+        setMessage(message + emoji);
+    }
 
-            if (choosedContact.id.includes("@c.us")) {
-                await api.post(`${getSession()}/send-message`, {
-                    phone: choosedContact.id.replace("@c.us", ""),
-                    message: message
-                }, config());
-            } else {
-                await api.post(`${getSession()}/send-message`, {
-                    phone: choosedContact.id.replace("@g.us", ""),
-                    message: message,
-                    isGroup: true
-                }, config());
+    async function sendMessage() {
+        if (!!message.trim() && !!getSession()) {
+            //   const by = `*${getUser()}:* \n\n`;
+            const by = "";
+            let endpoint = "send-message";
+
+            const body = {
+                phone: choosedContact.id.replace(/[@c.us,@g.us]/g, ""),
+                message: by + message,
+            };
+
+            if (choosedContact.id.includes("@g.us")) {
+                body.isGroup = true;
             }
+
+            if (selectedMessage) {
+                body.messageId = selectedMessage.id;
+                endpoint = "send-reply";
+            }
+
+            await api.post(`${getSession()}/${endpoint}`, body, config());
+            clearAndScrollToBottom();
+            setSelectedMessage(null);
         } else {
-            alert("Preencha todos os dados antes de enviar");
+            toast.error("Digite uma mensagem!", {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     }
 
     function onChangeAnexo(e) {
         if (e.target.files && e.target.files[0]) {
-            let reader = new FileReader();
-            let filename = "";
+            const reader = new FileReader();
+            const filename = e.target.files[0].name;
+            reader.readAsDataURL(e.target.files[0]);
 
             reader.onload = async function (e) {
                 const base64 = e.target.result;
-                await api.post(`${getSession()}/send-file-base64`, {
-                    base64: base64,
-                    phone: choosedContact.id.replace("@c.us"),
-                    message: "",
-                    filename: filename
-                }, config());
+                const options = {
+                base64: base64,
+                phone: choosedContact.id.replace(/[@c.us,@g.us]/g, ""),
+                message: "",
+                filename: filename,
             };
-
-            reader.readAsDataURL(e.target.files[0]);
-            filename = e.target.files[0].name;
+                if (choosedContact.id.includes("@g.us")) {
+                    options.isGroup = true;
+                }
+                try {
+                    await api.post(`${getSession()}/send-file-base64`, options, config());
+                } catch (error) {
+                    console.log("Catch onChangeAnexo()", error);
+                }
+            };
         }
     }
 
     function searchChat(e) {
-        const {value} = e.target;
+        const { value } = e.target;
 
         const filterContact = contacts.filter((filtro) => {
-                if (filtro.name && filtro.id._serialized) {
-                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(value.toLowerCase()) > -1 || filtro.id._serialized.indexOf(value) > -1;
-                } else {
-                    return [];
-                }
-            }
-        );
+        if (filtro.name && filtro.id._serialized) {
+            return (
+            filtro.name
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .indexOf(value.toLowerCase()) > -1 ||
+            filtro.id._serialized.indexOf(value) > -1
+            );
+        } else {
+            return [];
+        }
+        });
 
         const filterChat = chats.filter((filtro) => {
-                if (filtro.name && filtro.id) {
-                    return filtro.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().indexOf(value.toLowerCase()) > -1 || filtro.id.indexOf(value) > -1;
-                } else {
-                    return [];
-                }
-            }
-        );
+        if (filtro.name && filtro.id) {
+            return (
+            filtro.name
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .indexOf(value.toLowerCase()) > -1 || filtro.id.indexOf(value) > -1
+            );
+        } else {
+            return [];
+        }
+        });
 
         const searchArr = [];
 
@@ -332,7 +410,7 @@ const SendMessagePage = () => {
                 name: chat.name,
                 id: chat.id,
                 unreadCount: 0,
-            })
+            });
         }
 
         for (const contact of filterContact) {
@@ -340,8 +418,8 @@ const SendMessagePage = () => {
                 name: contact.name,
                 id: contact.id._serialized,
                 unreadCount: 0,
-                msgs: null
-            })
+                msgs: null,
+            });
         }
 
         const filterArr = removeDuplicates(searchArr);
@@ -354,10 +432,36 @@ const SendMessagePage = () => {
 
     const removeDuplicates = (arr) => {
         return arr.filter((item, index, self) => {
-            if (item.name)
-                return index === self.findIndex((t) => t.id === item.id && t.name && item.name)
-        })
-    }
+            if (item.name) return ( index === self.findIndex((t) => t.id === item.id && t.name && item.name));
+        });
+    };
+
+    const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
+    const [hasNoMore, setHasNoMore] = useState(false);
+
+    async function loadMore() {
+        setLoadingMoreMessages(true);
+        try {
+            let param = "?isGroup=false";
+            if (choosedContact.id.includes("@g.us")) {
+                param = "?isGroup=true";
+            }
+            const { data } = await api.get(
+                `${getSession()}/load-earlier-messages/${choosedContact.id}${param}`,
+                config()
+            );
+            if (data && data.response && Array.isArray(data.response)) {
+                setAllMessages((prev) => [...data.response, ...prev]);
+            }
+            if (data && !data.response) {
+                setHasNoMore(true);
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoadingMoreMessages(false);
+        }
+    };
 
     return (
         <Layout>
@@ -370,111 +474,157 @@ const SendMessagePage = () => {
                         onSearch={searchChat}
                     />
 
-                    <BackdropComponent open={openLoading}/>
+                    <BackdropComponent open={openLoading} />
 
                     <ChatContainer>
-                        {
-                            choosedContact.length <= 0 ?
-                                null
-                                : (
-                                    <HeaderContact>
-                                        <div className={"container-info-ctt"}>
-                                            <img
-                                                src={`https://ui-avatars.com/api/?name=${choosedContact.name}?background=random`}
-                                                alt={choosedContact.name}
-                                                loading={"lazy"}
-                                                onError={(e) => e.target.src = "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png"}
-                                            />
-                                            <h3>
-                                                {choosedContact.name === undefined ? choosedContact.id.replace("@c.us", "").replace("@g.us", "") : choosedContact.name}
-                                            </h3>
-                                        </div>
-                                    </HeaderContact>
-                                )
-                        }
+                        {choosedContact.length <= 0 ? null : (
+                        <HeaderContact>
+                            <div className={"container-info-ctt"}>
+                            <img
+                                src={
+                                imgContact ||
+                                `https://ui-avatars.com/api/?name=${choosedContact.name}?background=random`
+                                }
+                                alt={choosedContact.name}
+                                loading={"lazy"}
+                                onError={(e) =>
+                                (e.target.src =
+                                    "https://pbs.twimg.com/profile_images/1259926100261601280/OgmLtUZJ_400x400.png")
+                                }
+                            />
+                            <h3>
+                                {choosedContact.name === undefined
+                                ? choosedContact.id
+                                    .replace(/[@c.us,@g.us]/g, "")
+                                : choosedContact.name}
+                            </h3>
+                            </div>
+                        </HeaderContact>
+                        )}
 
-                        <ul ref={chatRef}>
-                            {
-                                allMessages.length <= 0 ? (
-                                    <WaitingContainer>
-                                        <div>
-                                            <img src={ImageLoader} alt={"Smartphone"}/>
-                                            <h2>
-                                                Choose a contact to start a conversation
-                                            </h2>
-                                        </div>
-                                    </WaitingContainer>
-                                ) : (
-                                    <div>
-                                        {
-                                            allMessages.map((message, index) => {
-                                                return (
-                                                    <li key={index}>
-                                                        <ChatComponent
-                                                            isMe={message.fromMe ? "right" : "left"}
-                                                            session={getSession()}
-                                                            token={getToken()}
-                                                            message={message}
-                                                        />
-                                                    </li>
-                                                );
-                                            })
-                                        }
-                                    </div>
-                                )
-                            }
+                        <ul ref={chatRef} style={{ overflowX: "hidden" }}>
+                        {!hasNoMore && hasMessages && allMessages.length > 0 && (
+                            <LoadMoreComponent onClick={loadMore}>
+                                Carregar mais{loadingMoreMessages && <>&nbsp;&nbsp;&nbsp;<CircularProgress size={10}/></>}
+                            </LoadMoreComponent>
+                        )}
 
-                            <div ref={messagesEnd}/>
+                        {!allMessages.length ? (
+                            <WaitingContainer>
+                            <div>
+                                <img src={ImageLoader} alt={"Smartphone"} />
+                                <h2>Choose a contact to start a conversation</h2>
+                            </div>
+                            </WaitingContainer>
+                        ) : (
+                            <div>
+                            {allMessages.map((message) => {
+                                return (
+                                <li key={message.id} id={message.id}>
+                                    <ChatComponent
+                                    isMe={message.fromMe ? "right" : "left"}
+                                    isWarning={
+                                        !message?.body &&
+                                        message.type !== "chat" &&
+                                        !["ptt", "audio"].includes(message.type)
+                                    }
+                                    session={getSession()}
+                                    token={getToken()}
+                                    message={message}
+                                    selectMessageId={() => setSelectedMessage(message)}
+                                    />
+                                </li>
+                                );
+                            })}
+                            </div>
+                        )}
+
+                        <div ref={messagesEnd} />
                         </ul>
 
-                        {
-                            choosedContact.length <= 0 ? null : (
-                                <form className={"bottom-container"} onSubmit={(e) => sendMessage(e)}>
-                                    <label>
-                                        <input type={"file"} onChange={onChangeAnexo}/>
-                                        <div className={"attach-info"}>
-                                            <Paperclip/>
-                                        </div>
-                                    </label>
-                                    <input
-                                        placeholder={"Digite uma mensagem..."}
-                                        value={message}
-                                        onChange={(e) => {
-                                            setMessage(e.target.value);
-                                        }}
-                                    />
+                        {!!selectedMessage && (
+                        <ReplyContainer>
+                            <div className="content">
+                                <ChatComponent
+                                    isMe={selectedMessage.fromMe ? "right" : "left"}
+                                    isWarning={!selectedMessage?.body && selectedMessage.type !== "chat" && !["ptt", "audio"].includes(selectedMessage.type)}
+                                    session={getSession()}
+                                    token={getToken()}
+                                    message={selectedMessage}
+                                    selectMessageId={() => {}}
+                                />
+                            </div>
+                            <div>
+                                <MyTooltip
+                                    name="Cancelar"
+                                    icon={<CancelIcon />}
+                                    onClick={() => setSelectedMessage(null)}
+                                />
+                            </div>
+                        </ReplyContainer>
+                        )}
 
-                                    {
-                                        message === "" ? (
-                                            recordState === null ? (
-                                                <Mic onClick={startRecording}/>
-                                            ) : (
-                                                <Contador>
-                                                    <div className={"main-cont"}>
-                                                        <XCircle onClick={cancelRecording}/>
-                                                        <div className={"counter"}>
-                                                            <p>
-                                                                {
-                                                                    minutos === 0 ? (
-                                                                        `${segundos}s`
-                                                                    ) : (
-                                                                        `${minutos}m ${segundos}s`
-                                                                    )
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                        <CheckCircle onClick={() => finishRecording()}/>
-                                                    </div>
-                                                </Contador>
-                                            )
-                                        ) : (
-                                            <Send type={"submit"} onClick={(e) => sendMessage(e)}/>
-                                        )
+                        {emoji ? <Picker onSelect={addEmoji} /> : null}
+                        {choosedContact.length <= 0 ? null : (
+                            <div className={"bottom-container"}>
+                                <textarea
+                                placeholder={"Digite uma mensagem..."}
+                                onKeyDown={(event) => {
+                                    if (event.ctrlKey && event.key === "Enter") {
+                                    sendMessage();
                                     }
-                                </form>
-                            )
-                        }
+                                }}
+                                value={message}
+                                onChange={(e) => {
+                                    setMessage(e.target.value);
+                                }}
+                                />
 
+                                <div className={"action-buttons"}>
+                                    <div>
+                                        {emoji ? (
+                                        <button onClick={() => setEmoji(false)}>
+                                            <X />
+                                        </button>
+                                        ) : (
+                                        <button onClick={() => setEmoji(true)}>
+                                            <Smile />
+                                        </button>
+                                        )}
+
+                                        <label>
+                                        <input type={"file"} onChange={onChangeAnexo} />
+                                        <div className={"attach-info"}>
+                                            <Paperclip />
+                                        </div>
+                                        </label>
+
+                                    </div>
+
+                                    {message === "" ? (
+                                        recordState === null ? (
+                                        <Mic onClick={startRecording} />
+                                        ) : (
+                                        <Contador>
+                                            <div className={"main-cont"}>
+                                            <XCircle onClick={cancelRecording} />
+                                            <div className={"counter"}>
+                                                <p>
+                                                {minutos === 0
+                                                    ? `${segundos}s`
+                                                    : `${minutos}m ${segundos}s`}
+                                                </p>
+                                            </div>
+                                            <CheckCircle onClick={() => finishRecording()} />
+                                            </div>
+                                        </Contador>
+                                        )
+                                    ) : (
+                                        <Send onClick={(e) => sendMessage(e)} />
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </ChatContainer>
                 </ContentContainer>
             </Container>
