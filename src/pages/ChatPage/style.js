@@ -44,6 +44,94 @@ export const ContentContainer = styled.div`
   overflow: hidden;
   clear: both;
   max-height: 100vh;
+  .emoji-mart.emoji-mart-light {
+    position: absolute;
+    width: 100% !important;
+    left: 0;
+    bottom: 120px;
+  }
+
+  .emoji-mart {
+    position: absolute !important;
+    bottom: 60px;
+    width: 70vw !important;
+    height: 50vh;
+    background-color: #f0f0f0;
+  }
+
+  .emoji-mart-bar {
+    border: 0;
+  }
+
+  .emoji-mart-anchors {
+    padding: 0;
+    border: 0;
+  }
+
+  .emoji-mart-anchor-icon {
+    color: #a3a3a3;
+  }
+
+  .emoji-mart-anchor-selected {
+    color: red !important;
+  }
+
+  .emoji-mart-anchor-bar {
+    background-color: #36aa9f !important;
+  }
+
+  .emoji-mart-anchor-icon {
+    color: #8b8b8b !important;
+  }
+
+  .emoji-mart-search {
+    margin: 5px 8px 15px 8px;
+  }
+
+  .emoji-mart-search-icon {
+    display: none;
+  }
+
+  .emoji-mart-search input {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px solid #d9d9d9;
+    outline: 0;
+    background-color: #e6e6e6;
+    color: #4a4a4a;
+  }
+
+  .emoji-mart-category-label span {
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    padding: 5px 6px;
+    color: #b4b4b4;
+    background-color: #f0f0f0;
+  }
+
+  .emoji-mart-scroll {
+    height: 200px;
+  }
+
+  .emoji-mart-bar:last-child {
+    display: none;
+  }
+
+  .emoji-mart {
+    position: absolute !important;
+    bottom: 60px;
+    width: 100vw !important;
+    height: 40vh;
+  }
+
+  .emoji-mart-category-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 export const TopContainer = styled.div`
