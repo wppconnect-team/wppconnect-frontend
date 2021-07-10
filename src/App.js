@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
+import {ToastContainer} from "react-toastify";
 import {BrowserRouter} from "react-router-dom";
 import GlobalStyle, {Container, Layout} from "./style/GlobalStyle";
 import Routes from "./routes";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
             </Layout>
 
             <GlobalStyle/>
+                <ToastContainer/>
         </BrowserRouter>
     );
 }
