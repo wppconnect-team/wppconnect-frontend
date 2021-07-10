@@ -15,21 +15,26 @@
  */
 import {ToastContainer} from "react-toastify";
 import {BrowserRouter} from "react-router-dom";
+import {ThemeProvider} from "styled-components";
 import GlobalStyle, {Container, Layout} from "./style/GlobalStyle";
 import Routes from "./routes";
 import "react-toastify/dist/ReactToastify.css";
+import light from "./style/themes/light";
+// import dark from "./style/themes/dark";
 
 function App() {
     return (
         <BrowserRouter>
-            <Layout>
-                <Container>
-                    <Routes/>
-                </Container>
-            </Layout>
+            <ThemeProvider theme={light}>
+                <Layout>
+                    <Container>
+                        <Routes/>
+                    </Container>
+                </Layout>
 
-            <GlobalStyle/>
+                <GlobalStyle/>
                 <ToastContainer/>
+            </ThemeProvider>
         </BrowserRouter>
     );
 }
