@@ -39,8 +39,10 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.24",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
+    "emoji-mart": "^3.0.1",
     "emoji-regex": "^9.2.2",
     "lucide-react": "^0.15.11",
     "mic-recorder-to-mp3": "^2.2.2",
@@ -61,6 +63,7 @@
     "@commitlint/config-angular": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@commitlint/cz-commitlint": "^12.1.4",
+    "@types/emoji-mart": "^3.0.5",
     "@types/react": "^17.0.14",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-toastify": "^4.1.0",
