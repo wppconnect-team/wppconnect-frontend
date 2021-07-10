@@ -13,29 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Route, Router, Switch} from "react-router-dom";
-import SendMessagePage from "../pages/ChatPage";
-import ScanNewSession from "../pages/LoginPage";
-import ContactsPage from "../pages/Contacts";
-import Sidebar from "../components/Sidebar";
-import GroupPage from "../pages/GroupPage";
-import { DrawerLeft, DrawerProvider } from "../components/Drawer";
+import { Route, Switch } from "react-router-dom";
+import LoginPage from "../pages/LoginPage";
+import { Dashboard } from "./dashboad";
 
 const Routes = () => {
   return (
     <Switch>
-        <Route exact path="/" component={ScanNewSession} />
-        <Route path="/nova-sessao" component={ScanNewSession} />
+      <Route exact path="/" component={LoginPage} />
+      <Route path="/nova-sessao" component={LoginPage} />
 
-        <div style={{ display: "flex", width: "100%", overflow: "hidden" }}>
-          <DrawerProvider>
-            <DrawerLeft menuContent={<Sidebar />}>
-              <Route path="/chat" component={SendMessagePage} />
-              <Route path="/contatos" component={ContactsPage} />
-              <Route path="/grupo" component={GroupPage} />
-            </DrawerLeft>
-          </DrawerProvider>
-        </div>
+      <Route path="/" component={Dashboard} />
     </Switch>
   );
 };
