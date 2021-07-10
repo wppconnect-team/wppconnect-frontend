@@ -21,7 +21,6 @@ import Fade from "@material-ui/core/Fade";
 import {Container, Description, Formulario, ImageCustom, Layout, Title} from "./style";
 import {X} from "react-feather";
 import api, {socket} from "../../services/api";
-import history from "../../history";
 import ModalMenu from "../../components/MenuModal";
 import ErrorModal from "../../components/ErrorModal";
 import BackdropComponent from "../../components/BackdropComponent";
@@ -46,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewSessionPage() {
+export default function LoginPage({history}) {
     const classes = useStyles();
     const [open,] = useState(true);
     const [session, setSession] = useState("");
