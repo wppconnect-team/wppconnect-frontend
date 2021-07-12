@@ -18,8 +18,7 @@ import styled from "styled-components";
 export const Layout = styled.aside`
   display: flex;
   flex-direction: column;
-  background: #fff;
-  //padding: 2em;
+  background: ${({theme}) => theme.colors.background};
 
   height: 100%;
   width: 35rem;
@@ -30,12 +29,12 @@ export const Layout = styled.aside`
   transition-duration: 200ms;
 
   ::-webkit-scrollbar {
-    width: 7px;
+    width: 2px;
     height: 7px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: ${({theme}) => theme.colors.separator};
   }
 
   ::-webkit-scrollbar-thumb {
@@ -45,7 +44,7 @@ export const Layout = styled.aside`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #a5a5a5;
+    background: ${({theme}) => theme.colors.separator};
   }
 
   h2 {
@@ -59,16 +58,19 @@ export const Layout = styled.aside`
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    //padding: 1em;
+    padding: .5em;
 
     li {
-      //margin-top: 1em;
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      transition-duration: 200ms;
+      border-radius: 8px;
+
+      :hover {
+        background: ${({theme}) => theme.colors.hover_chat};
+      }
     }
 
     .active {
-      background: #F4F6FB;
-      border-left: 2px solid #4886FF;
+      background: ${({theme}) => theme.colors.hover_chat};
     }
   }
 `;
@@ -83,13 +85,19 @@ export const SearchComponent = styled.div`
   position: sticky;
   top: 0;
   padding: 1em 2em;
-  background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  //background: #2a2f32;
+
+  background: ${({theme}) => theme.colors.background};
+  border-bottom: 1px solid ${({theme}) => theme.colors.separator};
   z-index: 1;
 
   svg {
     width: 15px;
     height: 15px;
+
+    :nth-child(2) {
+      margin-left: 10px;
+    }
   }
 
   input {
@@ -97,15 +105,14 @@ export const SearchComponent = styled.div`
     width: 100%;
     margin-left: .5em;
     outline: 0;
+    background: ${({theme}) => theme.colors.hover_chat};
+    padding: 10px;
+    border-radius: 5px;
   }
 
   :hover {
     input {
       //cursor: pointer;
-    }
-
-    svg {
-      color: #47a7f6;
     }
   }
 `;
@@ -125,15 +132,9 @@ export const UserData = styled.div`
   cursor: pointer;
 
   padding: 20px 10px;
-  border-radius: 7px;
 
-  //border: 1px solid #F4F6F9;
   transition-duration: 200ms;
 
-  :hover {
-    //transform: scale(1.03);
-    background: aliceblue;
-  }
 
   img {
     width: 30px;
@@ -150,8 +151,9 @@ export const UserData = styled.div`
   }
 
   .contact-name {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1rem;
+    color: ${({theme}) => theme.colors.name_user};
   }
 
   .contact-message {
@@ -164,10 +166,11 @@ export const UserData = styled.div`
     text-overflow: ellipsis;
     max-width: 200px;
 
+    color: ${({theme}) => theme.colors.message_content};
+    font-weight: 400;
+
     .left {
-      color: #666;
       font-size: 1rem;
-      font-weight: 400;
       position: relative;
       flex-grow: 1;
 
@@ -191,7 +194,6 @@ export const UserData = styled.div`
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      //padding: 10px 10px;
 
       p {
         font-weight: 600;

@@ -62,11 +62,11 @@ const Sidebar = () => {
 
     return (
         <Layout>
-            <ChangeSessionDialog
+            {openDialog && <ChangeSessionDialog
                 handleClose={handleClose}
                 open={openDialog}
                 selectedValue={selectedValue}
-            />
+            />}
 
             <Container>
                 <MenuItems>

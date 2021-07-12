@@ -42,7 +42,7 @@ export default function ImageModal({open, handleClose, message, image}) {
 
     useEffect(() => {
         if (open) {
-            setProfileImage(message.sender.profilePicThumbObj.eurl);
+            setProfileImage(message?.sender?.profilePicThumbObj?.eurl);
             if (message.fromMe) {
                 setName(message.sender.formattedName);
             } else {
