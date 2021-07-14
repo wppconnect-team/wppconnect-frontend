@@ -13,33 +13,80 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DownloadImage from "../../../assets/ic_download_chat.svg";
 
 export const ChatLayout = styled.div`
   width: 100%;
+  ${({ side }) =>
+    side !== "left" &&
+    css`
+      display: flex;
+      flex-direction: row-reverse;
+    `};
 `;
 
 export const MessageContainer = styled.div`
+  .msg-title-top {
+    margin-bottom: 10;
+    padding-right: 20px;
+    width: fit-content;
+    color: #28a745;
+    font-weight: bold;
+  }
+  width: fit-content;
   font-size: 14px;
   height: auto;
   position: relative;
   display: flex;
+  padding: 5px 10px;
   flex-direction: column;
+  flex-wrap: wrap;
+  color: ${({ side }) => (side === "left" ? "#333" : "#fff")};
+  border-radius: 5px;
 
-  margin: ${({side}) => side === "left" ? "0 20px 0 0" : "0 0 0 auto"};
+  ${({ isWarning }) =>
+    !isWarning &&
+    css`
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      background: ${({ side }) => (side === "left" ? "#fff" : "#28a745")};
+    `}
+
+  /* margin: ${({ side }) =>
+    side === "left" ? "0 20px 0 0" : "0 0 0 auto"}; */
+  .caption {
+    bottom: 0;
+    padding: 10px;
+  }
+
+  ${({ isWarning }) =>
+    isWarning &&
+    css`
+      background: rgba(0, 0, 0, 0.09);
+      width: 100%;
+      color: #fff;
+      text-align: center;
+      .msg-title-top,
+      span {
+        width: 100%;
+        text-align: center;
+      }
+    `}
 `;
 
-export const MessageContent = styled.span`
-  background: ${({side}) => side === "left" ? "#fff" : "#6163FF"};
-  color: ${({side}) => side === "left" ? "#333" : "#fff"};
+export const MessageContent = styled.div`
   display: flex;
-  padding: 5px 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  margin: ${({side}) => side === "left" ? "0 auto 0 0" : "0 0 0 auto"};
-  max-width: ${({side}) => side === "left" ? "300px" : "300px"};
+  margin: 3px 0;
   position: relative;
+  ${({ isWarning }) =>
+    isWarning
+      ? css`
+          max-width: 100%;
+          text-align: center;
+        `
+      : css`
+          max-width: 500px;
+        `}
 
   span {
     display: block;
@@ -69,12 +116,13 @@ export const ImageContainer = styled.div`
   max-height: 300px;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   position: relative;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     cursor: pointer;
   }
 
@@ -88,8 +136,16 @@ export const ImageContainer = styled.div`
 
 export const DocumentComponent = styled.div`
   width: 100%;
-  background: ${({side}) => side === "left" ? "#f0f0f0" : "#6163FF"};
-  color: ${({side}) => side === "left" ? "#333" : "#fff"};
+  ${({ isWarning }) =>
+    isWarning &&
+    css`
+      max-width: 500px;
+    `}
+
+  /* background: ${({ side }) => (side === "left" ? "#f0f0f0" : "#6163FF")}; */
+  background: #f0f0f0;
+  /* color: ${({ side }) => (side === "left" ? "#333" : "#fff")}; */
+  color: #333;
   padding: 1em 10px;
   min-width: 250px;
   border-radius: 5px;
@@ -98,7 +154,7 @@ export const DocumentComponent = styled.div`
   svg {
     color: #909090;
     border-radius: 50%;
-    border: 1px solid rgba(144, 144, 144, .5);
+    border: 1px solid rgba(144, 144, 144, 0.5);
     padding: 5px;
     width: 30px;
     height: 30px;
@@ -117,12 +173,12 @@ export const StickerComponent = styled.img`
 
 export const MessageContentText = styled.div`
   width: 100%;
-
+  margin: 3px 0;
   position: relative;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  
+
   a {
-    color: ${({side}) => side === "left" ? "#3059ad" : "#333"};
+    color: #3059ad;
   }
 `;

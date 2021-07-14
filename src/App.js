@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
-import {BrowserRouter} from "react-router-dom";
-import GlobalStyle, {Container, Layout} from "./style/GlobalStyle";
+import { ToastContainer, toast } from "react-toastify";
+import { HashRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import GlobalStyle, { Container, Layout, colors } from "./style/GlobalStyle";
 import Routes from "./routes";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-    return (
-        <BrowserRouter>
-            <Layout>
-                <Container>
-                    <Routes/>
-                </Container>
-            </Layout>
+  return (
+    <HashRouter>
+      <ThemeProvider
+        theme={{
+          colors: colors[localStorage.getItem("color-theme") || "dark"],
+        }}
+      >
+        <Layout>
+          <Container>
+            <Routes />
+          </Container>
+        </Layout>
 
-            <GlobalStyle/>
-        </BrowserRouter>
-    );
+        <GlobalStyle />
+        <ToastContainer />
+      </ThemeProvider>
+    </HashRouter>
+  );
 }
 
 export default App;

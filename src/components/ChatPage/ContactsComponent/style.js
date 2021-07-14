@@ -36,8 +36,6 @@ export const Layout = styled.label`
 
     li {
       margin-top: 1em;
-
-
     }
 
   }

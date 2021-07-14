@@ -39,6 +39,13 @@ export const getToken = () => {
     }
 };
 
+export const getUser = () => {
+    if (defaultKey() !== null) {
+        const {user} = JSON.parse(defaultKey());
+        return user || '';
+    }
+};
+
 export const getDefaultImage = () => {
     return "https://www.promoview.com.br/uploads/images/unnamed%2819%29.png";
 };

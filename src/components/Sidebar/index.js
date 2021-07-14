@@ -18,7 +18,7 @@ import {BottomItems, ChangeSession, Container, InfoSession, Layout, LogoutButton
 import {NavLink} from "react-router-dom";
 import {BarChart, LogOut, MessageCircle, Settings, User, Users} from "react-feather";
 import ChangeSessionDialog from "../ChangeSession";
-import {getSession, getToken} from "../../services/auth";
+import {getSession, getToken, logout} from "../../services/auth";
 import api from "../../services/api";
 
 const Sidebar = () => {
@@ -47,6 +47,7 @@ const Sidebar = () => {
             }
         }
         await api.post(`${getSession()}/logout-session`, null, config);
+        logout();
         window.location.href = "/";
     }
 
@@ -57,16 +58,16 @@ const Sidebar = () => {
             }
         }
         await api.post(`${getSession()}/close-session`, null, config);
-        window.location.href = "/nova-sessao";
+        window.location.href = "/";
     }
 
     return (
         <Layout>
-            <ChangeSessionDialog
+            {openDialog && <ChangeSessionDialog
                 handleClose={handleClose}
                 open={openDialog}
                 selectedValue={selectedValue}
-            />
+            />}
 
             <Container>
                 <MenuItems>
@@ -115,7 +116,7 @@ const Sidebar = () => {
                             activeClassName={"selected"}
                             onClick={(e) => logoutSession(e)}
                         >
-                            <LogOut/> Disconnect device
+                            <LogOut/> Desconectar do whats
                         </NavLink>
                     </li>
                 </MenuItems>

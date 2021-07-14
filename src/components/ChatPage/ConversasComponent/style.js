@@ -18,8 +18,7 @@ import styled from "styled-components";
 export const Layout = styled.aside`
   display: flex;
   flex-direction: column;
-  background: #fff;
-  //padding: 2em;
+  background: #131c21;
 
   height: 100%;
   width: 35rem;
@@ -30,12 +29,12 @@ export const Layout = styled.aside`
   transition-duration: 200ms;
 
   ::-webkit-scrollbar {
-    width: 7px;
+    width: 2px;
     height: 7px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #131c21;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -45,7 +44,7 @@ export const Layout = styled.aside`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #a5a5a5;
+    background: #131c21;
   }
 
   h2 {
@@ -62,13 +61,16 @@ export const Layout = styled.aside`
     //padding: 1em;
 
     li {
-      //margin-top: 1em;
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      border-bottom: 1px solid #30383d;
+      color: #F4F6FB;
+
+      :hover {
+        background: #30383d;
+      }
     }
 
     .active {
-      background: #F4F6FB;
-      border-left: 2px solid #4886FF;
+      background: #30383db0;
     }
   }
 `;
@@ -83,7 +85,7 @@ export const SearchComponent = styled.div`
   position: sticky;
   top: 0;
   padding: 1em 2em;
-  background: #fff;
+  background: #2a2f32;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   z-index: 1;
 
@@ -97,15 +99,14 @@ export const SearchComponent = styled.div`
     width: 100%;
     margin-left: .5em;
     outline: 0;
+    background: #323739;
+    padding: 5px;
+    border-radius: 5px;
   }
 
   :hover {
     input {
       //cursor: pointer;
-    }
-
-    svg {
-      color: #47a7f6;
     }
   }
 `;
@@ -125,14 +126,14 @@ export const UserData = styled.div`
   cursor: pointer;
 
   padding: 20px 10px;
-  border-radius: 7px;
+  /* border-radius: 7px; */
 
   //border: 1px solid #F4F6F9;
   transition-duration: 200ms;
 
   :hover {
     //transform: scale(1.03);
-    background: aliceblue;
+    /* background: aliceblue; */
   }
 
   img {

@@ -31,10 +31,31 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+export const colors = {
+  light: {
+    background: "#fff",
+    primary: "#28a745",
+    secondary: "#606BD6",
+    blue: "#79C8F8",
+    black: "#000",
+    white: "#fff",
+    gray: "#666",
+  },
+  dark: {
+    background: "#ececec99",
+    primary: "#28a745",
+    secondary: "#606BD6",
+    blue: "#79C8F8",
+    black: "#000",
+    white: "#fff",
+    gray: "#666",
+  },
+};
+
 export default createGlobalStyle`
   :root {
     --background: #fff;
-    --primary: #F7007E;
+    --primary: #28a745;
     --secondary: #606BD6;
     --blue: #79C8F8;
     --black: #000;
@@ -46,7 +67,8 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Jost", sans-serif;
+    /* font-family: "Jost", sans-serif; */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
   html {

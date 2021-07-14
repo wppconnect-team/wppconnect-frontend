@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 import styled from "styled-components";
+import bgChat from "../../assets/bg-chat.png";
 
 export const Layout = styled.div`
-  height: 100%;
-  width: 80%;
+  height: 100vh;
+  width: 100%;
 
   display: flex;
   overflow: hidden;
 
   justify-content: center;
   align-items: center;
+  
 `;
 
 export const Container = styled.div`
-  height: 100%;
+  height: 100vh;
   width: 100%;
 
   display: flex;
@@ -44,6 +46,82 @@ export const ContentContainer = styled.div`
   overflow: hidden;
   clear: both;
   max-height: 100vh;
+
+  .emoji-mart.emoji-mart-light {
+    position: absolute;
+    width: 100% !important;
+    left: 0;
+    bottom: 120px;
+  }
+  .emoji-mart {
+    position: absolute !important;
+    bottom: 60px;
+    width: 70vw !important;
+    height: 50vh;
+    background-color: #f0f0f0;
+  }
+  .emoji-mart-bar {
+    border: 0;
+  }
+  .emoji-mart-anchors {
+    padding: 0;
+    border: 0;
+  }
+  .emoji-mart-anchor-icon {
+    color: #a3a3a3;
+  }
+  .emoji-mart-anchor-selected {
+    color: red !important;
+  }
+
+  .emoji-mart-anchor-bar {
+    background-color: #36aa9f !important;
+  }
+  .emoji-mart-anchor-icon {
+    color: #8b8b8b !important;
+  }
+  .emoji-mart-search {
+    margin: 5px 8px 15px 8px;
+  }
+  .emoji-mart-search-icon {
+    display: none;
+  }
+  .emoji-mart-search input {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px solid #d9d9d9;
+    outline: 0;
+    background-color: #e6e6e6;
+    color: #4a4a4a;
+  }
+
+  .emoji-mart-category-label span {
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    padding: 5px 6px;
+    color: #b4b4b4;
+    background-color: #f0f0f0;
+  }
+  .emoji-mart-scroll {
+    height: 200px;
+  }
+  .emoji-mart-bar:last-child {
+    display: none;
+  }
+  .emoji-mart {
+    position: absolute !important;
+    bottom: 60px;
+    width: 100vw !important;
+    height: 40vh;
+  }
+  .emoji-mart-category-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 export const TopContainer = styled.div`
@@ -89,10 +167,11 @@ export const SessionsContainer = styled.form`
     position: absolute;
     bottom: 30px;
     right: 30px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+      rgba(0, 0, 0, 0.05) 0px 5px 10px;
 
     border-radius: 50%;
-    background: #007AF3;
+    background: #007af3;
     width: 50px;
     height: 50px;
     cursor: pointer;
@@ -126,12 +205,12 @@ export const SessionsContainer = styled.form`
       width: 100%;
 
       label {
-        input[type=radio] {
+        input[type="radio"] {
           display: none;
         }
 
-        input[type=radio]:checked + .info-session {
-          background: #F4F6F9;
+        input[type="radio"]:checked + .info-session {
+          background: #f4f6f9;
         }
 
         .info-session {
@@ -142,7 +221,7 @@ export const SessionsContainer = styled.form`
           padding: 20px 10px;
           border-radius: 7px;
 
-          border: 1px solid #F4F6F9;
+          border: 1px solid #f4f6f9;
           transition-duration: 200ms;
 
           :hover {
@@ -160,15 +239,16 @@ export const SessionsContainer = styled.form`
         }
       }
     }
-
   }
 `;
 
 export const HeaderContact = styled.header`
   display: flex;
-  height: 68px;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
-  background: #fff;
+  /* height: 68px; */
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #2a2f32;
+  color: #fff;
 
   .container-info-ctt {
     display: flex;
@@ -195,10 +275,13 @@ export const HeaderContact = styled.header`
 export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: #F9FAFC;
+  background: ${({ theme: { colors } }) => colors.background};
+
+  background-color: #090e11;
+  background-image: url(${bgChat});
 
   border-radius: 3px;
-  border: 1px solid #e9e9e9;
+  /* border: 1px solid #e9e9e9; */
 
   width: 100%;
   height: 100%;
@@ -210,16 +293,17 @@ export const ChatContainer = styled.div`
   }
 
   .bottom-container {
+    position: relative;
     display: flex;
     align-items: center;
 
     width: 100%;
     padding: 15px;
-    border-top: 1px solid rgba(0, 0, 0, .1);
-    background: #f0f0f0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: #1e2428;
 
     label {
-      input[type=file] {
+      input[type="file"] {
         display: none;
       }
     }
@@ -247,7 +331,6 @@ export const ChatContainer = styled.div`
         color: #000;
       }
     }
-
   }
 
   ul {
@@ -280,9 +363,22 @@ export const ChatContainer = styled.div`
       margin-bottom: 10px;
     }
   }
+
+  textarea {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    height: 70px;
+    font-size: 16px;
+    background: #33383b;
+    color: #f1f1f1;
+  }
 `;
 
 export const WaitingContainer = styled.div`
+  color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -302,12 +398,10 @@ export const WaitingContainer = styled.div`
   }
 
   p {
-    margin-top: .5em;
-    color: #000;
+    margin-top: 0.5em;
     width: 350px;
     font-size: 1rem;
   }
-
 
   @keyframes pulsate-bck {
     0% {
@@ -320,7 +414,6 @@ export const WaitingContainer = styled.div`
       transform: scale(1);
     }
   }
-
 `;
 
 export const Contador = styled.div`
@@ -354,5 +447,4 @@ export const Contador = styled.div`
       }
     }
   }
-
 `;

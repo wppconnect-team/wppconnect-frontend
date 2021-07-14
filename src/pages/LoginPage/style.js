@@ -40,39 +40,19 @@ export const Container = styled.div`
   width: 100%;
 
   display: flex;
-  flex-direction: column;
 
   justify-content: center;
   align-items: center;
 
   .container-session {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
 
-    #left-div {
-      width: 60%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #F8F8F8;
-
-      img {
-        width: 500px;
-        height: 500px;
-        object-fit: contain;
-      }
-    }
-
-    #right-div {
-      width: 40%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 2em;
+    div {
+      width: 100%;
+      max-width: 500px;
     }
   }
 `;
@@ -97,14 +77,14 @@ export const ImageCustom = styled.img`
   margin: 0 auto;
 `;
 
-export const Formulario = styled.form`
+export const Formulario = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 70%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1em;
+  max-width: 350px !important;
 
   small {
     font-size: 12px;
