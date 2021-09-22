@@ -2114,9 +2114,9 @@
   integrity sha512-bsjleuRKWmGqajMerkzox19aGbscQX5rmmvvXl3wlIp5gMG1HgkiwPxsN5p070fBDKTNSPgojVbuY1+HWMbFhg==
 
 "@types/emoji-mart@^3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@types/emoji-mart/-/emoji-mart-3.0.5.tgz#0e5d6fefe28c150606a75a962bcf1c5956439001"
-  integrity sha512-bsMEXVPrasIJ03u61msIKMMiL7Hh6dGQ3Gcz3CjytTxTQKQRdf/g0owWTSSL5mvKNgu9UfgornrF6qqClPk1Jw==
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@types/emoji-mart/-/emoji-mart-3.0.6.tgz#06dc3c883bc2a48e8fdc37f0a3ebb5e15a145365"
+  integrity sha512-TbFLFkWvhZUeYkII94fB8bplhtRTUxekBjZehcKu7leq9gvg8IG7F9NBh0YJdH3XRiu+uk0Drviy+GzfcMkMCw==
   dependencies:
     "@types/react" "*"
 
