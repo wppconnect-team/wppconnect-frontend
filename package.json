@@ -52,7 +52,7 @@
     "@types/react-toastify": "^4.1.0",
     "@types/react": "^17.0.14",
     "@types/styled-components": "^5.1.11",
-    "axios": "^0.21.1",
+    "axios": "^0.22.0",
     "commitizen": "^4.2.4",
     "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.3",
