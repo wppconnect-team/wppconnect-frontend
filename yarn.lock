@@ -5420,10 +5420,10 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   dependencies:
     once "^1.4.0"
 
-engine.io-client@~6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.0.1.tgz#a3cfd54f43818af495cd88c37748e1154a56448b"
-  integrity sha512-/7xmDxU2i9aYmqz7ekseB2jUfUYvJ5s3+OJcEvObloQNB31wd+0j68kmLVAoZG7Qu0FzB+EN46hsc3bY/kjgSw==
+engine.io-client@~6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.1.1.tgz#800d4b9db5487d169686729e5bd887afa78d36b0"
+  integrity sha512-V05mmDo4gjimYW+FGujoGmmmxRaDsrVr7AXA3ZIfa04MWM1jOfZfUwou0oNqhNwy/votUDvGDt4JA4QF4e0b4g==
   dependencies:
     "@socket.io/component-emitter" "~3.0.0"
     debug "~4.3.1"
@@ -12364,14 +12364,14 @@ snapdragon@^0.8.1:
     use "^3.1.0"
 
 socket.io-client@^4.0.0:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.3.2.tgz#9cfdb8fecac8a24d5723daf8c8749e70c8fdeb25"
-  integrity sha512-2B9LqSunN60yV8F7S84CCEEcgbYNfrn7ejIInZtLZ7ppWtiX8rGZAjvdCvbnC8bqo/9RlCNOUsORLyskxSFP1g==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.4.0.tgz#d6568ebd79ac12e2d6b628e7e90e60f1d48d99ff"
+  integrity sha512-g7riSEJXi7qCFImPow98oT8X++MSsHz6MMFRXkWNJ6uEROSHOa3kxdrsYWMq85dO+09CFMkcqlpjvbVXQl4z6g==
   dependencies:
     "@socket.io/component-emitter" "~3.0.0"
     backo2 "~1.0.2"
     debug "~4.3.2"
-    engine.io-client "~6.0.1"
+    engine.io-client "~6.1.1"
     parseuri "0.0.6"
     socket.io-parser "~4.1.1"
 
