@@ -41,7 +41,7 @@
     "@commitlint/cli": "^16.0.0",
     "@commitlint/config-angular": "^15.0.0",
     "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/cz-commitlint": "^15.0.0",
+    "@commitlint/cz-commitlint": "^16.0.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.24",
     "@material-ui/icons": "^4.11.2",
