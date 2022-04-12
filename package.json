@@ -60,7 +60,7 @@
     "emoji-regex": "^10.0.0",
     "husky": "^7.0.1",
     "license-check-and-add": "^4.0.2",
-    "lucide-react": "^0.19.0",
+    "lucide-react": "^0.20.0",
     "mic-recorder-to-mp3": "^2.2.2",
     "prop-types": "^15.7.2",
     "react-dom": "^17.0.2",
