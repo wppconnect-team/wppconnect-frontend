@@ -83,7 +83,7 @@ export default function LoginPage({history}) {
                 }
             }
         });
-    }, [session]);
+    }, [session, token]);
 
     async function submitSession(e) {
         e.preventDefault();
@@ -131,7 +131,8 @@ export default function LoginPage({history}) {
             headers: {Authorization: `Bearer ${token}`}
         };
 
-        await api.post(`${session}/start-session`, null, config);
+        await api.post(`${session}/start-session`, null, config)
+
     }
 
     const handleCloseBackdrop = () => {
@@ -256,7 +257,7 @@ export default function LoginPage({history}) {
                                                     autoComplete="off"
                                                     placeholder="Token"
                                                     value={token}
-                                                    onChange={(e) => setToken(e.target.value)}
+                                                    onChange={(e) =>{setToken(e.target.value)}}
                                                 />
 
                                                 <button type="submit" id="send-btn">

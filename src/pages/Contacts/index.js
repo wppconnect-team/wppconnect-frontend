@@ -15,7 +15,7 @@
  */
 import React, {useEffect, useState} from "react";
 import {Container, HeaderComponent, Layout, TableContainer} from "./style";
-import {DataGrid} from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import api from "../../services/api";
 import {getSession} from "../../services/auth";
 import config from "../../util/sessionHeader";
@@ -42,7 +42,7 @@ const ContactsPage = () => {
     }, []);
 
     async function getAllContacts() {
-        const {data} = await api.get(`${getSession()}/all-contacts`, config());
+        const {data} = await api.get(`${getSession()}/all-contacts`, config())
         const arr = [];
 
         for (const contact of data.response) {
@@ -59,7 +59,7 @@ const ContactsPage = () => {
             id: index,
             profileImage: contato.name,
             name: contato.name,
-            phone: contato.id._serialized
+            phone: contato.id._serialized.replace('@c.us', '')
         };
     });
 
@@ -72,21 +72,20 @@ const ContactsPage = () => {
                     src={`https://ui-avatars.com/api/?name=${params.value === undefined ? "ND" : params.value}?background=random`}
                     style={{width: 30, height: 30, borderRadius: "50%"}} alt={params.value}/>
             ),
-            headerName: " ",
-            width: "10%"
+            headerName: "Photo",
+            width: "50"
         },
         {
             field: "name",
-            headerName: "Nome",
-            width: "47.50%"
+            headerName: "Name",
+            width: "300"
         },
         {
             field: "phone",
-            headerName: "Telefone",
-            width: "47.50%"
+            headerName: "Phone",
+            width: "200"
         },
     ];
-
     function searchContact(e) {
         let query = e.target.value;
 
@@ -128,7 +127,7 @@ const ContactsPage = () => {
                                         All Contacts
                                     </h2>
                                     <p>
-                                        Manage all your groups.
+                                        Manage all your contacts.
                                     </p>
                                 </div>
                             </div>
@@ -182,7 +181,7 @@ const ContactsPage = () => {
                         </h2>
 
                         <div>
-                            <input placeholder={"Procurar contato..."} onChange={(e) => searchContact(e)}/>
+                            <input placeholder={"Search contacts..."} onChange={(e) => searchContact(e)}/>
                         </div>
                     </HeaderComponent>
 
@@ -194,6 +193,7 @@ const ContactsPage = () => {
                             pageSize={15}
                             columns={columns}
                             rows={rows}
+                            minHeight="100%"
                         />
                     </TableContainer>
                 </RightContainer>
