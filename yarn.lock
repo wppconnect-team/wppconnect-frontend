@@ -2470,9 +2470,9 @@
     react-is "^17.0.2"
 
 "@mui/x-data-grid@^5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.12.0.tgz#8cb9f610cdfa5dc3dd8f5d5bd62075f26f36cdd2"
-  integrity sha512-u9deMIa61HLs3WJKXaYPF7G1hBxcaW34etcUFsfdyS9GQDRtczM8Bad/QvxON8HKU61sbGVTHn1dLwVvRNFbZg==
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.12.1.tgz#72a27ed1bbe3368147d9734b7730f0e535583ec2"
+  integrity sha512-kOhmCqaI87c411uUHnojsaSgebvzkMbQXtw0lVGmNDcxWTugsxH0n7FC7+KVOc/EKyGRifvgIpiKKB17BI61pg==
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@mui/utils" "^5.4.1"
@@ -11300,12 +11300,7 @@ requires-port@^1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reselect@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
-  integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
-
-reselect@^4.1.5:
+reselect@^4.0.0, reselect@^4.1.5:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.6.tgz#19ca2d3d0b35373a74dc1c98692cdaffb6602656"
   integrity sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==
