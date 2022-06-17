@@ -2469,9 +2469,9 @@
     react-is "^17.0.2"
 
 "@mui/x-data-grid@^5.12.0":
-  version "5.12.1"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.12.1.tgz#72a27ed1bbe3368147d9734b7730f0e535583ec2"
-  integrity sha512-kOhmCqaI87c411uUHnojsaSgebvzkMbQXtw0lVGmNDcxWTugsxH0n7FC7+KVOc/EKyGRifvgIpiKKB17BI61pg==
+  version "5.12.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.12.2.tgz#e7bde75549ab592ebdafe2d12a2b7f671d484d22"
+  integrity sha512-OA5jjSoGPrO742GWNSxUPac6U1m8wF0rzcmqlj5vMuBySkPi0ycPRRlVAlYJWTVhSBPs+UWoHA9QpTE19eMBYg==
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@mui/utils" "^5.4.1"
