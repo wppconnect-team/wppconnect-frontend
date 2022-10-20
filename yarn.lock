@@ -12194,9 +12194,9 @@ svgo@^2.7.0:
     stable "^0.1.8"
 
 sweetalert2@^11.0.12:
-  version "11.4.19"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.19.tgz#b30f30035ba9479be46be5e296ce14b621896c9d"
-  integrity sha512-N3GA2M/K6PFzLprKWENioL0ckXPHLiWwvMMAJSfGgxB+aptzQrElv6D+j3D++K9yXSjpTs3XqJHYUQpEUzpv/g==
+  version "11.6.0"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.6.0.tgz#07e9bbd301c640afe3764839915eeac9fe988b36"
+  integrity sha512-OX0KKF5n1pNV8KH2T74WBM7735Rn+6YU0jEvEto4B0C7nu9keV7YgBxQ+nClUibyFKYr1Y2HkLtmBaXm/s8esg==
 
 symbol-observable@1.2.0:
   version "1.2.0"
