@@ -10874,9 +10874,9 @@ react-scripts@5.0.1:
     fsevents "^2.3.2"
 
 react-toastify@*, react-toastify@^9.0.0:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.5.tgz#310d7bcfcf3887c0e8461ac6068fe1abb8d720e1"
-  integrity sha512-dszPCeQINY+Nm6HmsiAXT/7wsazPqv0S/RuhIYLAW+fTKcd3T1iRjZG0XqrN9nvAzqaE5J6uxMaiBrOevxjY8g==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.1.0.tgz#7be07cb61f7e352c5d25a3228575db4cce88a2b5"
+  integrity sha512-63i/5SROvfYz9yzdkmxIrpndtggTdif/5ZpswY3VH+s2/S1Hxo/hiv+oGXnPH6UO2pJBOgfcLNeyVh7okRmnhg==
   dependencies:
     clsx "^1.1.1"
 
