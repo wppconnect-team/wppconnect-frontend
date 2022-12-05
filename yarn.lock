@@ -8915,10 +8915,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-react@^0.72.0:
-  version "0.72.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.72.0.tgz#75444158bfb2a3dcab38c0059bc7b3b187d99f8a"
-  integrity sha512-H6fK3mXylt0looxFwHu6z0MuMRdAdLG80GU7H5Z7GeFQ5m8Bjw2qEfYj7mXXtj5AweF66B+mF3SagXAfV/2SnQ==
+lucide-react@^0.104.0:
+  version "0.104.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.104.0.tgz#ac9d1ba2ac66ed1198f3e9995dcf0c395506a015"
+  integrity sha512-ShElF954XPuBmcH8tlLBI0jeav1lpsLLDDgpqjrMhwclAU8Q2+n3ile4FgJ48Qkf9zRLWQF3/Dj9MMr5cTauQg==
 
 macos-release@^3.0.1:
   version "3.0.1"
