@@ -188,7 +188,7 @@ export const UserData = styled.div`
       width: 15px;
       height: 15px;
       background: #6163FF;
-      box-shadow: 0 0 10px 1px rgb(115 103 240 / 70%);
+      box-shadow: 0 0 10px 1px rgb(115 103 240 / 10%);
       color: #fff;
       display: flex;
       justify-content: center;

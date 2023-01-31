@@ -78,16 +78,16 @@ const ChatComponent = ({
     );
 
     if (type === "image") {
-      imageRef.current.src = `data:image/png;base64, ${response.data}`;
+      imageRef.current.src = `data:image/png;base64, ${response.data.base64}`;
       setDisplay("none");
     } else if (type === "video") {
-      imageRef.current.src = `data:video/webm;base64, ${response.data}`;
+      imageRef.current.src = `data:video/webm;base64, ${response.data.base64}`;
       setDisplay("none");
     } else if (type === "audio") {
-      setAudioUrl(`data:audio/ogg;base64, ${response.data}`);
+      setAudioUrl(`data:audio/ogg;base64, ${response.data.base64}`);
     } else if (type === "document") {
       const a = document.createElement("a");
-      a.href = `data:${option.mimetype};base64, ${response.data}`;
+      a.href = `data:${option.mimetype};base64, ${response.data.base64}`;
       a.download = `${option.filename}`;
       a.click();
     }
