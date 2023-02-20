@@ -1796,9 +1796,9 @@
     "@commitlint/config-angular-type-enum" "^17.0.0"
 
 "@commitlint/config-conventional@^17.0.0":
-  version "17.0.3"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-17.0.3.tgz#61e937357ce63ea08a2017e58b918748fcf3abc5"
-  integrity sha512-HCnzTm5ATwwwzNVq5Y57poS0a1oOOcd5pc1MmBpLbGmSysc4i7F/++JuwtdFPu16sgM3H9J/j2zznRLOSGVO2A==
+  version "17.4.4"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-17.4.4.tgz#f30b1e5b2e48ce5799a483c200c52f218a98efcc"
+  integrity sha512-u6ztvxqzi6NuhrcEDR7a+z0yrh11elY66nRrQIpqsqW6sZmpxYkDLtpRH8jRML+mmxYQ8s4qqF06Q/IQx5aJeQ==
   dependencies:
     conventional-changelog-conventionalcommits "^5.0.0"
 
