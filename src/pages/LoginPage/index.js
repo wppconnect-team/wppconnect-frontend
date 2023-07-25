@@ -87,9 +87,9 @@ export default function LoginPage({history}) {
 
         const getParamsUrl = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const session = urlParams.get('session');
-            const token = urlParams.get('token');
-            const webhook = urlParams.get('webhook');
+            const session = urlParams.get('session')    || "";
+            const token = urlParams.get('token')        || "";
+            const webhook = urlParams.get('webhook')    || "";
       
             setSession(session);
             setToken(token);
