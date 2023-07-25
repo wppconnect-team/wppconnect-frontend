@@ -50,6 +50,7 @@ export default function LoginPage({history}) {
     const [open,] = useState(true);
     const [session, setSession] = useState("");
     const [token, setToken] = useState("");
+    const [webhook, setWebhook] = useState("");
     const [qrCode, setQrCode] = useState("");
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [openMenuModal, setOpenMenuModal] = useState(false);
@@ -83,6 +84,20 @@ export default function LoginPage({history}) {
                 }
             }
         });
+
+        const getParamsUrl = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const session = urlParams.get('session');
+            const token = urlParams.get('token');
+            const webhook = urlParams.get('webhook');
+      
+            setSession(session);
+            setToken(token);
+            setWebhook(webhook);
+          }
+      
+          getParamsUrl();
+
     }, [session, token]);
 
     async function submitSession(e) {
@@ -120,8 +135,8 @@ export default function LoginPage({history}) {
             setTimeout(function () {
                 handleCloseBackdrop();
                 handleOpenErrorModal();
-                setTitleError("Oops... Algo deu errado.");
-                setErrorMessage("Verifique se a sessão e o token estão corretos.");
+                setTitleError("Oops... Something got wrong.");
+                setErrorMessage(`Error: ${e.message}`);
             }, 2000);
         }
     }
@@ -158,6 +173,7 @@ export default function LoginPage({history}) {
     const handleOpenErrorModal = () => {
         setOpenErrorModal(true);
     };
+
 
     return (
         <div>
@@ -222,16 +238,16 @@ export default function LoginPage({history}) {
                                         qrCode !== "" ? null : (
                                             <Formulario onSubmit={(e) => submitSession(e)}>
                                                 <Title id={"title"}>
-                                                    Entre com sua sessão
+                                                    Enter with your session
                                                 </Title>
 
                                                 <Description id={"description"}>
-                                                    Digite o nome da sessão e token para entrar em sua conta
+                                                    Type the name of the session and token to start
                                                 </Description>
 
                                                 <div className={"top-info"}>
                                                     <small>
-                                                        Sessão
+                                                        Session
                                                     </small>
                                                 </div>
                                                 <input
@@ -248,7 +264,7 @@ export default function LoginPage({history}) {
                                                     </small>
 
                                                     <span onClick={() => handleOpenModal()}>
-                                                        Não sabe o token?
+                                                        Don't know the token?
                                                     </span>
                                                 </div>
 
@@ -260,8 +276,22 @@ export default function LoginPage({history}) {
                                                     onChange={(e) =>{setToken(e.target.value)}}
                                                 />
 
+                                                <div className={"top-info"}>
+                                                    <small>
+                                                        webHook (Optional)
+                                                    </small>
+                                                </div>
+
+                                                <input
+                                                    id={"webhook"}
+                                                    autoComplete="off"
+                                                    placeholder="webHook url"
+                                                    value={webhook}
+                                                    onChange={(e) =>{setWebhook(e.target.value)}}
+                                                />
+
                                                 <button type="submit" id="send-btn">
-                                                    Enviar
+                                                    Submit
                                                 </button>
                                             </Formulario>
                                         )
