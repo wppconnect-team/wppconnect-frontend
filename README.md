@@ -3,6 +3,10 @@
 
 <img src="https://img.shields.io/static/v1?label=FrontEnd&message=WPPConnect&color=007AF3&style=for-the-badge&logo=ghost"/>
 
+
+> The repository has been without maintenance for quite some time now, and it's likely not functioning properly.
+
+
 ## Our online channels
 
 [![Discord](https://img.shields.io/discord/844351092758413353?color=blueviolet&label=Discord&logo=discord&style=flat)](https://discord.gg/JU5JGGKGNG)
