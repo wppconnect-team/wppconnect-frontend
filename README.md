@@ -64,3 +64,13 @@ This site uses [this project](https://github.com/wppconnect-team/wppconnect-serv
 
 ## Demo
 ![Peek 2021-05-29 00-05](https://user-images.githubusercontent.com/40338524/120056309-aa5b0180-c011-11eb-848b-94569c32a8c6.gif)
+
+
+##
+Url params:
+You can populate the fields by given the session, token and webhook (optional) in url
+Like this your client doens need to fill manualy copying and pasting
+
+This one example:
+
+https://example.com?session=123&token=abc&webhook=https://webhook.site
